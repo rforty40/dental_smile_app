@@ -73,8 +73,8 @@ export const ConsultaPage = () => {
     changeStateDelCons(true);
   };
 
-  const deleteRegisterConsulta = () => {
-    startDeletingConsulta();
+  const deleteRegisterConsulta = async () => {
+    await startDeletingConsulta();
     navigate(`/pacientes/${pacienteActivo.id}/historial`);
   };
 

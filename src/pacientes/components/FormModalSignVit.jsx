@@ -91,6 +91,7 @@ export const FormModalSignVit = ({
     console.log(formState);
     startSavingSignVit(formState);
   };
+
   //manejador de errores todos los campos
   useEffect(() => {
     if (errorMsgRegCons.msg === "Sin errores" && formSubmitted) {

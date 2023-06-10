@@ -1,11 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeErrorLoadTratamientos,
+  changeRegisterErrorTratam,
+  clearErrorMessageTram,
   onDeleteTratam,
   onLoadTratamientosList,
   onSetActiveTratam,
 } from "../store";
-import { deleteTratamiento, getTratamientos } from "../api/tratamientos.api";
+import {
+  createComplicacion,
+  createTratamiento,
+  deleteComplicacion,
+  deleteTratamiento,
+  getTratamientos,
+  updateComplicacion,
+  updateTratamiento,
+} from "../api/tratamientos.api";
 
 //
 //
@@ -20,7 +30,7 @@ export const useTratamientosStore = () => {
     tratamActivo,
     errorLoadTratamientos,
     consultaActiva,
-    errorMsgRegCons,
+    errorMsgRegTratam,
   } = useSelector((state) => state.consultas);
 
   //
@@ -31,11 +41,11 @@ export const useTratamientosStore = () => {
 
   const startLoadTratamientos = async () => {
     try {
-      console.log(consultaActiva);
       const { data } = await getTratamientos(consultaActiva.id_consulta);
-      console.log(data);
+
       dispatch(onLoadTratamientosList(data));
       dispatch(changeErrorLoadTratamientos(null));
+      console.log(data);
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
@@ -43,20 +53,123 @@ export const useTratamientosStore = () => {
     }
   };
 
+  const crudComplicaciones = async (dataArr, delArr, tratamIdReg) => {
+    try {
+      dataArr.forEach(async (complicacion) => {
+        if (complicacion.txt_compli.length > 0) {
+          //
+          if (tratamIdReg > 0) {
+            console.log(complicacion);
+            //se registra todo
+            await createComplicacion(tratamIdReg, {
+              txt_compli: complicacion.txt_compli,
+            });
+          } else {
+            console.log(complicacion);
+            if (complicacion.id_compli === undefined) {
+              //son registros nuevos
+              await createComplicacion(tratamActivo.id_tratam, {
+                txt_compli: complicacion.txt_compli,
+              });
+            } else {
+              //se actualizan
+              await updateComplicacion(complicacion.id_compli, {
+                txt_compli: complicacion.txt_compli,
+              });
+            }
+          }
+        }
+      });
+
+      delArr.forEach(async (idCompli) => {
+        if (idCompli !== undefined) {
+          //eliminar
+          await deleteComplicacion(idCompli);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+    }
+  };
+  // const crudProcedimientos = (dataArr, delArr, tratamIdReg) => {
+  //   try {
+  //   } catch (error) {
+  //     console.log(error);
+  //     console.log(error.response.data.message);
+  //   }
+  // };
+
+  // const crudPrescripciones = (dataArr, delArr, tratamIdReg) => {
+  //   try {
+  //   } catch (error) {
+  //     console.log(error);
+  //     console.log(error.response.data.message);
+  //   }
+  // };
+
   const startSavingTratamiento = async (tratamiento) => {
+    dispatch(clearErrorMessageTram());
     console.log(tratamiento.codigoCIE);
     console.log(tratamiento.arrComplicaciones);
     console.log(tratamiento.compDeleted);
+    console.log(tratamiento.arrProcedimientos);
+    console.log(tratamiento.proceDeleted);
+    console.log(tratamiento.arrPrescripciones);
+    console.log(tratamiento.prescDeleted);
     try {
+      let tratamIdReg = 0;
       if (tratamActivo) {
         //actualizando
+        await updateTratamiento(tratamActivo.id_tratam, {
+          codigoCIE:
+            tratamiento.codigoCIE === "" ? null : tratamiento.codigoCIE,
+        });
       } else {
         //registrando
+        const { data } = await createTratamiento(consultaActiva.id_consulta, {
+          codigoCIE: tratamiento.codigoCIE,
+        });
+
+        tratamIdReg = data.id_tratam;
       }
+
+      //registrar, actualizar, eliminar complicaciones
+      await crudComplicaciones(
+        tratamiento.arrComplicaciones,
+        tratamiento.compDeleted,
+        tratamIdReg
+      );
+
+      // //registrar, eliminar procedimientos
+      // crudProcedimientos(
+      //   tratamiento.arrProcedimientos,
+      //   tratamiento.proceDeleted,
+      //   tratamIdReg
+      // );
+
+      // //registrar, actualizar, eliminar prescripciones
+      // crudPrescripciones(
+      //   tratamiento.arrPrescripciones,
+      //   tratamiento.prescDeleted,
+      //   tratamIdReg
+      // );
+
+      dispatch(changeRegisterErrorTratam({ msg: "Sin errores", error: "" }));
+
+      //
     } catch (error) {
       console.log(error.response.data.message);
+      dispatch(
+        changeRegisterErrorTratam({
+          msg: "Hay errores",
+          error: error.response.data.message,
+        })
+      );
     } finally {
-      // startLoadTratamientos();
+      setTimeout(() => {
+        startLoadTratamientos();
+      }, 3000);
     }
   };
 
@@ -74,7 +187,7 @@ export const useTratamientosStore = () => {
     tratamientosList,
     tratamActivo,
     errorLoadTratamientos,
-    errorMsgRegCons,
+    errorMsgRegTratam,
 
     //* Métodos
     changeDataTratam,

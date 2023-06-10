@@ -111,8 +111,8 @@ export const ProxCitasPagePaciente = () => {
   };
 
   //Confirm Dialog
-  const deleteRegisterCita = () => {
-    startDeletingCite();
+  const deleteRegisterCita = async () => {
+    await startDeletingCite();
     handleOpenSnackbar();
   };
 

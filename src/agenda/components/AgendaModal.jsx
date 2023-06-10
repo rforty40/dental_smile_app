@@ -43,7 +43,7 @@ import {
 export const AgendaModal = () => {
   //
 
-  //lista de pacientes traida de la store
+  //store
   const { pacientesListBusq, pacienteActivo } = usePacienteStore();
 
   //citaActiva

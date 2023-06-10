@@ -10,7 +10,6 @@ import {
 import { styled } from "@mui/material/styles";
 
 import { ViewCita } from "./ViewCita";
-import { useNavigate } from "react-router-dom";
 
 const StyledTooltip = styled((props) => (
   <Tooltip classes={{ popper: props.className }} {...props} />
@@ -60,8 +59,6 @@ export const CalendarEvent = ({ event }) => {
     moti_citaAgen,
     esta_citaAgen,
   } = event;
-
-  const navigate = useNavigate();
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>

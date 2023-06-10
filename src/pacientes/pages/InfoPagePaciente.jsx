@@ -124,7 +124,7 @@ export const InfoPagePaciente = () => {
         height: "100%",
         minHeight: "100vh",
         width: "100%",
-        backgroundImage: " url(/assets/img/agendarCita.jpg)",
+        backgroundImage: " url(/assets/img/fondos/agendarCita.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
         backgroundSize: "cover",

@@ -39,16 +39,11 @@ export const ExamPlanConsultaPage = () => {
 
   //store
   const { dataActiva } = useDataStore();
-  const { consultaActiva } = useConsultasStore();
-  const {
-    examenesList,
-    startLoadExamenes,
-    changeDataExamen,
-    startDeletingExam,
-  } = useExamenesStore();
 
-  const { planesList, startLoadPlanes, changeDataPlan, startDeletingPlan } =
-    usePlanesStore();
+  const { examenesList, changeDataExamen, startDeletingExam } =
+    useExamenesStore();
+
+  const { planesList, changeDataPlan, startDeletingPlan } = usePlanesStore();
 
   //hook abrir el formulario
   const [stateModalFormExam, setStateModalFormExam] = useState(false);
@@ -70,12 +65,6 @@ export const ExamPlanConsultaPage = () => {
 
   //hook mensaje de alerta despues de la eliminacion de un registro
   const [msgAlertDel, setMsgAlertDel] = useState("");
-
-  //efectos secundarios
-  // useEffect(() => {
-  //   startLoadExamenes();
-  //   startLoadPlanes();
-  // }, [consultaActiva]);
 
   useEffect(() => {
     changeDataExamen(dataActiva);
@@ -119,8 +108,8 @@ export const ExamPlanConsultaPage = () => {
   };
 
   //eliminar Examenes
-  const deleteExamenes = (selected = []) => {
-    startDeletingExam(selected);
+  const deleteExamenes = async (selected = []) => {
+    await startDeletingExam(selected);
     if (selected.length <= 1) {
       setMsgAlertDel("El examen estomatognático fue eliminado.");
     } else {
@@ -132,8 +121,8 @@ export const ExamPlanConsultaPage = () => {
   };
 
   //eliminar planes
-  const deletePlanes = () => {
-    startDeletingPlan();
+  const deletePlanes = async () => {
+    await startDeletingPlan();
     setMsgAlertDel("El plan fue eliminado.");
     handleOpenSnackbar();
   };

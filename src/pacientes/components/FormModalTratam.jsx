@@ -26,6 +26,7 @@ import { TxtCompFormTratam } from "./TxtCompFormTratam";
 import { formatDataTratamForm } from "../helpers";
 import { FormModalProcedTratam } from "./FormModalProcedTratam";
 import { TxtProcedFormTratam } from "./TxtProcedFormTratam";
+import { TxtPrescrFormTratam } from "./TxtPrescrFormTratam";
 
 //
 //
@@ -39,7 +40,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
   const {
     tratamActivo,
     changeDataTratam,
-    errorMsgRegCons,
+    errorMsgRegTratam,
     startSavingTratamiento,
   } = useTratamientosStore();
 
@@ -66,6 +67,12 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
   //hook procedimientos eliminados
   const [proceDeleted, setProceDeleted] = useState([]);
 
+  //hook prescripciones
+  const [arrPrescripciones, setArrPrescripciones] = useState([]);
+
+  //hook prescripciones eliminados
+  const [prescDeleted, setPrescDeleted] = useState([]);
+
   //control alert
   const [msgAlert, setMsgAlert] = useState("");
   const [stateSnackbar, setStateSnackbar] = useState(false);
@@ -88,15 +95,14 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
   //limpiar los componentes del formulario
   const resetInputText = () => {
     setStateCodigoCie(null);
-    setArrComplicaciones([
-      { id: 0, txt_compli: "" },
-      { id: 1, txt_compli: "" },
-    ]);
+    setArrComplicaciones([{ id: 0, txt_compli: "" }]);
     setArrProcedimientos([
-      { id: 0, cod_proced: "", nom_proced: "" },
-      { id: 1, cod_proced: "", nom_proced: "" },
+      // { id: 0, cod_proced: "", nom_proced: "" }
     ]);
+    setArrPrescripciones([{ id: 0, desc_presc: "", dosi_presc: "" }]);
     setCompDeleted([]);
+    setProceDeleted([]);
+    setPrescDeleted([]);
   };
 
   //cerrarModal
@@ -157,7 +163,37 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
     setProceDeleted([...proceDeleted, id_tratam_proced]);
   };
 
-  //control formulario de registro y edición
+  /**********************************PRESCRIPCIONES *********************************/
+  const addPrescription = () => {
+    setArrPrescripciones([
+      ...arrPrescripciones,
+      {
+        id: arrPrescripciones.length + prescDeleted.length,
+        desc_presc: "",
+        dosi_presc: "",
+      },
+    ]);
+  };
+
+  const updatePrescription = (presc_id, prop) => {
+    setArrPrescripciones(
+      arrPrescripciones.map((presc) => {
+        if (presc.id === presc_id) {
+          return { ...presc, ...prop };
+        }
+        return presc;
+      })
+    );
+  };
+  const removePrescription = (pre_id, id_presc) => {
+    setArrPrescripciones(
+      arrPrescripciones.filter((presc) => presc.id !== pre_id)
+    );
+
+    setPrescDeleted([...prescDeleted, id_presc]);
+  };
+
+  /********************control formulario de registro y edición********************/
   useEffect(() => {
     console.log(tratamActivo);
     if (tratamActivo) {
@@ -170,26 +206,27 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
       setArrComplicaciones(
         tratamActivo.complicaciones.length > 0
           ? formatDataTratamForm(tratamActivo.complicaciones)
-          : [
-              { id: 0, txt_compli: "" },
-              { id: 1, txt_compli: "" },
-            ]
+          : [{ id: 0, txt_compli: "" }]
       );
       setArrProcedimientos(
         tratamActivo.procedimientos.length > 0
           ? formatDataTratamForm(tratamActivo.procedimientos)
           : [
-              { id: 0, cod_proced: "", nom_proced: "" },
-              { id: 1, cod_proced: "", nom_proced: "" },
+              // { id: 0, cod_proced: "", nom_proced: "" }
             ]
       );
-      // setArrProcedimientos()
+      setArrPrescripciones(
+        tratamActivo.prescripciones.length > 0
+          ? formatDataTratamForm(tratamActivo.prescripciones)
+          : [{ id: 0, desc_presc: "", dosi_presc: "" }]
+      );
     } else {
       console.log("esta en registro");
       resetInputText();
     }
   }, [tratamActivo]);
 
+  /********************control formulario de registro y edición********************/
   useEffect(() => {
     if (title.includes("Editar")) {
       setTxtButton("Actualizar");
@@ -202,7 +239,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
     }
   }, [title]);
 
-  //funcion enviar los datos
+  /************************ funcion enviar los datos ********************/
   const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
@@ -215,30 +252,25 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
       codigoCIE,
       arrComplicaciones,
       compDeleted,
+      arrProcedimientos,
+      proceDeleted,
+      arrPrescripciones,
+      prescDeleted,
     });
-
-    //omitir undefined
-    console.log(proceDeleted);
-    console.log(arrProcedimientos);
   };
 
-  //manejador de errores todos los campos
+  /*******************manejador de errores todos los campos********************/
   useEffect(() => {
-    if (errorMsgRegCons.msg === "Sin errores" && formSubmitted) {
+    if (errorMsgRegTratam.msg === "Sin errores" && formSubmitted) {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
-
-      //cuando el registro es exitoso
-      if (!title.includes("Editar")) {
-        resetInputText();
-      }
     }
-    if (errorMsgRegCons.msg === "Hay errores" && formSubmitted) {
+    if (errorMsgRegTratam.msg === "Hay errores" && formSubmitted) {
       handleOpenSnackbarError();
       setFormSubmitted(false);
     }
-  }, [errorMsgRegCons]);
+  }, [errorMsgRegTratam]);
 
   return (
     <>
@@ -401,30 +433,41 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
                 display="flex"
                 flexDirection="column"
               >
-                <ButtonCustom
-                  altura={"50px"}
-                  colorf={"transparent"}
-                  colorh={"transparent"}
-                  colort={"primary.main"}
-                  colorth={"blueSecondary.main"}
-                  txt_b={"Prescripciones"}
-                  flexDir="row"
-                  txt_b_size="16px"
-                  propsXS={{ boxShadow: "none !important" }}
-                  iconB={
-                    <img
-                      type="img/svg"
-                      width="22px"
-                      height="22px"
-                      src={`/assets/icons/formTratam/prescription.svg`}
-                      style={{ color: "orange" }}
+                <div>
+                  <ButtonCustom
+                    altura={"50px"}
+                    colorf={"transparent"}
+                    colorh={"transparent"}
+                    colort={"primary.main"}
+                    colorth={"blueSecondary.main"}
+                    txt_b={"Prescripciones"}
+                    flexDir="row"
+                    txt_b_size="16px"
+                    propsXS={{ boxShadow: "none !important" }}
+                    onClick={addPrescription}
+                    iconB={
+                      <img
+                        type="img/svg"
+                        width="22px"
+                        height="22px"
+                        src={`/assets/icons/formTratam/prescription.svg`}
+                        style={{ color: "orange" }}
+                      />
+                    }
+                  />
+                </div>
+                <Box display="flex" flexDirection="row" columnGap="200px">
+                  <Typography>Prescripción</Typography>{" "}
+                  <Typography>Dosis</Typography>
+                </Box>
+                <Box display="flex" flexDirection="column" rowGap="10px">
+                  {arrPrescripciones.map((presc) => (
+                    <TxtPrescrFormTratam
+                      data={presc}
+                      fnUpdate={updatePrescription}
+                      fnDelete={removePrescription}
                     />
-                  }
-                />
-                <Box display="flex" flexDirection="column">
-                  <p>prescripciones</p>
-                  <p>prescripciones</p>
-                  <p>prescripciones</p>
+                  ))}
                 </Box>
               </Grid>
 
@@ -434,6 +477,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
                 display="flex"
                 justifyContent="end"
                 columnGap="10px"
+                marginTop="30px"
               >
                 <ButtonCustom
                   altura={"40px"}
@@ -482,7 +526,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
           stateSnackbar={stateSnackbarError}
           handleCloseSnackbar={handleCloseSnackbarError}
           title={"Registro no completado"}
-          message={errorMsgRegCons.error}
+          message={errorMsgRegTratam.error}
           colorbg="error.main"
           colortxt="white"
           iconAlert={<CancelOutlined sx={{ color: "white" }} />}

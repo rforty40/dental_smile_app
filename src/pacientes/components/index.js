@@ -15,3 +15,4 @@ export * from "./TxtCompFormTratam";
 export * from "./TratamientoItem";
 export * from "./FormModalProcedTratam";
 export * from "./TxtProcedFormTratam";
+export * from "./TxtPrescrFormTratam";

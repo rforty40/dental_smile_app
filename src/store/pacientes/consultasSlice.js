@@ -34,6 +34,7 @@ export const consultasSlice = createSlice({
     tratamientosList: [],
     tratamActivo: null,
     errorLoadTratamientos: null,
+    errorMsgRegTratam: { msg: "", error: "" },
   },
 
   reducers: {
@@ -212,6 +213,14 @@ export const consultasSlice = createSlice({
 
       state.tratamActivo = null;
     },
+
+    changeRegisterErrorTratam: (state, { payload }) => {
+      state.errorMsgRegTratam = payload;
+    },
+
+    clearErrorMessageTram: (state) => {
+      state.errorMsgRegTratam = { msg: "", error: "" };
+    },
   },
 });
 
@@ -257,4 +266,6 @@ export const {
   onSetActiveTratam,
   changeErrorLoadTratamientos,
   onDeleteTratam,
+  changeRegisterErrorTratam,
+  clearErrorMessageTram,
 } = consultasSlice.actions;

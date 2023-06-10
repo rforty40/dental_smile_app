@@ -5,8 +5,8 @@ export const ConsInfoItem = ({ icon_name, lblItem, dataCons }) => {
     <Box display="flex" flexDirection="row" columnGap="10px">
       <img
         type="img/svg"
-        width="50px"
-        height="50px"
+        width="40px"
+        height="40px"
         src={`/assets/icons/consultaDetalle/${icon_name}.svg`}
       />
 

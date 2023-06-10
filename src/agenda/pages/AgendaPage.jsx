@@ -136,8 +136,8 @@ export const AgendaPage = () => {
   };
 
   //Confirm Dialog
-  const deleteRegisterCita = () => {
-    startDeletingCite();
+  const deleteRegisterCita = async () => {
+    await startDeletingCite();
     handleOpenSnackbar();
   };
 

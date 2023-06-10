@@ -188,8 +188,8 @@ export const HistorialPagePaciente = () => {
   };
 
   //Confirm Dialog
-  const deleteRegisterConsulta = () => {
-    startDeletingConsulta();
+  const deleteRegisterConsulta = async () => {
+    await startDeletingConsulta();
     handleOpenSnackbar();
   };
 

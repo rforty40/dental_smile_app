@@ -14,3 +14,16 @@ export const updateTratamiento = async (id_tra, tratamData) =>
 
 export const deleteTratamiento = async (id_tra) =>
   await dentalSmileApi.delete(`/tratamiento/delete/${id_tra}`);
+
+//complicaciones
+export const createComplicacion = async (id_tratam, complData) =>
+  await dentalSmileApi.post(
+    `/tratamiento/${id_tratam}/complicacion/create`,
+    complData
+  );
+
+export const updateComplicacion = async (id_comp, complData) =>
+  await dentalSmileApi.put(`/complicacion/update/${id_comp}`, complData);
+
+export const deleteComplicacion = async (id_comp) =>
+  await dentalSmileApi.delete(`/complicacion/delete/${id_comp}`);

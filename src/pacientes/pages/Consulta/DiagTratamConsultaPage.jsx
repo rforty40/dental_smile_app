@@ -44,12 +44,10 @@ export const DiagTratamConsultaPage = () => {
     diagnosticosList,
     diagActivo,
     changeDataDiag,
-    startLoadDiagnosticos,
     startDeletingDiagnostico,
-    consultaActiva,
   } = useDiagnosticosStore();
 
-  const { startLoadTratamientos, tratamientosList } = useTratamientosStore();
+  const { tratamientosList, errorLoadTratamientos } = useTratamientosStore();
 
   console.log(tratamientosList);
   //hook abrir el formulario
@@ -116,8 +114,8 @@ export const DiagTratamConsultaPage = () => {
   };
 
   //eliminar diagnostico
-  const deleteDiagnostico = () => {
-    startDeletingDiagnostico();
+  const deleteDiagnostico = async () => {
+    await startDeletingDiagnostico();
     setMsgAlertDel("El diagnóstico fue eliminado.");
     handleOpenSnackbar();
   };
@@ -206,13 +204,19 @@ export const DiagTratamConsultaPage = () => {
           />
         </Box>
         <Box display="flex" flexDirection="column" rowGap="20px">
-          {tratamientosList.map((tratam) => (
-            <TratamientoItem
-              key={tratam.id_tratam}
-              dataTratam={tratam}
-              fnOpenFormEdit={openModalTratamEdit}
-            />
-          ))}
+          {errorLoadTratamientos !== null ? (
+            <Typography variant="h6" padding="10px">
+              {errorLoadTratamientos}
+            </Typography>
+          ) : (
+            tratamientosList.map((tratam) => (
+              <TratamientoItem
+                key={tratam.id_tratam}
+                dataTratam={tratam}
+                fnOpenFormEdit={openModalTratamEdit}
+              />
+            ))
+          )}
         </Box>
       </Box>
 

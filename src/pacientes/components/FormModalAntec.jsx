@@ -51,10 +51,11 @@ export const FormModalAntec = ({
   showParent,
 }) => {
   //
-
+  //store
   const { antecedenteActivo, errorRegAntecedente, startSavingAntecedente } =
     useAntecedenteStore();
 
+  //hooks
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [msgAlert, setMsgAlert] = useState("");
@@ -138,13 +139,12 @@ export const FormModalAntec = ({
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
-    // console.log(formState);
+
     const formStateFormateado = {
       ...formState,
       par_antecedente: showParent ? formState.par_antecedente : null,
     };
 
-    // console.log(formStateFormateado);
     startSavingAntecedente(formStateFormateado);
   };
 

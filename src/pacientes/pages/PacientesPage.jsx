@@ -78,8 +78,8 @@ export const PacientesPage = () => {
   const [msgAlertDel, setMsgAlertDel] = useState("");
 
   //funcion eliminar registro paciente y eliminar varios registros
-  const deleteRegisterPaciente = (selected = []) => {
-    startDeletingPaciente(selected);
+  const deleteRegisterPaciente = async (selected = []) => {
+    await startDeletingPaciente(selected);
     if (selected.length <= 1) {
       setMsgAlertDel("El registro del paciente fue eliminado.");
     } else {
