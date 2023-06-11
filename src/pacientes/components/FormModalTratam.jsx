@@ -211,9 +211,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
       setArrProcedimientos(
         tratamActivo.procedimientos.length > 0
           ? formatDataTratamForm(tratamActivo.procedimientos)
-          : [
-              // { id: 0, cod_proced: "", nom_proced: "" }
-            ]
+          : []
       );
       setArrPrescripciones(
         tratamActivo.prescripciones.length > 0

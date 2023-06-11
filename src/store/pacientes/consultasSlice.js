@@ -194,18 +194,18 @@ export const consultasSlice = createSlice({
     changeErrorLoadTratamientos: (state, { payload }) => {
       state.errorLoadTratamientos = payload;
     },
-    // onSaveTratam: (state, { payload }) => {
-    //   state.tratamientosList.push(payload);
-    // },
-    // onUpdateTratam: (state, { payload }) => {
-    //   state.tratamientosList = state.tratamientosList.map((tratam) => {
-    //     if (tratam.id_tratam === payload.id_tratam) {
-    //       return payload;
-    //     }
+    onSaveTratam: (state, { payload }) => {
+      state.tratamientosList.unshift(payload);
+    },
+    onUpdateTratam: (state, { payload }) => {
+      state.tratamientosList = state.tratamientosList.map((tratam) => {
+        if (tratam.id_tratam === payload.id_tratam) {
+          return payload;
+        }
 
-    //     return tratam;
-    //   });
-    // },
+        return tratam;
+      });
+    },
     onDeleteTratam: (state) => {
       state.tratamientosList = state.tratamientosList.filter(
         (tratam) => tratam.id_tratam !== state.tratamActivo.id_tratam
@@ -264,6 +264,8 @@ export const {
   //tratamientos
   onLoadTratamientosList,
   onSetActiveTratam,
+  onSaveTratam,
+  onUpdateTratam,
   changeErrorLoadTratamientos,
   onDeleteTratam,
   changeRegisterErrorTratam,

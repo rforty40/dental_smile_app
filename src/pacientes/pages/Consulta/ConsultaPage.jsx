@@ -62,11 +62,13 @@ export const ConsultaPage = () => {
   }, []);
 
   useEffect(() => {
-    startLoadSignVit();
-    startLoadDiagnosticos();
-    startLoadExamenes();
-    startLoadPlanes();
-    startLoadTratamientos();
+    if (consultaActiva) {
+      startLoadSignVit();
+      startLoadDiagnosticos();
+      startLoadExamenes();
+      startLoadPlanes();
+      startLoadTratamientos();
+    }
   }, [consultaActiva]);
 
   const handleOpenFormDeleteCons = () => {

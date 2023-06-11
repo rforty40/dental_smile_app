@@ -204,9 +204,9 @@ export const DiagTratamConsultaPage = () => {
           />
         </Box>
         <Box display="flex" flexDirection="column" rowGap="20px">
-          {errorLoadTratamientos !== null ? (
+          {tratamientosList.length === 0 ? (
             <Typography variant="h6" padding="10px">
-              {errorLoadTratamientos}
+              Sin tratamientos
             </Typography>
           ) : (
             tratamientosList.map((tratam) => (

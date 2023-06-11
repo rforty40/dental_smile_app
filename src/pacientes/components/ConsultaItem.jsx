@@ -28,6 +28,7 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
   };
 
   const handleOpenCons = () => {
+    changeDataConsulta(consultaItem);
     navigate(`${consultaItem.id_consulta}`);
   };
   const diagnosticosStr = consultaItem.diagnositcos.reduce((acc, diag) => {
