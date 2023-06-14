@@ -23,6 +23,7 @@ import { DataListToolbar } from "./DataListToolbar";
 import { Link as RouterLink } from "react-router-dom";
 import { CustomPopover } from "./CustomPopover";
 import { useDataStore, usePacienteStore } from "../../../hooks";
+import { RowTableCollapsible } from "./RowTableCollapsible";
 
 //
 //
@@ -136,7 +137,7 @@ function applySortFilter(array, comparator, query, columnaABuscar) {
 //
 //COMPONENTE TABLA PERSONALIZADA
 
-export const CustomTable = ({
+export const CustomCollapsibleTable = ({
   TABLE_HEAD,
   DATALIST,
   dataOmitida = 1, // por defecto solo el id
@@ -146,9 +147,11 @@ export const CustomTable = ({
   funcionBtnTblDelete,
 
   /*DataListToolbar */
+
   withToolbar = true,
   withBoxSearch = true,
   withButton = true,
+  withCheckbox = true,
   btnToolbarTable,
   searchWhat = "",
   txt_header,
@@ -158,6 +161,9 @@ export const CustomTable = ({
   bgColorPagination = "transparent",
   routePaciente,
   BtnInFila,
+  titleTablaCollapsed = "",
+  TABLE_HEAD_COLLAPSED,
+  propertyCollapsed,
 }) => {
   //
   //hooks
@@ -357,7 +363,7 @@ export const CustomTable = ({
         />
 
         <TableContainer sx={{ overflowX: "initial" }}>
-          <Table size="small" stickyHeader>
+          <Table size="small">
             {/* Cabecera de las columnas */}
 
             <DataListHead
@@ -367,7 +373,8 @@ export const CustomTable = ({
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
               /* from PacientePage */
-              withToolbar={withToolbar}
+              withCheckbox={withCheckbox}
+              withCollapse={true}
             />
 
             {/* Cuerpo de Tabla */}
@@ -381,7 +388,7 @@ export const CustomTable = ({
 
                 //
 
-                .map((row) => {
+                .map((row, index) => {
                   const keys = Object.keys(row);
 
                   const filaSeleccionada = row["id"];
@@ -391,141 +398,26 @@ export const CustomTable = ({
                     selected.indexOf(filaSeleccionada) !== -1;
 
                   return (
-                    /*fila de la tabla*/
-                    <TableRow
-                      hover
-                      sx={{
-                        backgroundColor: "white",
-
-                        "&.Mui-selected": {
-                          backgroundColor: "#E0DAEB !important",
-                        },
-                      }}
-                      // key={row[keys[0]]}
-                      key={row["id"]}
-                      tabIndex={-1}
-                      role="checkbox"
-                      selected={selectedUser}
-                      onClick={() => {
-                        changeDataActiva(row);
-
-                        if (
-                          keys.includes("nombre") ||
-                          keys.includes("paciente")
-                        ) {
-                          changeDataPaciente(row);
-
-                          // localStorage.setItem(
-                          //   "pacienteActivo",
-                          //   JSON.stringify(row)
-                          // );
-                        }
-                      }}
-                    >
-                      {/* {console.log(row[keys[0]])}
-                      {console.log(row["id"])} */}
-                      {/* celda checkbox */}
-                      {withToolbar && (
-                        <TableCell
-                          padding="checkbox"
-                          sx={{
-                            border: "3px solid",
-                            borderColor: "colorTable.main",
-                          }}
-                        >
-                          <Checkbox
-                            checked={selectedUser}
-                            onChange={(event) =>
-                              handleClick(event, filaSeleccionada)
-                            }
-                          />
-                        </TableCell>
-                      )}
-                      {/* celdas de los datos */}
-
-                      {keys.slice(dataOmitida).map((key, index) => {
-                        if (key === "paciente" || key === "nombre") {
-                          return (
-                            <TableCell
-                              sx={{
-                                border: "3px solid",
-                                borderColor: "colorTable.main",
-                              }}
-                              // key={`${row[keys[0]]}${index}`}
-                              key={`${row["id"]}${index}`}
-                              align="left"
-                            >
-                              <Link
-                                component={RouterLink}
-                                to={routePaciente(row)}
-                                style={{ textDecoration: "none" }}
-                              >
-                                <Typography
-                                  sx={{
-                                    cursor: "pointer",
-                                    color: "secondary.main",
-                                    fontSize: "15px",
-                                    fontWeight: "bold",
-                                    borderRadius: "5px",
-                                  }}
-                                >
-                                  {row[key]}
-                                </Typography>
-                              </Link>
-                            </TableCell>
-                          );
-                        } else {
-                          return (
-                            <TableCell
-                              sx={{
-                                height: "10px",
-                                border: "3px solid",
-                                borderColor: "colorTable.main",
-                                color: "black",
-                                fontSize: "14px",
-                                fontWeight: "bold",
-                              }}
-                              // key={`${row[keys[0]]}${index}`}
-
-                              key={`${row["id"]}${index}`}
-                              align="left"
-                            >
-                              {row[key]}
-                            </TableCell>
-                          );
-                        }
-                      })}
-
-                      {iconosEnFila ? (
-                        <TableCell
-                          sx={{
-                            border: "3px solid",
-                            borderColor: "colorTable.main",
-                          }}
-                          align="center"
-                        >
-                          <Box display="flex" flexDirection="row">
-                            <BtnInFila infoRow={row} />
-                          </Box>
-                        </TableCell>
-                      ) : (
-                        <TableCell
-                          sx={{
-                            border: "3px solid",
-                            borderColor: "colorTable.main",
-                          }}
-                          align="right"
-                        >
-                          <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={handleOpenMenu}
-                          >
-                            <MoreVert />
-                          </IconButton>
-                        </TableCell>
-                      )}
-                    </TableRow>
+                    <>
+                      <RowTableCollapsible
+                        key={row["id"]}
+                        indexRTC={index}
+                        row={row}
+                        selectedUser={selectedUser}
+                        withCheckbox={withCheckbox}
+                        handleClick={handleClick}
+                        filaSeleccionada={filaSeleccionada}
+                        keys={keys}
+                        dataOmitida={dataOmitida}
+                        routePaciente={routePaciente}
+                        iconosEnFila={iconosEnFila}
+                        BtnInFila={BtnInFila}
+                        handleOpenMenu={handleOpenMenu}
+                        titleTablaCollapsed={titleTablaCollapsed}
+                        TABLE_HEAD_COLLAPSED={TABLE_HEAD_COLLAPSED}
+                        propertyCollapsed={propertyCollapsed}
+                      />
+                    </>
                   );
                 })}
 

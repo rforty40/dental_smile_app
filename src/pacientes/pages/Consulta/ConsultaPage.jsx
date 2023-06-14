@@ -7,6 +7,7 @@ import {
   useDiagnosticosStore,
   useExamenesStore,
   usePacienteStore,
+  usePagosStore,
   usePlanesStore,
   useTratamientosStore,
   useUiStore,
@@ -48,6 +49,8 @@ export const ConsultaPage = () => {
 
   const { startLoadTratamientos } = useTratamientosStore();
 
+  const { startLoadPagos } = usePagosStore();
+
   useEffect(() => {
     handleChangeTabsCons(
       parseInt(localStorage.getItem("lastTabPacienteCons")) || 0
@@ -68,6 +71,7 @@ export const ConsultaPage = () => {
       startLoadExamenes();
       startLoadPlanes();
       startLoadTratamientos();
+      startLoadPagos();
     }
   }, [consultaActiva]);
 

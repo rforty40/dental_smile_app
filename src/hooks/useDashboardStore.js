@@ -16,7 +16,10 @@ import {
   onChangeParametroBusqueda,
 } from "../store";
 
-import { switchDataDashboard } from "../dashboard/helpers";
+import {
+  formatearDataProcedRealizadosToTable,
+  switchDataDashboard,
+} from "../dashboard/helpers";
 import { formatearDataPacToTable } from "../pacientes/helpers";
 
 export const useDashboardStore = () => {
@@ -47,6 +50,10 @@ export const useDashboardStore = () => {
 
   const startLoadPanel = async (tipo, param_fechaIni, fechaFin) => {
     //
+    localStorage.setItem(
+      "filtrosPanel",
+      JSON.stringify({ tipo, param_fechaIni, fechaFin })
+    );
     dispatch(
       onChangeParametroBusqueda({
         tipo,
@@ -56,6 +63,7 @@ export const useDashboardStore = () => {
     );
     const parametroBusq = switchDataDashboard(tipo, param_fechaIni, fechaFin);
 
+    console.log(param_fechaIni);
     //Pacientes
     try {
       const { data: dataPacientes } = await getPanelData(
@@ -86,7 +94,7 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      //console.log(dataConsultas);
+      console.log(dataConsultas);
       dispatch(onLoadListConsPanel(dataConsultas));
 
       // console.log(msgPanelCons + parametroBusq);
@@ -111,7 +119,11 @@ export const useDashboardStore = () => {
         fechaFin
       );
       //console.log(dataProcedimientos);
-      dispatch(onLoadListProcedPanel(dataProcedimientos));
+      dispatch(
+        onLoadListProcedPanel(
+          formatearDataProcedRealizadosToTable(dataProcedimientos)
+        )
+      );
       // console.log(msgPanelProced + parametroBusq);
 
       dispatch(

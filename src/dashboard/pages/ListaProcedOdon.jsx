@@ -93,7 +93,7 @@ export const ListaProcedOdon = () => {
     changeDataProced(dataActiva);
   }, [dataActiva]);
 
-  const BtnToolbarTable = ({ bgHeaderColor }) => {
+  const BtnToolbarTable = () => {
     return (
       <ButtonCustom
         altura={"42px"}
@@ -136,7 +136,12 @@ export const ListaProcedOdon = () => {
         alignItems="center"
         sx={{ backgroundColor: "rgba(255,255,255,0.7)" }}
       >
-        <Typography variant="h5" fontStyle="italic" fontWeight="bold">
+        <Typography
+          variant="h5"
+          fontStyle="italic"
+          fontWeight="bold"
+          color="primary.main"
+        >
           Lista de procedimientos odontológicos
         </Typography>
       </Box>

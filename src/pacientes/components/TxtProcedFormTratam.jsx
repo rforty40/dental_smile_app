@@ -13,7 +13,11 @@ export const TxtProcedFormTratam = ({ data, fnDelete }) => {
         InputProps={{
           readOnly: true,
         }}
-        value={data.id + " - " + data.cod_proced + " - " + data.nom_proced}
+        value={
+          data.cod_proced.length > 0
+            ? data.cod_proced + " - " + data.nom_proced
+            : data.nom_proced
+        }
         sx={{
           "& .MuiInputBase-root ": {
             padding: "7px 5px 3px 5px",

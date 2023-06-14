@@ -31,11 +31,20 @@ export const PacientesPanel = () => {
     usePacienteStore();
 
   const actualizarListaPac = () => {
-    startLoadPanel(
-      parametrosBusqueda.tipo,
-      parametrosBusqueda.param_fechaIni,
-      parametrosBusqueda.fechaFin
-    );
+    if (JSON.stringify(parametrosBusqueda) === "{}") {
+      const filtrosLS = JSON.parse(localStorage.getItem("filtrosPanel"));
+      startLoadPanel(
+        filtrosLS.tipo,
+        filtrosLS.param_fechaIni,
+        filtrosLS.fechaFin
+      );
+    } else {
+      startLoadPanel(
+        parametrosBusqueda.tipo,
+        parametrosBusqueda.param_fechaIni,
+        parametrosBusqueda.fechaFin
+      );
+    }
   };
 
   //funcion abrir modal editar
@@ -96,7 +105,9 @@ export const PacientesPanel = () => {
     >
       {/* <Topbar /> */}
       <Box padding="30px">
-        <Typography variant="h5">{messagePanelPac}</Typography>
+        <Typography variant="h5" fontWeight="bold">
+          {messagePanelPac}
+        </Typography>
       </Box>
       <Box
         margin="0px 20px 0 20px"
@@ -125,7 +136,7 @@ export const PacientesPanel = () => {
           openModalEdit={openModalPacienteEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterPaciente}
-          routePaciente={(rowId) => `/pacientes/${rowId}/historial`}
+          routePaciente={(row) => `/pacientes/${row.id}/historial`}
         />
 
         <FormModalPac

@@ -110,3 +110,23 @@ export const getAllDataProced = async (cod) =>
   await dentalSmileApi.get(
     `/administracion/procedimientos/busqueda/tsnom_proced/${cod}`
   );
+
+//
+
+// /administracion/lista_ingresos/:fil_tipo/:fil_fecha/:prm1/:prm2/:prm_busq
+//ingresos
+export const getAllingresos = async (fil_tipo, fil_fecha, prm1, prm2) =>
+  await dentalSmileApi.get(
+    `/administracion/lista_ingresos/${fil_tipo}/${fil_fecha}/${prm1}/${prm2}/_`
+  );
+
+// export const createProcedimiento = async (proced) =>
+//   await dentalSmileApi.post("/administracion/ingresos/create", proced);
+
+// export const updateProcedimiento = async (id_proced, proced) =>
+//   await dentalSmileApi.put(
+//     `/administracion/ingresos/update/${id_proced}`,
+//     proced
+//   );
+// export const deleteProcedimiento = async (id_proced) =>
+//   await dentalSmileApi.delete(`/administracion/ingresos/delete/${id_proced}`);

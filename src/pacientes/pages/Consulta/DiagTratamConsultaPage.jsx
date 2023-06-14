@@ -47,7 +47,7 @@ export const DiagTratamConsultaPage = () => {
     startDeletingDiagnostico,
   } = useDiagnosticosStore();
 
-  const { tratamientosList, errorLoadTratamientos } = useTratamientosStore();
+  const { tratamientosList } = useTratamientosStore();
 
   console.log(tratamientosList);
   //hook abrir el formulario
@@ -66,12 +66,6 @@ export const DiagTratamConsultaPage = () => {
 
   //hook mensaje de alerta despues de la eliminacion de un registro
   const [msgAlertDel, setMsgAlertDel] = useState("");
-
-  //efecto secundario cargar lista de diagnosticos
-  // useEffect(() => {
-  //   startLoadDiagnosticos();
-  //   console.log("SEEE");
-  // }, [consultaActiva]);
 
   //efecto secundario carga la data de la tabla al diagnostico activo
   useEffect(() => {

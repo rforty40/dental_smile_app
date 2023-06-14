@@ -168,13 +168,8 @@ export const ExamPlanConsultaPage = () => {
           TABLE_HEAD={TABLE_HEAD_EXAM}
           DATALIST={examenesList}
           withToolbar={false}
-          // withBoxSearch={false}
-          // withButton
           iconosEnFila={false}
-          // btnToolbarTable={BtnToolbarTable}
           columnaABuscarPri="region_afectada"
-          // searchWhat={"Buscar examén ..."}
-          // txt_header={"Examenes del sistema estomatognático"}
           bgColorPagination="white"
           bgColorTable="rgba(255,255,255,0.5)"
           dataOmitida={3}

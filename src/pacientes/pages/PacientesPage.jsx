@@ -88,7 +88,7 @@ export const PacientesPage = () => {
     handleOpenSnackbar();
   };
 
-  const BtnToolbarTable = ({ bgHeaderColor }) => {
+  const BtnToolbarTable = () => {
     return (
       <ButtonCustom
         altura={"40px"}
@@ -147,7 +147,7 @@ export const PacientesPage = () => {
           openModalEdit={openModalPacienteEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterPaciente}
-          routePaciente={(rowId) => `${rowId}/historial`}
+          routePaciente={(row) => `${row.id}/historial`}
         />
 
         <FormModalPac

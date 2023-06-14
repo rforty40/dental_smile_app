@@ -84,3 +84,21 @@ export const updateDiagnostico = async (id_diag, diag) =>
 
 export const deleteDiagnostico = async (id_diag) =>
   await dentalSmileApi.delete(`/diagnosticos/delete/${id_diag}`);
+
+//
+
+//pagos
+export const getPagos = async (id_cons) =>
+  await dentalSmileApi.get(`/consulta/${id_cons}/pagos`);
+
+export const createPago = async (id_cons, pago) =>
+  await dentalSmileApi.post(`/consulta/${id_cons}/pagos/create`, pago);
+
+export const updatePago = async (id_pago, pago) =>
+  await dentalSmileApi.put(`/pagos/update/${id_pago}`, pago);
+
+export const deletePago = async (id_pago) =>
+  await dentalSmileApi.delete(`/pagos/delete/${id_pago}`);
+
+export const getSumPago = async (id_cons) =>
+  await dentalSmileApi.get(`/consulta/${id_cons}/sum_pagos`);

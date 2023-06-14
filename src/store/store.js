@@ -4,6 +4,7 @@ import {
   consultasSlice,
   dashboardSlice,
   dataSlice,
+  ingresosSlice,
   pacientesSlice,
   procedSlice,
   tipoConsSlice,
@@ -23,6 +24,7 @@ export const store = configureStore({
     tipoCons: tipoConsSlice.reducer,
     tipoTratam: tiposTratamSlice.reducer,
     procedimientos: procedSlice.reducer,
+    ingresos: ingresosSlice.reducer,
     dataGlobal: dataSlice.reducer,
   },
 

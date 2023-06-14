@@ -206,9 +206,7 @@ export const DataListToolbar = ({
                   </Box>
                 )}
 
-                {withButton && (
-                  <BtnToolbarTable bgHeaderColor={bgHeaderColor} />
-                )}
+                {withButton && <BtnToolbarTable />}
               </Box>
             </>
           )}

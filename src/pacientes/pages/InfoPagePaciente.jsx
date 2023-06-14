@@ -348,7 +348,7 @@ export const InfoPagePaciente = () => {
                 TABLE_HEAD={TABLE_HEAD}
                 DATALIST={antecedentes[0]}
                 withToolbar={false}
-                iconosEnFila
+                iconosEnFila={false}
                 dataOmitida={3}
                 openModalEdit={openModalAnteceEdit}
                 funcionBtnTblDelete={handleOpenAntecedDel}
@@ -404,7 +404,7 @@ export const InfoPagePaciente = () => {
                 TABLE_HEAD={TABLE_HEAD_2}
                 DATALIST={antecedentes[1]}
                 withToolbar={false}
-                iconosEnFila
+                iconosEnFila={false}
                 dataOmitida={2}
                 openModalEdit={openModalAnteceFaEdit}
                 funcionBtnTblDelete={handleOpenAntecedDel}

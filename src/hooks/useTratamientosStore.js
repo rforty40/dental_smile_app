@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  changeErrorLoadTratamientos,
   changeRegisterErrorTratam,
   clearErrorMessageTram,
   onDeleteTratam,
@@ -35,7 +34,7 @@ export const useTratamientosStore = () => {
   const {
     tratamientosList,
     tratamActivo,
-    errorLoadTratamientos,
+
     consultaActiva,
     errorMsgRegTratam,
   } = useSelector((state) => state.consultas);
@@ -51,12 +50,12 @@ export const useTratamientosStore = () => {
       const { data } = await getTratamientos(consultaActiva.id_consulta);
 
       dispatch(onLoadTratamientosList(data));
-      dispatch(changeErrorLoadTratamientos(null));
-      console.log(data);
+
+      // console.log(data);
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
-      dispatch(changeErrorLoadTratamientos(error.response.data.message));
+      dispatch(onLoadTratamientosList([]));
     }
   };
 
@@ -74,7 +73,6 @@ export const useTratamientosStore = () => {
           if (complicacion.txt_compli.length > 0) {
             //
 
-            console.log(complicacion);
             if (complicacion.id_compli === undefined) {
               //son registros nuevos
               const { data } = await createComplicacion(tratamIdReg, {
@@ -145,18 +143,16 @@ export const useTratamientosStore = () => {
 
       const dataPresc = await Promise.all(
         dataArr.map(async (prescripcion) => {
-          console.log(prescripcion);
           if (prescripcion.desc_presc.length > 0) {
             //
 
-            console.log(prescripcion);
             if (prescripcion.id_presc === undefined) {
               //son registros nuevos
               const { data } = await createPrescripcion(tratamIdReg, {
                 desc_presc: prescripcion.desc_presc,
                 dosi_presc: prescripcion.dosi_presc,
               });
-              console.log(data);
+
               return data;
             } else {
               //se actualizan
@@ -180,28 +176,33 @@ export const useTratamientosStore = () => {
 
   const startSavingTratamiento = async (tratamiento) => {
     dispatch(clearErrorMessageTram());
-    console.log(tratamiento.codigoCIE);
-    console.log(tratamiento.arrComplicaciones);
-    console.log(tratamiento.compDeleted);
-    console.log(tratamiento.arrProcedimientos);
-    console.log(tratamiento.proceDeleted);
-    console.log(tratamiento.arrPrescripciones);
-    console.log(tratamiento.prescDeleted);
+    console.log(tratamiento);
     try {
-      // let tratamIdReg = 0;
       let tratamNew = null;
+      // const codigoCIEformat =
+      //   tratamiento.codigoCIE === ""
+      //     ? {}
+      //     : { codigoCIE: tratamiento.codigoCIE };
+      const codigoCIEformat =
+        tratamiento.codigoCIE === ""
+          ? { codigoCIE: null }
+          : { codigoCIE: tratamiento.codigoCIE };
+
       if (tratamActivo) {
         //actualizando
-        const { data } = await updateTratamiento(tratamActivo.id_tratam, {
-          codigoCIE:
-            tratamiento.codigoCIE === "" ? null : tratamiento.codigoCIE,
-        });
+        console.log(tratamiento);
+        const { data } = await updateTratamiento(
+          tratamActivo.id_tratam,
+          codigoCIEformat
+        );
+
         tratamNew = data;
       } else {
         //registrando
-        const { data } = await createTratamiento(consultaActiva.id_consulta, {
-          codigoCIE: tratamiento.codigoCIE,
-        });
+        const { data } = await createTratamiento(
+          consultaActiva.id_consulta,
+          codigoCIEformat
+        );
         tratamNew = data;
         // tratamIdReg = data.id_tratam;
       }
@@ -224,9 +225,6 @@ export const useTratamientosStore = () => {
         tratamiento.prescDeleted,
         tratamNew.id_tratam
       );
-      console.log(newCompls);
-      console.log(newProces);
-      console.log(newPresc);
 
       const newTratamiento = {
         ...tratamNew,
@@ -240,7 +238,7 @@ export const useTratamientosStore = () => {
             ? []
             : newPresc.filter((el) => el !== undefined),
       };
-      console.log(newTratamiento);
+      // console.log(newTratamiento);
 
       if (tratamActivo) {
         //actualizacion
@@ -262,11 +260,6 @@ export const useTratamientosStore = () => {
         })
       );
     }
-    // finally {
-    //   setTimeout(() => {
-    //     startLoadTratamientos();
-    //   }, 3000);
-    // }
   };
 
   const startDeletingTratamiento = async () => {
@@ -282,7 +275,6 @@ export const useTratamientosStore = () => {
     //* Propiedades
     tratamientosList,
     tratamActivo,
-    errorLoadTratamientos,
     errorMsgRegTratam,
 
     //* Métodos

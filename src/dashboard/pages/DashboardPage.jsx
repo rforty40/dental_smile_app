@@ -293,7 +293,9 @@ export const DashboardPage = () => {
           />
           <CardDashboard
             iconName={"ganancias3"}
-            resultado={`$${parseFloat(totallistIngreso - totallistGastos)}`}
+            resultado={`$${parseFloat(
+              totallistIngreso - totallistGastos
+            ).toFixed(2)}`}
             label={"Ganancias"}
             route={"ganancias_data"}
           />

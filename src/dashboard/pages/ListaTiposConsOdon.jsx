@@ -88,7 +88,7 @@ export const ListaTiposConsOdon = () => {
     changeDataTipCons(dataActiva);
   }, [dataActiva]);
 
-  const BtnToolbarTable = ({ bgHeaderColor }) => {
+  const BtnToolbarTable = () => {
     return (
       <ButtonCustom
         altura={"42px"}
@@ -128,9 +128,14 @@ export const ListaTiposConsOdon = () => {
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ backgroundColor: "rgba(255,255,255,0.7)" }}
+        sx={{ backgroundColor: "rgba(255,255,255,0.8)" }}
       >
-        <Typography variant="h5" fontStyle="italic" fontWeight="bold">
+        <Typography
+          variant="h5"
+          fontStyle="italic"
+          fontWeight="bold"
+          color="primary.main"
+        >
           Lista de tipos de consultas odontológica
         </Typography>
       </Box>

@@ -108,9 +108,12 @@ export const FormModalProcedTratam = ({
                 }
                 cerrarModal();
               }}
-              getOptionLabel={(option) =>
-                option.codigo + " - " + option.procedimiento
-              }
+              getOptionLabel={(option) => {
+                console.log(option);
+                return option.codigo.length > 0
+                  ? option.codigo + " - " + option.procedimiento
+                  : option.procedimiento;
+              }}
               propsTextField={{
                 label: "Procedimientos:",
                 placeholder: "Seleccione un procedimiento",

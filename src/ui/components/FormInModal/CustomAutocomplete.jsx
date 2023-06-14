@@ -15,6 +15,7 @@ export const CustomAutocomplete = ({
       {...propsAutocomplete}
       renderInput={(params) => (
         <TextField
+          multiline
           {...params}
           {...propsTextField}
           InputProps={{

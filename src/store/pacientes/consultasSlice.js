@@ -33,8 +33,12 @@ export const consultasSlice = createSlice({
     //tratamientos
     tratamientosList: [],
     tratamActivo: null,
-    errorLoadTratamientos: null,
     errorMsgRegTratam: { msg: "", error: "" },
+
+    //pagos
+    pagosList: [],
+    pagoActivo: null,
+    sumPagos: 0,
   },
 
   reducers: {
@@ -191,9 +195,7 @@ export const consultasSlice = createSlice({
     onSetActiveTratam: (state, { payload }) => {
       state.tratamActivo = payload;
     },
-    changeErrorLoadTratamientos: (state, { payload }) => {
-      state.errorLoadTratamientos = payload;
-    },
+
     onSaveTratam: (state, { payload }) => {
       state.tratamientosList.unshift(payload);
     },
@@ -220,6 +222,19 @@ export const consultasSlice = createSlice({
 
     clearErrorMessageTram: (state) => {
       state.errorMsgRegTratam = { msg: "", error: "" };
+    },
+
+    //
+
+    //pagos
+    onLoadPagosList: (state, { payload }) => {
+      state.pagosList = payload;
+    },
+    onSetActivePago: (state, { payload }) => {
+      state.pagoActivo = payload;
+    },
+    onSetSumPagos: (state, { payload }) => {
+      state.sumPagos = payload ? payload : 0;
     },
   },
 });
@@ -266,8 +281,12 @@ export const {
   onSetActiveTratam,
   onSaveTratam,
   onUpdateTratam,
-  changeErrorLoadTratamientos,
   onDeleteTratam,
   changeRegisterErrorTratam,
   clearErrorMessageTram,
+
+  //pagos
+  onLoadPagosList,
+  onSetActivePago,
+  onSetSumPagos,
 } = consultasSlice.actions;

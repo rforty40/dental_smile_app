@@ -1,3 +1,5 @@
+import { invertDateFormat } from "../../agenda/helpers/formatedDataCite";
+
 export const formatearDataProcedToTable = (dataFromBD) =>
   dataFromBD.map((data) => {
     return {
@@ -83,3 +85,19 @@ export const formatearDataProcedNomen = (dataFromBD) => {
     };
   });
 };
+
+export const formatearDataProcedRealizadosToTable = (dataFromBD) =>
+  dataFromBD.map((data) => {
+    return {
+      id: data.id_tratam_proced,
+      id_consulta: data.id_consulta,
+      id_paciente: data.id_paciente,
+      //
+      fecha: data.Fecha,
+      procedimiento: data.Procedimiento,
+      paciente: data.Paciente,
+      consulta: data.Consulta,
+      tratamiento: data.Tratamiento,
+      pago: data.Ingreso ? parseFloat(data.Ingreso) : "",
+    };
+  });

@@ -337,7 +337,9 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
                 <CustomAutocomplete
                   fullWidth
                   // disablePortal
-                  options={diagnosticosList}
+                  options={diagnosticosList.filter(
+                    (diag) => diag.codigoCIE.length > 0
+                  )}
                   getOptionLabel={(option) =>
                     option.codigoCIE + " - " + option.enfermedad_diagnosticada
                   }

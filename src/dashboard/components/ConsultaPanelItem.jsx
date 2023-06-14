@@ -1,40 +1,23 @@
-import { Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Link,
+  Typography,
+} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { ButtonCustom, CustomStandardTF } from "../../ui";
-import { DeleteOutlined, EditNoteOutlined } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import { useConsultasStore, useUiStore } from "../../hooks";
 import { invertDateFormat } from "../../agenda/helpers/formatedDataCite";
 import { FaRegFolderOpen } from "react-icons/fa";
+import { useUiStore } from "../../hooks";
+import { useNavigate } from "react-router-dom";
+import { PersonSearch } from "@mui/icons-material";
 
-export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
-  const colorChoose = iteratorColor % 2 > 0 ? true : false;
+export const ConsultaPanelItem = ({ consultaItem }) => {
   const navigate = useNavigate();
+  const { handleChangeTabsCons, handleChangeTabs } = useUiStore();
 
-  const {
-    changeDataConsulta,
-    changeStateFormCons,
-    changeTitleFormCons,
-    changeStateDelCons,
-  } = useConsultasStore();
-
-  const { handleChangeTabsCons } = useUiStore();
-
-  const handleOpenFormEditCons = () => {
-    changeDataConsulta(consultaItem);
-    changeTitleFormCons("Editar consulta odontológica");
-    changeStateFormCons(true);
-  };
-
-  const handleOpenFormDeleteCons = () => {
-    changeDataConsulta(consultaItem);
-    changeStateDelCons(true);
-  };
-
-  const handleOpenCons = () => {
-    changeDataConsulta(consultaItem);
-    handleChangeTabsCons(0);
-    navigate(`${consultaItem.id_consulta}`);
-  };
   const diagnosticosStr = consultaItem.diagnosticos.reduce((acc, diag) => {
     acc = `${acc}\n${
       diag.Diagnosticos.split("-")[0] +
@@ -45,6 +28,18 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
     return acc;
   }, "");
 
+  const handleOpenCons = () => {
+    // changeDataConsulta(consultaItem);
+    handleChangeTabsCons(0);
+    // navigate(
+    //   `/pacientes/${consultaItem.id_paciente}/historial/${consultaItem.id_consulta}`
+    // );
+  };
+
+  const handleOpenPac = () => {
+    handleChangeTabs(0);
+    // navigate(`/pacientes/${consultaItem.id_paciente}/historial`);
+  };
   return (
     <>
       {/* <Box width="90%"> */}
@@ -53,7 +48,7 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
         display="grid"
         // flexDirection="row"
         // border="2px solid"
-        boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
+        boxShadow="5px 7px 7px rgba(0, 0, 0, 0.5)"
         sx={{
           //
           cursor: "pointer",
@@ -64,11 +59,11 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           // transitionDelay: "0.1s",
           transition: "all 0.1s ease-in-out",
           // backgroundColor: "rgba(255,255,255,0.6)",
-          ":hover": {
-            transform: "scale(1.04)",
-          },
-          // backgroundColor: "myBgColor.main",
-          backgroundColor: colorChoose ? "primary.main" : "white",
+          //   ":hover": {
+          //     transform: "scale(1.04)",
+          //   },
+          backgroundColor: "white",
+          //   backgroundColor: colorChoose ? "primary.main" : "white",
           // alignItems: "center",
           gridTemplateColumns: "8% 62% 20% 10%",
           gridTemplateRows: "repeat(2, max-content)",
@@ -89,9 +84,7 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
             type="img/svg"
             width="65px"
             height="65px"
-            src={`/assets/icons/consultaItem/icon_consulta_${
-              colorChoose ? "white" : "primary"
-            }.svg`}
+            src={`/assets/icons/consultaItem/icon_consulta_primary.svg`}
             alt="dentist_date.svg"
           />
         </Grid>
@@ -109,9 +102,9 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           <Typography
             sx={{
               fontSize: "14px",
-              backgroundColor: colorChoose ? "white" : "primary.main",
-              color: colorChoose ? "black" : "white",
-              fontWeight: colorChoose && "bold",
+              backgroundColor: "primary.main",
+              color: "white",
+              fontWeight: "bold",
               padding: "0.5px 4px",
             }}
           >
@@ -120,9 +113,9 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           <Typography
             sx={{
               fontSize: "14px",
-              backgroundColor: colorChoose ? "white" : "primary.main",
-              color: colorChoose ? "black" : "white",
-              fontWeight: colorChoose && "bold",
+              backgroundColor: "primary.main",
+              color: "white",
+              fontWeight: "bold",
               padding: "0.5px 4px",
             }}
           >
@@ -132,9 +125,9 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           <Typography
             sx={{
               fontSize: "14px",
-              backgroundColor: colorChoose ? "white" : "primary.main",
-              color: colorChoose ? "black" : "white",
-              fontWeight: colorChoose && "bold",
+              backgroundColor: "primary.main",
+              color: "white",
+              fontWeight: "bold",
               padding: "0.5px 4px",
             }}
           >
@@ -149,41 +142,82 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           rowGap="15px"
           flexDirection="column"
         >
-          <CustomStandardTF
-            value={consultaItem.tipo_tipoConsul}
-            helperText="Tipo de consulta"
-            colorTxt={colorChoose ? "white" : "black"}
-            colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
-            colorBrd={colorChoose ? "white" : "#602A90"}
-          />
+          <Box display="flex" flexDirection="row" columnGap="20px">
+            <CustomStandardTF
+              fullWidth
+              value={consultaItem.tipo_tipoConsul}
+              helperText="Tipo de consulta"
+              colorTxt="black"
+              colorHelp="#602A90"
+              colorBrd="#602A90"
+            />
+
+            <CustomStandardTF
+              fullWidth
+              value={consultaItem.Paciente}
+              helperText="Paciente"
+              colorTxt="black"
+              colorHelp="#602A90"
+              colorBrd="#602A90"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton
+                      onClick={handleOpenPac}
+                      sx={{
+                        ":hover": {
+                          backgroundColor: "transparent",
+                        },
+                      }}
+                    >
+                      <Link
+                        component={RouterLink}
+                        to={`/pacientes/${consultaItem.id_paciente}/historial`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <PersonSearch
+                          fontSize="medium"
+                          sx={{
+                            color: "blueSecondary.main",
+
+                            ":hover": {
+                              color: "primary.main",
+                            },
+                          }}
+                        />
+                      </Link>
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
           <CustomStandardTF
             multiline
             value={consultaItem.mot_consulta}
             helperText="Motivo"
-            colorTxt={colorChoose ? "white" : "black"}
-            colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
-            colorBrd={colorChoose ? "white" : "#602A90"}
+            colorTxt="black"
+            colorHelp="#602A90"
+            colorBrd="#602A90"
           />
-
           {consultaItem.probleAct_consulta.length > 0 && (
             <CustomStandardTF
               multiline
               value={consultaItem.probleAct_consulta}
               helperText="Problema"
-              colorTxt={colorChoose ? "white" : "black"}
-              colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
-              colorBrd={colorChoose ? "white" : "#602A90"}
+              colorTxt="black"
+              colorHelp="#602A90"
+              colorBrd="#602A90"
             />
           )}
-
           {diagnosticosStr.length > 0 && (
             <CustomStandardTF
               multiline
               value={diagnosticosStr}
               helperText="Diagnóstico"
-              colorTxt={colorChoose ? "white" : "black"}
-              colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
-              colorBrd={colorChoose ? "white" : "#602A90"}
+              colorTxt="black"
+              colorHelp="#602A90"
+              colorBrd="#602A90"
             />
           )}
 
@@ -196,9 +230,9 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
                     multiline
                     value={"\n" + invertDateFormat(tratam.Tratamiento)}
                     helperText="Tratamiento"
-                    colorTxt={colorChoose ? "white" : "black"}
-                    colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
-                    colorBrd={colorChoose ? "white" : "#602A90"}
+                    colorTxt="black"
+                    colorHelp="#602A90"
+                    colorBrd="#602A90"
                   />
 
                   {
@@ -223,9 +257,9 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
                           ""
                         )}
                         helperText="Procedimientos"
-                        colorTxt={colorChoose ? "white" : "black"}
-                        colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
-                        colorBrd={colorChoose ? "white" : "#602A90"}
+                        colorTxt="black"
+                        colorHelp="#602A90"
+                        colorBrd="#602A90"
                       />
                     )
                     // );
@@ -245,50 +279,26 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           alignItems="center"
           justifyContent="start"
         >
-          <ButtonCustom
-            txt_b_size="13px"
-            altura="35px"
-            colorf="transparent"
-            colorh="transparent"
-            colort={colorChoose ? "white" : "blueSecondary.main"}
-            colorth={colorChoose ? "celesteNeon.main" : "primary.main"}
-            flexDir="column-reverse"
-            txt_b="Editar"
-            fontW="bold"
-            onClick={handleOpenFormEditCons}
-            iconB={<EditNoteOutlined />}
-            propsXS={{ boxShadow: "none !important" }}
-          />
-
-          <ButtonCustom
-            txt_b_size="13px"
-            altura="35px"
-            colorf="transparent"
-            colorh="transparent"
-            colort={colorChoose ? "white" : "error.main"}
-            colorth={colorChoose ? "celesteNeon.main" : "primary.main"}
-            flexDir="column-reverse"
-            txt_b="Eliminar"
-            fontW="bold"
-            onClick={handleOpenFormDeleteCons}
-            iconB={<DeleteOutlined />}
-            propsXS={{ boxShadow: "none !important" }}
-          />
-
-          <ButtonCustom
-            txt_b_size="13px"
-            altura="35px"
-            colorf="transparent"
-            colorh="transparent"
-            colort={colorChoose ? "white" : "blueSecondary.main"}
-            colorth={colorChoose ? "celesteNeon.main" : "primary.main"}
-            flexDir="column-reverse"
-            txt_b="Abrir"
-            fontW="bold"
-            onClick={handleOpenCons}
-            iconB={<FaRegFolderOpen />}
-            propsXS={{ boxShadow: "none !important" }}
-          />
+          <Link
+            component={RouterLink}
+            to={`/pacientes/${consultaItem.id_paciente}/historial/${consultaItem.id_consulta}`}
+            style={{ textDecoration: "none" }}
+          >
+            <ButtonCustom
+              txt_b_size="13px"
+              altura="35px"
+              colorf="transparent"
+              colorh="transparent"
+              colort="blueSecondary.main"
+              colorth="primary.main"
+              flexDir="column-reverse"
+              txt_b="Abrir"
+              fontW="bold"
+              onClick={handleOpenCons}
+              iconB={<FaRegFolderOpen />}
+              propsXS={{ boxShadow: "none !important" }}
+            />
+          </Link>
         </Grid>
       </Grid>
       {/* </Box> */}

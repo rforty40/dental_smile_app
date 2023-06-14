@@ -6,3 +6,4 @@ export * from "./FormTipCons";
 export * from "./FormTipTratam";
 export * from "./FormProced";
 export * from "./FormChooseProced";
+export * from "./ConsultaPanelItem";

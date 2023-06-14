@@ -4,3 +4,4 @@ export * from "./formatedDataExamen";
 export * from "./formatedDataPlanes";
 export * from "./formatedDataDiagnostico";
 export * from "./formatedDataTratamiento";
+export * from "./formatedDataPago";

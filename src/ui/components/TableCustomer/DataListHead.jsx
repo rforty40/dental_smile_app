@@ -16,8 +16,8 @@ export const DataListHead = ({
   headLabel,
   onRequestSort,
   onSelectAllClick,
-
-  withToolbar,
+  withCollapse = false,
+  withCheckbox = true,
 }) => {
   // funcion que retorna funcion
   const createSortHandler = (property) => (event) => {
@@ -28,7 +28,7 @@ export const DataListHead = ({
     <TableHead>
       <TableRow>
         {/**checkbox */}
-        {withToolbar && (
+        {withCheckbox && (
           <TableCell
             sx={{
               borderRight: "3px solid white",
@@ -38,6 +38,14 @@ export const DataListHead = ({
           >
             <Checkbox onChange={onSelectAllClick} />
           </TableCell>
+        )}
+        {withCollapse && (
+          <TableCell
+            sx={{
+              borderRight: "3px solid white",
+              bgcolor: "colorTable.main",
+            }}
+          ></TableCell>
         )}
         {/** headers */}
 
@@ -85,7 +93,7 @@ export const DataListHead = ({
                   {orderBy === headCell.id ? (
                     order
                   ) : (
-                    <span style={{ visibility: "hidden" }}>"aaaaaa"</span>
+                    <span style={{ visibility: "hidden" }}>""</span>
                   )}
                 </span>
               </Grid>

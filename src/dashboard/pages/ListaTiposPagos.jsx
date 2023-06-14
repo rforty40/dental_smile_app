@@ -131,7 +131,12 @@ export const ListaTiposPagos = () => {
         alignItems="center"
         sx={{ backgroundColor: "rgba(255,255,255,0.5)" }}
       >
-        <Typography variant="h5" fontStyle="italic" fontWeight="bold">
+        <Typography
+          variant="h5"
+          fontStyle="italic"
+          fontWeight="bold"
+          color="primary.main"
+        >
           Lista de tipos de pago
         </Typography>
 
