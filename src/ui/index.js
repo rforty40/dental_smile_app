@@ -23,3 +23,4 @@ export * from "./components/CustomStandardTF";
 export * from "./components/CustomTab.jsx";
 export * from "./components/TableCustomer/CustomCollapsibleTable";
 export * from "./components/TableCustomer/RowTableCollapsible";
+export * from "./components/FormInModal/CustomSelectMultiple";

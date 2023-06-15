@@ -3,6 +3,9 @@ import {
   Box,
   Checkbox,
   Link,
+  MenuItem,
+  OutlinedInput,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -13,6 +16,8 @@ import {
   CustomCollapsibleTable,
   CustomDatePickerAntd,
   CustomRangeDate,
+  CustomSelect,
+  CustomSelectMultiple,
 } from "../../ui";
 import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
 
@@ -36,6 +41,39 @@ const TABLE_HEAD_COLLAPSED = [
   { id: "fecha", label: "Fecha" },
   { id: "fecha_upd", label: "Fecha de actualización" },
 ];
+
+const mesActual = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  let mes = today.getMonth() + 1;
+  mes = mes.toString().padStart(2, "0");
+  // console.log(`${year}${mes}`);
+  return `${year}${mes}`;
+};
+
+const getParamIngreso1 = (tipIng) => {
+  switch (tipIng) {
+    case "Procedimiento":
+      return "procedimientos";
+    case "Tipo de consulta":
+      return "tipos_consulta";
+    case "Otro motivo":
+      return "otro_motivo";
+    default:
+      break;
+  }
+};
+const getParamIngreso2 = (tipIng) => {
+  if (tipIng.includes("Procedimiento") && tipIng.includes("Tipo de consulta")) {
+    return "proced_tipcons";
+  }
+  if (tipIng.includes("Procedimiento") && tipIng.includes("Otro motivo")) {
+    return "proced_user";
+  }
+  if (tipIng.includes("Tipo de consulta") && tipIng.includes("Otro motivo")) {
+    return "tipcons_user";
+  }
+};
 
 //
 //
@@ -67,6 +105,69 @@ export const ListaIngresos = () => {
     mesStr: "",
   });
 
+  //hook tipo de ingreso
+  const [tipIngreso, setTipIngreso] = useState([]);
+  const [paramTI, setParamTI] = useState("consultas");
+
+  /**********************************TIPO DE INGRESO********************************* */
+  const getStylesTipIng = (option) => {
+    return {
+      fontWeight: tipIngreso.indexOf(option) === -1 ? "normal" : "bold",
+    };
+  };
+
+  const handleTipIngreso = (event) => {
+    const {
+      target: { value },
+    } = event;
+    console.log(value);
+    setTipIngreso(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
+  useEffect(() => {
+    switch (tipIngreso.length) {
+      case 0:
+        // console.log(tipIngreso);
+        setParamTI("consultas");
+        break;
+
+      case 1:
+        // console.log(tipIngreso);
+        //   console.log(getParamIngreso1(tipIngreso[0]));
+        setParamTI(getParamIngreso1(tipIngreso[0]));
+        break;
+
+      case 2:
+        // console.log(tipIngreso);
+        // console.log(getParamIngreso2(tipIngreso));
+        setParamTI(getParamIngreso2(tipIngreso));
+        break;
+
+      case 3:
+        // console.log(tipIngreso);
+        setParamTI("consultas");
+        break;
+
+      default:
+        break;
+    }
+
+    //Limpiar los demas componentes
+
+    setStateDatesRange({ ...stateDatesRange, values: null });
+    setStatePickerYear({
+      valueYear: null,
+      anioStr: "",
+    });
+    setStatePickerMonth({
+      valueMonth: null,
+      mesStr: "",
+    });
+  }, [tipIngreso]);
+
   /*******************************************RANGO DE FECHA ******************************************************** */
 
   const onChangeRangeDates = (values, rangeString) => {
@@ -89,7 +190,7 @@ export const ListaIngresos = () => {
     });
 
     if (values === null) {
-      startIngresosConsList("consultas", "todos", "_", "_");
+      startIngresosConsList("consultas", "mes", mesActual(), "_");
     }
   };
 
@@ -121,7 +222,7 @@ export const ListaIngresos = () => {
     });
 
     if (date === null) {
-      startIngresosConsList("consultas", "todos", "_", "_");
+      startIngresosConsList("consultas", "mes", mesActual(), "_");
     }
   };
 
@@ -150,7 +251,7 @@ export const ListaIngresos = () => {
     });
 
     if (date === null) {
-      startIngresosConsList("consultas", "todos", "_", "_");
+      startIngresosConsList("consultas", "mes", mesActual(), "_");
     }
   };
 
@@ -203,43 +304,8 @@ export const ListaIngresos = () => {
   };
 
   const ComponentBtnTable = ({}) => {
-    const icon = <CheckBoxOutlineBlank fontSize="small" />;
-    const checkedIcon = <CheckBox fontSize="small" />;
-
     return (
       <>
-        {/* <Box sx={{ backgroundColor: "white", padding: "5px" }}>
-          <Autocomplete
-            multiple
-            id="checkboxes-tags-demo"
-            options={[
-              { id: "1", title: "Procedimiento" },
-              { id: "2", title: "Tipo de consulta" },
-              { id: "3", title: "Otro motivo" },
-            ]}
-            disableCloseOnSelect
-            getOptionLabel={(option) => option.title}
-            renderOption={(props, option, { selected }) => (
-              <li {...props}>
-                <Checkbox
-                  icon={icon}
-                  checkedIcon={checkedIcon}
-                  style={{ marginRight: 8 }}
-                  checked={selected}
-                />
-                {option.title}
-              </li>
-            )}
-            sx={{ width: 525, height: "40px" }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Checkboxes"
-                placeholder="Ingresos por:"
-              />
-            )}
-          />
-        </Box> */}
         <Box display="flex" flexDirection="row">
           <Typography color="white" fontWeight="bold">
             Total ${totalIngCons}
@@ -265,27 +331,40 @@ export const ListaIngresos = () => {
     >
       <Box
         className="box-shadow animate__animated animate__fadeInUp animate__faster"
-        padding="20px "
+        padding="20px 20px 10px 20px"
         display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
+        flexDirection="column"
+        // justifyContent="space-between"
+        // alignItems="start"
+        rowGap="10px"
         sx={{ backgroundColor: "myBgColor.main" }}
       >
-        <Typography
-          variant="h5"
-          fontStyle="italic"
-          fontWeight="bold"
-          color="primary.main"
-        >
-          Lista de ingresos
-        </Typography>
-
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Typography
+            variant="h5"
+            fontStyle="italic"
+            fontWeight="bold"
+            color="primary.main"
+          >
+            Lista de ingresos
+          </Typography>
+          <Box display="flex" flexDirection="row">
+            <CustomSelectMultiple
+              lblText="Ingresos por:"
+              altura="42px"
+              ancho="400px"
+              listOptions={["Procedimiento", "Tipo de consulta", "Otro motivo"]}
+              value={tipIngreso}
+              onChange={handleTipIngreso}
+              fnGetStyles={getStylesTipIng}
+            />
+          </Box>
+        </Box>
         <Box
           display="flex"
-          columnGap="20px"
+          columnGap="10px"
           flexDirection="row"
-          alignItems="end"
+          alignSelf="end"
         >
           {/* selector de mes */}
           <CustomDatePickerAntd

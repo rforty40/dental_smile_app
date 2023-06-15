@@ -47,7 +47,7 @@ export const RowTableCollapsible = ({
 
   const { changeDataActiva } = useDataStore();
   const { changeDataPaciente } = usePacienteStore();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   //
   return (
