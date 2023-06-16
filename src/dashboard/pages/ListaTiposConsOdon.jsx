@@ -66,8 +66,8 @@ export const ListaTiposConsOdon = () => {
   };
 
   //funcion eliminar uno o varias tipos de consultas
-  const deleteRegisterTipCons = (selected = []) => {
-    startDeletingTipCons(selected);
+  const deleteRegisterTipCons = async (selected = []) => {
+    await startDeletingTipCons(selected);
 
     if (selected.length <= 1) {
       setMsgAlertDel("Tipo de consulta fue eliminado.");
@@ -85,6 +85,7 @@ export const ListaTiposConsOdon = () => {
   //efecto secundario pasar la info del registro de la tabla
   //al tipo de consulta activo
   useEffect(() => {
+    console.log(dataActiva);
     changeDataTipCons(dataActiva);
   }, [dataActiva]);
 

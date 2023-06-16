@@ -120,7 +120,7 @@ export const FormModalCons = () => {
   useEffect(() => {
     console.log("cambio");
     console.log(consultaActiva);
-    if (consultaActiva) {
+    if (titleFormConsulta.includes("Editar") && consultaActiva) {
       console.log("esta en editar");
       // if (titleFormConsulta.includes("Editar")) {
       //
@@ -140,7 +140,7 @@ export const FormModalCons = () => {
       resetInputText();
       console.log("esta en registro");
     }
-  }, [consultaActiva]);
+  }, [consultaActiva, titleFormConsulta]);
 
   useEffect(() => {
     if (titleFormConsulta.includes("Editar")) {

@@ -12,68 +12,48 @@ import {
 } from "@mui/material";
 
 import {
+  AttachMoney,
   CancelOutlined,
   CheckCircleOutline,
   CloseOutlined,
+  MonetizationOn,
   SaveOutlined,
   SegmentOutlined,
 } from "@mui/icons-material";
 
-import {
-  ButtonCustom,
-  CustomAlert,
-  CustomAutocomplete,
-  IconTextField,
-} from "../../ui";
+import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
 
-import { useExamenesStore } from "../../hooks";
+import { useIngresosStore } from "../../hooks";
 
 //
 //
 //
-const regionesAfectadas = [
-  "Labios",
-  "Mejillas",
-  "Maxilar Superior",
-  "Maxilar Inferior",
-  "Lengua",
-  "Paladar",
-  "Piso",
-  "Carillos",
-  "Glándulas salivales",
-  "Oro Faringe",
-  "A.T.M",
-  "Ganglios",
-];
 
-export const FormModalExam = ({ openModal, setOpenModal, title }) => {
+export const FormModalIngreso = ({ openModal, setOpenModal, title }) => {
   //store
+
   const {
-    examenActivo,
-    enfermedadesCieList,
-    startLoadEnfermedadesCie,
-    errorMsgRegCons,
-    startSavingExamen,
-  } = useExamenesStore();
+    ingresoActivo,
+    errorMsgRegIngreso,
+    startSavingIngreso,
+    changeDataIngreso,
+  } = useIngresosStore();
 
   //hook del formulario
   const [formSubmitted, setFormSubmitted] = useState(false);
+
   //hook txt btn
   const [txtButton, setTxtButton] = useState("");
 
-  //hook region afectada
-  const [stateRegAfec, setStateRegAfec] = useState(null);
+  //hook ingreso por
+  const [stateIngreso, setStateIngreso] = useState("");
 
-  //hook enfermedad
-  const [stateCodigoCie, setStateCodigoCie] = useState(null);
+  //hook precio
+  const [statePrecio, setStatePrecio] = useState("");
 
   //hook descripcion
-  const [stateDescripcion, setStateDescripcion] = useState("");
+  const [stateNota, setStateNota] = useState("");
 
-  //cerrarModal
-  const cerrarModal = () => {
-    setOpenModal(false);
-  };
   //control alert
   const [msgAlert, setMsgAlert] = useState("");
   const [stateSnackbar, setStateSnackbar] = useState(false);
@@ -95,45 +75,46 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
 
   //limpiar los componentes del formulario
   const resetInputText = () => {
-    setStateRegAfec(null);
-    setStateCodigoCie(null);
-    setStateDescripcion("");
+    setStateIngreso("");
+    setStatePrecio("");
+    setStateNota("");
   };
 
   //control formulario de registro y edición
   useEffect(() => {
-    console.log(examenActivo);
-    if (examenActivo && title.includes("Editar")) {
-      console.log(examenActivo);
-      //cargar los componentes
-      const enfermedadCie = enfermedadesCieList.find(
-        (enferCie) => enferCie.id === examenActivo.codigoCIE
-      );
+    console.log(ingresoActivo);
 
-      setStateCodigoCie(enfermedadCie === undefined ? null : enfermedadCie);
-      setStateRegAfec(examenActivo.region_afectada);
-      setStateDescripcion(examenActivo.descripcion);
+    if (ingresoActivo && title.includes("Editar")) {
+      console.log("actualización");
+
+      //cargar los componentes
+      setStateIngreso(ingresoActivo.ingreso_por);
+      setStatePrecio(ingresoActivo.monto);
+      setStateNota(ingresoActivo.nota);
     } else {
-      console.log("esta en registro");
+      console.log("registro");
       resetInputText();
     }
-  }, [examenActivo, title]);
+  }, [ingresoActivo, title]);
 
   useEffect(() => {
     if (title.includes("Editar")) {
       setTxtButton("Actualizar");
-      setMsgAlert(`Se actualizaron los datos del examen estomatognático 🙂.`);
+      setMsgAlert(`Se actualizaron los datos del ingreso $ 🙂.`);
       //
       // }
     } else {
       setTxtButton("Registrar");
-      setMsgAlert(`Se registro un nuevo examen estomatognático 🙂.`);
+      setMsgAlert(`Se registró un nuevo ingreso $ 🙂.`);
     }
   }, [title]);
 
-  useEffect(() => {
-    startLoadEnfermedadesCie();
-  }, []);
+  //cerrarModal
+  const cerrarModal = () => {
+    setOpenModal(false);
+    changeDataIngreso(null);
+    resetInputText();
+  };
 
   //funcion enviar los datos
   const onSubmit = (event) => {
@@ -141,51 +122,48 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
     setFormSubmitted(true);
 
     //validaciones
-    if (stateRegAfec === null) return;
-    const codigoCIE = stateCodigoCie === null ? "" : stateCodigoCie.id;
+    if (stateIngreso.length === 0) return;
+    if (statePrecio.length === 0) return;
+
+    console.log(ingresoActivo);
+    console.log({
+      text_ingreso: stateIngreso,
+      monto_ingreso: statePrecio,
+      desc_ingreso: stateNota,
+    });
 
     //enviando al custom hook
-    console.log({
-      region_afectada: stateRegAfec,
-      codigoCIE,
-      descripcion: stateDescripcion.trim(),
-    });
-    startSavingExamen({
-      region_afectada: stateRegAfec,
-      codigoCIE,
-      descripcion: stateDescripcion.trim(),
+    startSavingIngreso({
+      text_ingreso: stateIngreso,
+      monto_ingreso: parseFloat(statePrecio),
+      desc_ingreso: stateNota,
     });
   };
 
   //manejador de errores todos los campos
   useEffect(() => {
-    if (errorMsgRegCons.msg === "Sin errores" && formSubmitted) {
+    if (errorMsgRegIngreso.msg === "Sin errores" && formSubmitted) {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
-
-      //cuando el registro es exitoso
-      if (!title.includes("Editar")) {
-        resetInputText();
-      }
     }
-    if (errorMsgRegCons.msg === "Hay errores" && formSubmitted) {
+    if (errorMsgRegIngreso.msg === "Hay errores" && formSubmitted) {
       handleOpenSnackbarError();
       setFormSubmitted(false);
     }
-  }, [errorMsgRegCons]);
+  }, [errorMsgRegIngreso]);
 
   //
 
   return (
     <>
       <Dialog
-        maxWidth="md"
+        maxWidth="sm"
         open={openModal}
         onClose={cerrarModal}
         sx={{
           "& .MuiPaper-root": {
-            width: "650px",
+            width: "600px",
           },
         }}
       >
@@ -224,84 +202,77 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
                 paddingTop: "15px",
                 alignItems: "start",
                 gridTemplateColumns: "repeat(3, 1fr)",
-                gridTemplateRows: "repeat(3, max-content)",
-                gridTemplateAreas: `"region codigoCie codigoCie"
-              "descripcion descripcion descripcion"
+                gridTemplateRows: "repeat(4, max-content)",
+                gridTemplateAreas: `"pago_por pago_por pago_por " ". .  monto"
+              "nota nota nota"
               "btnReg btnReg btnReg"
               `,
                 rowGap: "25px",
                 columnGap: "25px",
               }}
             >
-              <Grid item gridArea="region">
-                <CustomAutocomplete
-                  fullWidth
-                  // disablePortal
-                  options={regionesAfectadas}
-                  getOptionLabel={(option) => option}
-                  value={stateRegAfec}
-                  onChange={(event, newValue) => {
-                    setStateRegAfec(newValue);
-                  }}
-                  propsTextField={{
-                    label: "Región afectada:",
-                    placeholder: "Seleccione la región afectada",
-                    error: stateRegAfec === null && formSubmitted,
-                    helperText:
-                      stateRegAfec === null
-                        ? "Debe seleccionar una región afectada"
-                        : "",
-                  }}
-                  autoFocus
-                  iconAutocomplete={
-                    <img
-                      type="img/svg"
-                      width="25px"
-                      height="25px"
-                      src={`/assets/icons/formExamen/region_afectada.svg`}
-                    />
-                  }
-                  heightList="260px"
-                />
-              </Grid>
-
-              <Grid item gridArea="codigoCie">
-                <CustomAutocomplete
-                  fullWidth
-                  // disablePortal
-                  options={enfermedadesCieList}
-                  getOptionLabel={(option) => option.id + " " + option.label}
-                  value={stateCodigoCie}
-                  onChange={(event, newValue) => {
-                    setStateCodigoCie(newValue);
-                  }}
-                  propsTextField={{
-                    label: "Código CIE:",
-                    placeholder: "Seleccione el código CIE de la enfermedad",
-                  }}
-                  autoFocus
-                  iconAutocomplete={
-                    <img
-                      type="img/svg"
-                      width="25px"
-                      height="25px"
-                      src={`/assets/icons/formExamen/enfermedadCie.svg`}
-                    />
-                  }
-                  heightList="260px"
-                />
-              </Grid>
-
-              <Grid item gridArea="descripcion">
+              <Grid item gridArea="pago_por">
                 <IconTextField
                   fullWidth
-                  rows={4}
-                  label="Descripción:"
+                  rows={2}
+                  label="Ingreso por:"
                   type="text"
                   multiline
-                  value={stateDescripcion}
+                  value={stateIngreso}
                   onChange={({ target }) => {
-                    setStateDescripcion(target.value);
+                    setStateIngreso(target.value);
+                  }}
+                  colorIcon="primary.main"
+                  colorHover="btnHoverInForm.main"
+                  colorTxt="black"
+                  colorLabel="primary.main"
+                  colorErr="celesteNeon.main"
+                  helperText={stateIngreso.length === 0 ? "Obligatorio" : ""}
+                  iconEnd={<MonetizationOn />}
+                />
+              </Grid>
+
+              <Grid
+                item
+                gridArea="monto"
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="end"
+              >
+                <IconTextField
+                  fullWidth
+                  label="Monto:"
+                  type="number"
+                  value={statePrecio}
+                  onChange={({ target }) => {
+                    console.log(target.value);
+                    setStatePrecio(target.value);
+                  }}
+                  colorIcon="primary.main"
+                  colorHover="btnHoverInForm.main"
+                  colorTxt="black"
+                  colorLabel="primary.main"
+                  colorErr="celesteNeon.main"
+                  helperText={statePrecio.length === 0 ? "Obligatorio" : ""}
+                  iconEnd={
+                    <Icon>
+                      <AttachMoney />
+                    </Icon>
+                  }
+                />
+              </Grid>
+
+              <Grid item gridArea="nota">
+                <IconTextField
+                  fullWidth
+                  rows={2}
+                  label="Nota:"
+                  type="text"
+                  multiline
+                  value={stateNota}
+                  onChange={({ target }) => {
+                    setStateNota(target.value);
                   }}
                   colorIcon="primary.main"
                   colorHover="btnHoverInForm.main"
@@ -366,7 +337,7 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
           stateSnackbar={stateSnackbarError}
           handleCloseSnackbar={handleCloseSnackbarError}
           title={"Registro no completado"}
-          message={errorMsgRegCons.error}
+          message={errorMsgRegIngreso.error}
           colorbg="error.main"
           colortxt="white"
           iconAlert={<CancelOutlined sx={{ color: "white" }} />}

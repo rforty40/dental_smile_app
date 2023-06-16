@@ -1,11 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearErrorIngresoMsg,
+  onChangeRegErrIngreso,
+  onDeleteIngreso,
   onLoadIngresosConsList,
+  onLoadIngresosList,
+  onSaveIngreso,
   onSetActiveIngreso,
+  onSetTotalesIngreso,
   onSetTotalesIngresoCons,
+  onUpdateIngreso,
 } from "../store/dashboard/ingresosSlice";
-import { getAllingresos } from "../api/dashboard.api";
-import { formatearDataConsIngToTable } from "../dashboard/helpers";
+import {
+  createIngreso,
+  deleteIngreso,
+  getAllingresos,
+  updateIngreso,
+} from "../api/dashboard.api";
+import {
+  comprobarErrorIngreso,
+  formatearDataConsIngToTable,
+  formatearDataIngresoToBD,
+  formatearDataIngresosToTable,
+} from "../dashboard/helpers";
 
 //
 //
@@ -24,8 +41,10 @@ export const useIngresosStore = () => {
     ingresoActivo,
     errorMsgRegIngreso,
     totalIngCons,
+    totalIngresos,
   } = useSelector((state) => state.ingresos);
 
+  console.log(ingresosList);
   //funciones
   const startIngresosConsList = async (fil_tipo, fil_fecha, prm1, prm2) => {
     try {
@@ -36,10 +55,11 @@ export const useIngresosStore = () => {
       dispatch(onLoadIngresosConsList(dataFormateada));
 
       const total = dataFormateada.reduce((acc, totalAct) => {
-        return acc + parseFloat(totalAct.total);
+        console.log(typeof totalAct.total);
+        return acc + totalAct.total;
       }, 0);
 
-      dispatch(onSetTotalesIngresoCons(total));
+      dispatch(onSetTotalesIngresoCons(total.toFixed(2)));
     } catch (error) {
       console.log(error.response.data.message);
       if (error.response.data.message === "Ingresos no encontrados") {
@@ -49,61 +69,85 @@ export const useIngresosStore = () => {
     }
   };
 
+  const startIngresosList = async (fil_fecha, prm1, prm2) => {
+    try {
+      const { data } = await getAllingresos("usuario", fil_fecha, prm1, prm2);
+      console.log(data);
+      const dataFormateada = formatearDataIngresosToTable(data);
+
+      dispatch(onLoadIngresosList(dataFormateada));
+
+      const total = dataFormateada.reduce((acc, montoAct) => {
+        return acc + montoAct.monto;
+      }, 0);
+      dispatch(onSetTotalesIngreso(total.toFixed(2)));
+    } catch (error) {
+      console.log(error.response.data.message);
+      if (error.response.data.message === "Ingresos no encontrados") {
+        dispatch(onLoadIngresosList([]));
+        dispatch(onSetTotalesIngreso(""));
+      }
+    }
+  };
+
   const changeDataIngreso = (dataIngreso) => {
+    console.log(dataIngreso);
     dispatch(onSetActiveIngreso(dataIngreso));
   };
 
-  // const startSavingProced = async (dataProced) => {
-  //   dispatch(clearErrorProcedMsg());
-  //   try {
-  //     console.log(dataProced);
-  //     console.log(formatearDataProcedToBD(dataProced));
+  const startSavingIngreso = async (dataIngreso) => {
+    dispatch(clearErrorIngresoMsg());
+    try {
+      console.log(ingresoActivo);
+      console.log(dataIngreso);
+      console.log(formatearDataIngresoToBD(dataIngreso));
 
-  //     if (dataProced.id) {
-  //       //actualizar
-  //       const { data } = await updateProcedimiento(
-  //         dataProced.id,
-  //         formatearDataProcedToBD(dataProced)
-  //       );
-  //       // console.log(data);
-  //       dispatch(onUpdateProced(formatearDataProcedToTable([data])[0]));
-  //       dispatch(onSetActiveProced(formatearDataProcedToTable([data])[0]));
-  //       //
-  //     } else {
-  //       //registrar
-  //       const { data } = await createProcedimiento(
-  //         formatearDataProcedToBD(dataProced)
-  //       );
-  //       dispatch(onSaveProced(formatearDataProcedToTable([data])[0]));
-  //       dispatch(onSetActiveProced(formatearDataProcedToTable([data])[0]));
-  //     }
+      if (ingresoActivo) {
+        //actualizar
+        const { data } = await updateIngreso(
+          ingresoActivo.id,
+          formatearDataIngresoToBD(dataIngreso)
+        );
+        // console.log(data);
+        dispatch(onUpdateIngreso(formatearDataIngresosToTable([data])[0]));
+        dispatch(onSetActiveIngreso(formatearDataIngresosToTable([data])[0]));
+        //
+      } else {
+        //registrar
+        const { data } = await createIngreso(
+          formatearDataIngresoToBD(dataIngreso)
+        );
+        dispatch(onSaveIngreso(formatearDataIngresosToTable([data])[0]));
+        dispatch(onSetActiveIngreso(formatearDataIngresosToTable([data])[0]));
+      }
 
-  //     dispatch(onChangeRegErrProced({ msg: "Sin errores", error: "" }));
-  //   } catch (error) {
-  //     console.log(error.response.data.message);
-  //     dispatch(
-  //       onChangeRegErrProced({
-  //         msg: "Hay errores",
-  //         error: comprobarErrorProced(error.response.data.message),
-  //       })
-  //     );
-  //   }
-  // };
+      dispatch(onChangeRegErrIngreso({ msg: "Sin errores", error: "" }));
+    } catch (error) {
+      console.log(error.response.data.message);
+      dispatch(
+        onChangeRegErrIngreso({
+          msg: "Hay errores",
+          error: comprobarErrorIngreso(error.response.data.message),
+        })
+      );
+    }
+  };
 
-  // const startDeletingProced = async (arrIdProced = []) => {
-  //   try {
-  //     if (arrIdProced.length === 0) {
-  //       await deleteProcedimiento(procedActivo.id);
-  //     } else {
-  //       for (const i of arrIdProced) {
-  //         await deleteProcedimiento(i);
-  //       }
-  //     }
-  //     dispatch(onDeleteProced(arrIdProced));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const startDeletingIngresos = async (arrIdIngresos = []) => {
+    try {
+      if (arrIdIngresos.length === 0) {
+        await deleteIngreso(ingresoActivo.id);
+      } else {
+        for (const i of arrIdIngresos) {
+          await deleteIngreso(i);
+        }
+      }
+      dispatch(onDeleteIngreso(arrIdIngresos));
+      console.log(ingresosList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     //* Propiedades
@@ -112,10 +156,13 @@ export const useIngresosStore = () => {
     ingresoActivo,
     errorMsgRegIngreso,
     totalIngCons,
+    totalIngresos,
 
     //* Métodos
     startIngresosConsList,
-    // startIngresosList,
+    startIngresosList,
     changeDataIngreso,
+    startSavingIngreso,
+    startDeletingIngresos,
   };
 };

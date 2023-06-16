@@ -101,7 +101,7 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
   useEffect(() => {
     console.log(pagoActivo);
 
-    if (pagoActivo) {
+    if (title.includes("Editar") && pagoActivo) {
       console.log("actualización");
 
       //cargar los componentes
@@ -122,7 +122,7 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
       console.log("registro");
       resetInputText();
     }
-  }, [pagoActivo]);
+  }, [pagoActivo, title]);
 
   useEffect(() => {
     if (title.includes("Editar")) {

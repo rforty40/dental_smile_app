@@ -87,7 +87,7 @@ export const FormModalDiag = ({ openModal, setOpenModal, title }) => {
   //control formulario de registro y edición
   useEffect(() => {
     console.log(diagActivo);
-    if (diagActivo) {
+    if (title.includes("Editar") && diagActivo) {
       //cargar los componentes
       const enfermedadCie = enfermedadesCieList.find(
         (enferCie) => enferCie.id === diagActivo.codigoCIE
@@ -100,7 +100,7 @@ export const FormModalDiag = ({ openModal, setOpenModal, title }) => {
       console.log("esta en registro");
       resetInputText();
     }
-  }, [diagActivo]);
+  }, [diagActivo, title]);
 
   useEffect(() => {
     if (title.includes("Editar")) {

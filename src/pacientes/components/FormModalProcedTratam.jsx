@@ -43,17 +43,6 @@ export const FormModalProcedTratam = ({
     startLoadProcedList();
   }, []);
 
-  // useEffect(() => {
-  //   if (stateProced) {
-  //     console.log(stateProced);
-  //     fnAddProced(
-  //       stateProced.codigo,
-  //       stateProced.procedimiento,
-  //       stateProced.id
-  //     );
-  //   }
-  // }, [stateProced]);
-
   return (
     <>
       <Dialog

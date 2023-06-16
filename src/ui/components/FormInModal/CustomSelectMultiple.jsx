@@ -23,7 +23,7 @@ export const CustomSelectMultiple = ({
   return (
     <div>
       {lblText !== "" && (
-        <Typography fontSize="12px" fontWeight="bold" color="primary.main">
+        <Typography fontSize="12px" fontWeight="bold" color="white">
           {lblText}
         </Typography>
       )}
@@ -33,26 +33,31 @@ export const CustomSelectMultiple = ({
         multiple
         MenuProps={MenuProps}
         sx={{
+          color: "white",
           margin: "2px",
           width: ancho,
           height: altura,
-          boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
+          // boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
 
           fontStyle: "italic",
           fontWeight: "bold",
 
           "& .MuiOutlinedInput-notchedOutline": {
-            border: "2px solid #602A90",
+            border: "2px solid white",
           },
 
           "& .MuiInputBase-root > .MuiSvgIcon-root": {
-            color: "#602A90 !important",
+            color: "white !important",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
+            border: "2px solid white",
           },
           "&:hover fieldset": {
-            borderColor: "#602A90 !important ",
+            borderColor: "white !important ",
           },
           svg: {
-            color: "secondary.main",
+            color: "white",
           },
         }}
       >

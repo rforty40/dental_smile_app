@@ -108,7 +108,7 @@ export const FormModalPlan = ({ openModal, setOpenModal, title, tipoPlan }) => {
 
   //
   useEffect(() => {
-    console.log(planActivo);
+    console.log(title.includes("Editar") && planActivo);
     if (planActivo) {
       //cargar los componentes
       switch (tipoPlan) {
@@ -128,7 +128,7 @@ export const FormModalPlan = ({ openModal, setOpenModal, title, tipoPlan }) => {
       console.log("esta en registro");
       resetInputText();
     }
-  }, [planActivo]);
+  }, [planActivo, title]);
 
   //efecto secundario radio group tipo tratamiento
   useEffect(() => {

@@ -34,7 +34,7 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
   }),
 
   "&.Mui-focused": {
-    width: 380,
+    width: 340,
     boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
   },
   "& fieldset": {
@@ -159,14 +159,14 @@ export const DataListToolbar = ({
                           bgHeaderColor === "primary.main"
                             ? "colorTable.main"
                             : "primary.main",
-                        ":hover": {
-                          width: 380,
-                          backgroundColor:
-                            bgHeaderColor === "primary.main"
-                              ? "white"
-                              : "secondary.main",
-                          boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                        },
+                        // ":hover": {
+                        //   width: 380,
+                        //   backgroundColor:
+                        //     bgHeaderColor === "primary.main"
+                        //       ? "white"
+                        //       : "secondary.main",
+                        //   boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
+                        // },
                         input: {
                           color:
                             bgHeaderColor === "primary.main"

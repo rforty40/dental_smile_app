@@ -47,7 +47,7 @@ export const RowTableCollapsible = ({
 
   const { changeDataActiva } = useDataStore();
   const { changeDataPaciente } = usePacienteStore();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   //
   return (
@@ -173,6 +173,7 @@ export const RowTableCollapsible = ({
                 table_head={TABLE_HEAD_COLLAPSED}
                 table_data={row[propertyCollapsed]}
               />
+
               {/* <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>

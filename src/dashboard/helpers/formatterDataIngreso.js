@@ -22,14 +22,54 @@ export const formatearDataConsIngToTable = (dataFromBD) =>
   });
 
 export const formatearDataIngresosToTable = (dataFromBD) =>
-  dataFromBD.map((data) => {
-    return {
-      id: data.id_ingreso,
-      //
-      ingreso_por: data.pago_por,
-      monto: parseFloat(data.monto),
-      nota: data.desc_ingreso,
-      fecha: data.fecha_create,
-      fecha_upd: data.fecha_update,
-    };
-  });
+  dataFromBD
+    .map((data) => {
+      return {
+        id: data.id_ingreso,
+        //
+        ingreso_por: data.pago_por,
+        monto: parseFloat(data.monto),
+        nota: data.desc_ingreso,
+        fecha: data.fecha_create,
+        fecha_upd: data.fecha_update,
+      };
+    })
+    .sort((a, b) => a.fecha - b.fecha);
+
+export const formatearDataIngresoToBD = (dataIngreso) => {
+  return {
+    text_ingreso: dataIngreso.text_ingreso,
+    desc_ingreso: dataIngreso.desc_ingreso,
+    monto_ingreso: parseFloat(dataIngreso.monto_ingreso.toFixed(2)),
+  };
+};
+
+const columnEquivalentIngreso = {
+  text_ingreso: "Ingreso por",
+  desc_ingreso: "Descripción",
+  monto_ingreso: "Monto",
+};
+
+export const comprobarErrorIngreso = (typeError) => {
+  let msgError = "";
+  if (
+    typeError.includes("Data too long for column") ||
+    typeError.includes("Out of range value")
+  ) {
+    let campo = "";
+    for (const key in columnEquivalentIngreso) {
+      if (typeError.includes(key)) {
+        campo = columnEquivalentIngreso[key];
+        break;
+      }
+    }
+    msgError = "Se excedió el límite en el campo " + campo;
+  } else {
+    msgError =
+      "Error: " +
+      typeError +
+      ". Para mas información contactese con el administrador";
+  }
+
+  return msgError;
+};

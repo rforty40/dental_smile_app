@@ -63,21 +63,21 @@ export const PagosConsultaPage = () => {
   //hook alert eliminacion
   const [stateSnackbarErr, setStateSnackbarErr] = useState(false);
 
-  //abrir el modal para crear un diagnostico
+  //abrir el modal para crear un pago
   const openModalFormPago = () => {
     setStateModalFormPago(true);
     setTitleFormPago("Registrar pago");
     changeDataPago(null);
   };
 
-  //abrir el modal para editar un diagnostico
+  //abrir el modal para editar un pago
   const openModalPagoEdit = (dataPago) => {
     changeDataPago(dataPago);
     setStateModalFormPago(true);
     setTitleFormPago("Editar pago");
   };
 
-  //abrir confirm dialog eliminar diagnostico
+  //abrir confirm dialog eliminar pago
   const handleOpenDialogDelPago = (dataPago) => {
     changeDataPago(dataPago);
     setopenDialogDeletePago(true);

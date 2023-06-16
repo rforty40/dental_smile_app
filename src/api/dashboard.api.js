@@ -120,13 +120,15 @@ export const getAllingresos = async (fil_tipo, fil_fecha, prm1, prm2) =>
     `/administracion/lista_ingresos/${fil_tipo}/${fil_fecha}/${prm1}/${prm2}/_`
   );
 
-// export const createProcedimiento = async (proced) =>
-//   await dentalSmileApi.post("/administracion/ingresos/create", proced);
+export const createIngreso = async (ingreso) =>
+  await dentalSmileApi.post("/administracion/lista_ingresos/create", ingreso);
 
-// export const updateProcedimiento = async (id_proced, proced) =>
-//   await dentalSmileApi.put(
-//     `/administracion/ingresos/update/${id_proced}`,
-//     proced
-//   );
-// export const deleteProcedimiento = async (id_proced) =>
-//   await dentalSmileApi.delete(`/administracion/ingresos/delete/${id_proced}`);
+export const updateIngreso = async (id_ingreso, ingreso) =>
+  await dentalSmileApi.put(
+    `/administracion/lista_ingresos/update/${id_ingreso}`,
+    ingreso
+  );
+export const deleteIngreso = async (id_ingreso) =>
+  await dentalSmileApi.delete(
+    `/administracion/lista_ingresos/delete/${id_ingreso}`
+  );

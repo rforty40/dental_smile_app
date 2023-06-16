@@ -1,29 +1,23 @@
-import {
-  Autocomplete,
-  Box,
-  Checkbox,
-  Link,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Link, Portal, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
   ButtonCustom,
+  CustomAlert,
   CustomCollapsibleTable,
   CustomDatePickerAntd,
   CustomRangeDate,
-  CustomSelect,
   CustomSelectMultiple,
+  CustomTable,
+  DeleteConfirm,
 } from "../../ui";
 import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
 
 import { FaRegFolderOpen } from "react-icons/fa";
-import { useIngresosStore, useUiStore } from "../../hooks";
-import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
+import { useDataStore, useIngresosStore, useUiStore } from "../../hooks";
+import { MdPostAdd } from "react-icons/md";
+import { DeleteForever, MonetizationOn, NoteAdd } from "@mui/icons-material";
+import { FormModalIngreso } from "../components";
 
 const TABLE_HEAD = [
   { id: "fecha", label: "Fecha" },
@@ -42,14 +36,14 @@ const TABLE_HEAD_COLLAPSED = [
   { id: "fecha_upd", label: "Fecha de actualización" },
 ];
 
-const mesActual = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  let mes = today.getMonth() + 1;
-  mes = mes.toString().padStart(2, "0");
-  // console.log(`${year}${mes}`);
-  return `${year}${mes}`;
-};
+// const mesActual = () => {
+//   const today = new Date();
+//   const year = today.getFullYear();
+//   let mes = today.getMonth() + 1;
+//   mes = mes.toString().padStart(2, "0");
+//   // console.log(`${year}${mes}`);
+//   return `${year}${mes}`;
+// };
 
 const getParamIngreso1 = (tipIng) => {
   switch (tipIng) {
@@ -81,10 +75,35 @@ const getParamIngreso2 = (tipIng) => {
 
 export const ListaIngresos = () => {
   //store
-  const { startIngresosConsList, ingresosConsList, totalIngCons } =
-    useIngresosStore();
+  const {
+    ingresosConsList,
+    ingresosList,
+    totalIngCons,
+    totalIngresos,
+
+    startIngresosConsList,
+    startIngresosList,
+    changeDataIngreso,
+    startDeletingIngresos,
+  } = useIngresosStore();
+
+  const { dataActiva } = useDataStore();
 
   const { handleChangeTabsCons } = useUiStore();
+
+  //hook abrir el formulario
+  const [stateModalFormIng, setStateModalFormIng] = useState(false);
+  //hook cambiar titulo del formulario
+  const [titleFormIng, setTitleFormIng] = useState("");
+
+  //hook controlDialog Eliminar
+  const [openDialogDeleteIng, setopenDialogDeleteIng] = useState(false);
+
+  //hook alert eliminacion
+  const [stateSnackbarErr, setStateSnackbarErr] = useState(false);
+
+  //hook mensaje del alert de eliminacion
+  const [msgAlertDel, setMsgAlertDel] = useState("");
 
   //rangoDeFechas
   const [stateDatesRange, setStateDatesRange] = useState({
@@ -107,7 +126,57 @@ export const ListaIngresos = () => {
 
   //hook tipo de ingreso
   const [tipIngreso, setTipIngreso] = useState([]);
-  const [paramTI, setParamTI] = useState("consultas");
+  // const [paramTI, setParamTI] = useState("consultas");
+
+  //hook parametros fechas
+  const [paramFecha, setParamFecha] = useState({
+    fecha: "todos",
+    prm1: "_",
+    prm2: "_",
+  });
+
+  //abrir el modal para crear un ingreso
+  const openModalFormIng = () => {
+    setStateModalFormIng(true);
+    setTitleFormIng("Registrar ingreso $");
+    changeDataIngreso(null);
+  };
+
+  //abrir el modal para editar un ingreso
+  const openModalEditIng = () => {
+    setStateModalFormIng(true);
+    setTitleFormIng("Editar ingreso $");
+  };
+
+  //abrir confirm dialog eliminar ingreso
+  const handleOpenDialogDelIng = () => {
+    // changeDataPago(dataPago);
+    setopenDialogDeleteIng(true);
+  };
+
+  //manejadores alerta de eliminacion
+  const handleCloseSnackbarErr = () => {
+    setStateSnackbarErr(false);
+  };
+  const handleOpenSnackbarErr = () => {
+    setStateSnackbarErr(true);
+  };
+
+  //eliminar pago
+  const deleteIngreso = async (selected = []) => {
+    await startDeletingIngresos(selected);
+    if (selected.length <= 1) {
+      setMsgAlertDel("El registro del ingreso fue eliminado.");
+    } else {
+      setMsgAlertDel("Los registros fueron eliminados exitosamente.");
+    }
+    handleOpenSnackbarErr();
+  };
+
+  useEffect(() => {
+    console.log(dataActiva);
+    changeDataIngreso(dataActiva);
+  }, [dataActiva]);
 
   /**********************************TIPO DE INGRESO********************************* */
   const getStylesTipIng = (option) => {
@@ -128,45 +197,62 @@ export const ListaIngresos = () => {
   };
 
   useEffect(() => {
+    // console.log(tipIngreso);
+    // console.log(paramFecha);
     switch (tipIngreso.length) {
       case 0:
-        // console.log(tipIngreso);
-        setParamTI("consultas");
+        // setParamTI("consultas");
+
+        startIngresosConsList(
+          "consultas",
+          paramFecha.fecha,
+          paramFecha.prm1,
+          paramFecha.prm2
+        );
         break;
 
       case 1:
         // console.log(tipIngreso);
         //   console.log(getParamIngreso1(tipIngreso[0]));
-        setParamTI(getParamIngreso1(tipIngreso[0]));
+        // setParamTI(getParamIngreso1(tipIngreso[0]));
+
+        startIngresosConsList(
+          getParamIngreso1(tipIngreso[0]),
+          paramFecha.fecha,
+          paramFecha.prm1,
+          paramFecha.prm2
+        );
         break;
 
       case 2:
         // console.log(tipIngreso);
         // console.log(getParamIngreso2(tipIngreso));
-        setParamTI(getParamIngreso2(tipIngreso));
+        // setParamTI(getParamIngreso2(tipIngreso));
+        console.log(getParamIngreso2(tipIngreso));
+        console.log(paramFecha);
+        startIngresosConsList(
+          getParamIngreso2(tipIngreso),
+          paramFecha.fecha,
+          paramFecha.prm1,
+          paramFecha.prm2
+        );
         break;
 
       case 3:
         // console.log(tipIngreso);
-        setParamTI("consultas");
+        // setParamTI("consultas");
+        startIngresosConsList(
+          "consultas",
+          paramFecha.fecha,
+          paramFecha.prm1,
+          paramFecha.prm2
+        );
         break;
 
       default:
         break;
     }
-
-    //Limpiar los demas componentes
-
-    setStateDatesRange({ ...stateDatesRange, values: null });
-    setStatePickerYear({
-      valueYear: null,
-      anioStr: "",
-    });
-    setStatePickerMonth({
-      valueMonth: null,
-      mesStr: "",
-    });
-  }, [tipIngreso]);
+  }, [tipIngreso, paramFecha]);
 
   /*******************************************RANGO DE FECHA ******************************************************** */
 
@@ -181,6 +267,7 @@ export const ListaIngresos = () => {
       valueMonth: null,
       mesStr: "",
     });
+    setTipIngreso([]);
 
     //cambiar el rango de fecha
     setStateDatesRange({
@@ -190,18 +277,27 @@ export const ListaIngresos = () => {
     });
 
     if (values === null) {
-      startIngresosConsList("consultas", "mes", mesActual(), "_");
+      startIngresosConsList("consultas", "todos", "_", "_");
+      setParamFecha({
+        fecha: "todos",
+        prm1: "_",
+        prm2: "_",
+      });
+      startIngresosList("todos", "_", "_");
     }
   };
 
   useEffect(() => {
     if (stateDatesRange.values !== null) {
-      startIngresosConsList(
-        "consultas",
-        "range",
-        stateDatesRange.fechaIni + " 00:00:00",
-        stateDatesRange.fechaFin + " 23:59:59"
-      );
+      const f1 = stateDatesRange.fechaIni + " 00:00:00";
+      const f2 = stateDatesRange.fechaFin + " 23:59:59";
+      startIngresosConsList("consultas", "range", f1, f2);
+      setParamFecha({
+        fecha: "range",
+        prm1: f1,
+        prm2: f2,
+      });
+      startIngresosList("range", f1, f2);
     }
   }, [stateDatesRange]);
 
@@ -214,6 +310,7 @@ export const ListaIngresos = () => {
       valueMonth: null,
       mesStr: "",
     });
+    setTipIngreso([]);
 
     //cambiar el año
     setStatePickerYear({
@@ -222,7 +319,13 @@ export const ListaIngresos = () => {
     });
 
     if (date === null) {
-      startIngresosConsList("consultas", "mes", mesActual(), "_");
+      startIngresosConsList("consultas", "todos", "_", "_");
+      setParamFecha({
+        fecha: "todos",
+        prm1: "_",
+        prm2: "_",
+      });
+      startIngresosList("todos", "_", "_");
     }
   };
 
@@ -230,6 +333,12 @@ export const ListaIngresos = () => {
     if (statePickerYear.valueYear !== null) {
       // console.log(statePickerYear.anioStr);
       startIngresosConsList("consultas", "anio", statePickerYear.anioStr, "_");
+      setParamFecha({
+        fecha: "anio",
+        prm1: statePickerYear.anioStr,
+        prm2: "_",
+      });
+      startIngresosList("anio", statePickerYear.anioStr, "_");
     }
   }, [statePickerYear]);
 
@@ -237,12 +346,14 @@ export const ListaIngresos = () => {
 
   const onChangeMonth = (date, dateString) => {
     //Limpiar los demas componentes
-
+    // console.log(date);
+    // console.log(dateString);
     setStateDatesRange({ ...stateDatesRange, values: null });
     setStatePickerYear({
       valueYear: null,
       anioStr: "",
     });
+    setTipIngreso([]);
 
     //cambiar el mes
     setStatePickerMonth({
@@ -251,7 +362,13 @@ export const ListaIngresos = () => {
     });
 
     if (date === null) {
-      startIngresosConsList("consultas", "mes", mesActual(), "_");
+      startIngresosConsList("consultas", "todos", "_", "_");
+      setParamFecha({
+        fecha: "todos",
+        prm1: "_",
+        prm2: "_",
+      });
+      startIngresosList("todos", "_", "_");
     }
   };
 
@@ -262,6 +379,14 @@ export const ListaIngresos = () => {
         addZeroStr(arrMes.indexOf(statePickerMonth.mesStr.split(" ")[0]) + 1);
 
       startIngresosConsList("consultas", "mes", mesAnio, "_");
+
+      setParamFecha({
+        fecha: "mes",
+        prm1: mesAnio,
+        prm2: "_",
+      });
+
+      startIngresosList("mes", mesAnio, "_");
     }
   }, [statePickerMonth]);
 
@@ -270,13 +395,14 @@ export const ListaIngresos = () => {
 
   useEffect(() => {
     startIngresosConsList("consultas", "todos", "_", "_");
+    startIngresosList("todos", "_", "_");
   }, []);
 
   const customFormat = (value) => {
     return arrMes[value["$d"].getMonth()] + " " + value["$d"].getFullYear();
   };
   const BtnInFila = ({ infoRow }) => {
-    console.log(infoRow);
+    // console.log(infoRow);
     return (
       <Link
         component={RouterLink}
@@ -305,16 +431,59 @@ export const ListaIngresos = () => {
 
   const ComponentBtnTable = ({}) => {
     return (
-      <>
-        <Box display="flex" flexDirection="row">
-          <Typography color="white" fontWeight="bold">
-            Total ${totalIngCons}
-          </Typography>
-        </Box>
-      </>
+      <Box
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="center"
+        columnGap="20px"
+      >
+        <CustomSelectMultiple
+          lblText="Ingresos por:"
+          altura="30px"
+          // ancho="378px"
+
+          ancho="auto"
+          listOptions={["Procedimiento", "Tipo de consulta", "Otro motivo"]}
+          value={tipIngreso}
+          onChange={handleTipIngreso}
+          fnGetStyles={getStylesTipIng}
+        />
+
+        <Typography color="white" fontWeight="bold" textAlign="center">
+          Total <p>${totalIngCons}</p>
+        </Typography>
+      </Box>
     );
   };
-
+  const BtnToolbarTable = () => {
+    return (
+      <Box
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        columnGap="15px"
+      >
+        <ButtonCustom
+          altura="45px"
+          txt_b_size="14px"
+          flexDir="column-reverse"
+          colorf="transparent"
+          colorh="transparent"
+          colort="white"
+          colorth="celesteNeon.main"
+          txt_b="Nuevo ingreso"
+          fontW="bold"
+          iconB={<MonetizationOn />}
+          propsXS={{ boxShadow: "none !important" }}
+          onClick={openModalFormIng}
+        />
+        <Typography color="white" fontWeight="bold" textAlign="center">
+          Total <p>${totalIngresos}</p>
+        </Typography>
+      </Box>
+    );
+  };
   return (
     <div
       style={{
@@ -331,7 +500,7 @@ export const ListaIngresos = () => {
     >
       <Box
         className="box-shadow animate__animated animate__fadeInUp animate__faster"
-        padding="20px 20px 10px 20px"
+        padding="20px"
         display="flex"
         flexDirection="column"
         // justifyContent="space-between"
@@ -339,7 +508,12 @@ export const ListaIngresos = () => {
         rowGap="10px"
         sx={{ backgroundColor: "myBgColor.main" }}
       >
-        <Box display="flex" flexDirection="row" justifyContent="space-between">
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography
             variant="h5"
             fontStyle="italic"
@@ -348,83 +522,131 @@ export const ListaIngresos = () => {
           >
             Lista de ingresos
           </Typography>
-          <Box display="flex" flexDirection="row">
-            <CustomSelectMultiple
-              lblText="Ingresos por:"
-              altura="42px"
-              ancho="400px"
-              listOptions={["Procedimiento", "Tipo de consulta", "Otro motivo"]}
-              value={tipIngreso}
-              onChange={handleTipIngreso}
-              fnGetStyles={getStylesTipIng}
+
+          <Box
+            display="flex"
+            columnGap="10px"
+            flexDirection="row"
+            alignSelf="end"
+          >
+            {/* selector de mes */}
+            <CustomDatePickerAntd
+              placeholder="Mes/Año"
+              value={statePickerMonth.valueMonth}
+              onChange={onChangeMonth}
+              format={customFormat}
+              picker="month"
+              sxProps={{ width: "175px" }}
+            />
+
+            {/* selector año */}
+            <CustomDatePickerAntd
+              placeholder="Año"
+              value={statePickerYear.valueYear}
+              onChange={onChangeYear}
+              picker="year"
+              sxProps={{ width: "130px" }}
+            />
+
+            {/* selector de rango de fechas */}
+            <CustomRangeDate
+              value={stateDatesRange.values}
+              onChange={onChangeRangeDates}
             />
           </Box>
-        </Box>
-        <Box
-          display="flex"
-          columnGap="10px"
-          flexDirection="row"
-          alignSelf="end"
-        >
-          {/* selector de mes */}
-          <CustomDatePickerAntd
-            placeholder="Mes/Año"
-            value={statePickerMonth.valueMonth}
-            onChange={onChangeMonth}
-            format={customFormat}
-            picker="month"
-            sxProps={{ width: "175px" }}
-          />
-
-          {/* selector año */}
-          <CustomDatePickerAntd
-            placeholder="Año"
-            value={statePickerYear.valueYear}
-            onChange={onChangeYear}
-            picker="year"
-            sxProps={{ width: "130px" }}
-          />
-
-          {/* selector de rango de fechas */}
-          <CustomRangeDate
-            value={stateDatesRange.values}
-            onChange={onChangeRangeDates}
-          />
         </Box>
       </Box>
 
       <Box
-        className="box-shadow animate__animated animate__fadeInUp animate__faster"
+        className="animate__animated animate__fadeInUp animate__faster"
         margin="30px 30px 0px 30px"
-        padding="10px"
-        borderRadius="5px"
         // width="90%"
         display="flex"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        sx={{ backgroundColor: "rgba(255,255,255,0.9)" }}
+        rowGap="30px"
+        // sx={{ backgroundColor: "rgba(255,255,255,0.9)" }}
       >
-        <CustomCollapsibleTable
-          TABLE_HEAD={TABLE_HEAD}
-          DATALIST={ingresosConsList}
-          withToolbar
-          withBoxSearch
-          withButton
-          withCheckbox={false}
-          iconosEnFila
-          columnaABuscarPri="fecha"
-          searchWhat={"Buscar ..."}
-          txt_header={"Lista de ingresos por consulta"}
-          dataOmitida={3}
-          routePaciente={(row) => `/pacientes/${row.id_paciente}/historial`}
-          BtnInFila={BtnInFila}
-          titleTablaCollapsed="Pagos por consulta"
-          TABLE_HEAD_COLLAPSED={TABLE_HEAD_COLLAPSED}
-          propertyCollapsed="pagos"
-          btnToolbarTable={ComponentBtnTable}
-        />
+        <Box
+          width="100%"
+          className="box-shadow"
+          sx={{
+            backgroundColor: "rgba(255,255,255,0.9)",
+            // padding: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          <CustomCollapsibleTable
+            TABLE_HEAD={TABLE_HEAD}
+            DATALIST={ingresosConsList}
+            withToolbar
+            withBoxSearch
+            withButton
+            withCheckbox={false}
+            iconosEnFila
+            columnaABuscarPri="fecha"
+            searchWhat={"Buscar ..."}
+            txt_header={"Lista de ingresos por consulta"}
+            dataOmitida={3}
+            routePaciente={(row) => `/pacientes/${row.id_paciente}/historial`}
+            BtnInFila={BtnInFila}
+            titleTablaCollapsed="Pagos por consulta"
+            TABLE_HEAD_COLLAPSED={TABLE_HEAD_COLLAPSED}
+            propertyCollapsed="pagos"
+            btnToolbarTable={ComponentBtnTable}
+          />
+        </Box>
+        <Box
+          width="100%"
+          className="box-shadow"
+          sx={{
+            backgroundColor: "rgba(255,255,255,0.9)",
+            // padding: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          <CustomTable
+            TABLE_HEAD={TABLE_HEAD_COLLAPSED}
+            DATALIST={ingresosList}
+            withToolbar
+            withBoxSearch
+            withButton
+            iconosEnFila={false}
+            columnaABuscarPri="fecha"
+            searchWhat="Buscar..."
+            txt_header="Lista de ingresos por el usuario"
+            btnToolbarTable={BtnToolbarTable}
+            openModalEdit={openModalEditIng}
+            funcionBtnTblDelete={handleOpenDialogDelIng}
+            funcionDeleteVarious={deleteIngreso}
+          />
+        </Box>
       </Box>
+      <FormModalIngreso
+        openModal={stateModalFormIng}
+        setOpenModal={setStateModalFormIng}
+        title={titleFormIng}
+      />
+
+      <Portal>
+        <DeleteConfirm
+          stateOpen={openDialogDeleteIng}
+          setStateOpen={setopenDialogDeleteIng}
+          message={"¿Está segura que desea eliminar el registro?"}
+          funcionDelete={deleteIngreso}
+        />
+
+        <CustomAlert
+          stateSnackbar={stateSnackbarErr}
+          handleCloseSnackbar={handleCloseSnackbarErr}
+          title={"Completado"}
+          message={msgAlertDel}
+          colorbg="blueSecondary.main"
+          colortxt="white"
+          iconAlert={<DeleteForever sx={{ color: "white" }} />}
+        />
+      </Portal>
     </div>
   );
 };

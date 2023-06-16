@@ -196,7 +196,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
   /********************control formulario de registro y edición********************/
   useEffect(() => {
     console.log(tratamActivo);
-    if (tratamActivo) {
+    if (tratamActivo && title.includes("Editar")) {
       //cargar los componentes
       const enfermedadCie = diagnosticosList.find(
         (enferCie) => enferCie.codigoCIE === tratamActivo.codigoCIE
@@ -222,7 +222,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
       console.log("esta en registro");
       resetInputText();
     }
-  }, [tratamActivo]);
+  }, [tratamActivo, title]);
 
   /********************control formulario de registro y edición********************/
   useEffect(() => {
