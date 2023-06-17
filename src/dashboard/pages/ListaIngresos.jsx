@@ -451,7 +451,7 @@ export const ListaIngresos = () => {
         />
 
         <Typography color="white" fontWeight="bold" textAlign="center">
-          Total <p>${totalIngCons}</p>
+          Total <p>${totalIngCons.toFixed(2)}</p>
         </Typography>
       </Box>
     );
@@ -479,7 +479,7 @@ export const ListaIngresos = () => {
           onClick={openModalFormIng}
         />
         <Typography color="white" fontWeight="bold" textAlign="center">
-          Total <p>${totalIngresos}</p>
+          Total <p>${totalIngresos.toFixed(2)}</p>
         </Typography>
       </Box>
     );

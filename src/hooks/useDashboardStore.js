@@ -14,9 +14,12 @@ import {
   onLoadListTotalGastos,
   onLoadListTotalIngreso,
   onChangeParametroBusqueda,
+  onChangeMsgPanelGanan,
 } from "../store";
 
 import {
+  formatearDataGastosToTable,
+  formatearDataIngresosToTableGan,
   formatearDataProcedRealizadosToTable,
   switchDataDashboard,
 } from "../dashboard/helpers";
@@ -145,6 +148,11 @@ export const useDashboardStore = () => {
   /***************************************************************************** */
 
   const startLoadGanancias = async (tipo, param_fechaIni, fechaFin) => {
+    localStorage.setItem(
+      "filtrosGanancias",
+      JSON.stringify({ tipo, param_fechaIni, fechaFin })
+    );
+
     dispatch(
       onChangeParametroBusqueda({
         tipo,
@@ -155,6 +163,7 @@ export const useDashboardStore = () => {
 
     const parametroBusq = switchDataDashboard(tipo, param_fechaIni, fechaFin);
 
+    dispatch(onChangeMsgPanelGanan("Ganancias " + parametroBusq));
     //ingresos
     try {
       const { data: dataIngresos } = await getGananciasData(
@@ -164,7 +173,9 @@ export const useDashboardStore = () => {
         fechaFin
       );
       //console.log(dataIngresos);
-      dispatch(onLoadListIngresoPanel(dataIngresos));
+      dispatch(
+        onLoadListIngresoPanel(formatearDataIngresosToTableGan(dataIngresos))
+      );
 
       // console.log(msgPanelIngre + parametroBusq);
       dispatch(onChangeMsgPanelIngre("Ingresos " + parametroBusq));
@@ -204,8 +215,8 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      //console.log(dataGastos);
-      dispatch(onLoadListGastosPanel(dataGastos));
+      console.log(dataGastos);
+      dispatch(onLoadListGastosPanel(formatearDataGastosToTable(dataGastos)));
 
       // console.log(msgPanelGastos + parametroBusq);
       dispatch(onChangeMsgPanelGastos("Gastos " + parametroBusq));

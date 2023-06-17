@@ -36,11 +36,30 @@ export const formatearDataIngresosToTable = (dataFromBD) =>
     })
     .sort((a, b) => a.fecha - b.fecha);
 
+export const formatearDataIngresosToTableGan = (dataFromBD) =>
+  dataFromBD
+    .map((data) => {
+      return {
+        id: data.id_ingreso,
+        id_paciente: data.id_paciente,
+        id_consulta: data.id_consulta,
+        //
+        ingreso_por: data.pago_por,
+        monto: parseFloat(data.monto),
+        nota: data.desc_ingreso,
+        fecha: data.fecha_create,
+        fecha_upd: data.fecha_update,
+      };
+    })
+    .sort((a, b) => a.fecha - b.fecha);
+
 export const formatearDataIngresoToBD = (dataIngreso) => {
   return {
+    id_consulta: null,
     text_ingreso: dataIngreso.text_ingreso,
     desc_ingreso: dataIngreso.desc_ingreso,
     monto_ingreso: parseFloat(dataIngreso.monto_ingreso.toFixed(2)),
+    id_tratam_proced: null,
   };
 };
 

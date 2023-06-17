@@ -168,6 +168,7 @@ export const ExamPlanConsultaPage = () => {
           TABLE_HEAD={TABLE_HEAD_EXAM}
           DATALIST={examenesList}
           withToolbar={false}
+          withCheckbox={false}
           iconosEnFila={false}
           columnaABuscarPri="region_afectada"
           bgColorPagination="white"
@@ -236,6 +237,7 @@ export const ExamPlanConsultaPage = () => {
             TABLE_HEAD={TABLE_HEAD_PLAN_D}
             DATALIST={planesList[0]}
             withToolbar={false}
+            withCheckbox={false}
             iconosEnFila={false}
             columnaABuscarPri="examen_solicitado"
             bgColorPagination="white"
@@ -286,6 +288,7 @@ export const ExamPlanConsultaPage = () => {
             TABLE_HEAD={TABLE_HEAD_PLAN_T}
             DATALIST={planesList[1]}
             withToolbar={false}
+            withCheckbox={false}
             iconosEnFila={false}
             columnaABuscarPri="tipo_de_tratamiento"
             bgColorPagination="white"
@@ -339,6 +342,7 @@ export const ExamPlanConsultaPage = () => {
             TABLE_HEAD={[]}
             DATALIST={planesList[2]}
             withToolbar={false}
+            withCheckbox={false}
             iconosEnFila={false}
             columnaABuscarPri=""
             bgColorPagination="white"

@@ -156,6 +156,7 @@ export const DiagTratamConsultaPage = () => {
           TABLE_HEAD={TABLE_HEAD_DIAG}
           DATALIST={diagnosticosList}
           withToolbar={false}
+          withCheckbox={false}
           iconosEnFila={false}
           columnaABuscarPri="enfermedad_diagnosticada"
           bgColorPagination="white"

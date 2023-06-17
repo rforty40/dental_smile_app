@@ -149,6 +149,7 @@ export const CustomTable = ({
   withToolbar = true,
   withBoxSearch = true,
   withButton = true,
+  withCheckbox = true,
   btnToolbarTable,
   searchWhat = "",
   txt_header,
@@ -367,7 +368,7 @@ export const CustomTable = ({
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
               /* from PacientePage */
-              withToolbar={withToolbar}
+              withCheckbox={withCheckbox}
             />
 
             {/* Cuerpo de Tabla */}
@@ -425,7 +426,7 @@ export const CustomTable = ({
                       {/* {console.log(row[keys[0]])}
                       {console.log(row["id"])} */}
                       {/* celda checkbox */}
-                      {withToolbar && (
+                      {withCheckbox && (
                         <TableCell
                           padding="checkbox"
                           sx={{

@@ -113,7 +113,6 @@ export const getAllDataProced = async (cod) =>
 
 //
 
-// /administracion/lista_ingresos/:fil_tipo/:fil_fecha/:prm1/:prm2/:prm_busq
 //ingresos
 export const getAllingresos = async (fil_tipo, fil_fecha, prm1, prm2) =>
   await dentalSmileApi.get(
@@ -131,4 +130,25 @@ export const updateIngreso = async (id_ingreso, ingreso) =>
 export const deleteIngreso = async (id_ingreso) =>
   await dentalSmileApi.delete(
     `/administracion/lista_ingresos/delete/${id_ingreso}`
+  );
+
+//
+
+//gastos
+export const getAllGastos = async (fil_fecha, prm1, prm2) =>
+  await dentalSmileApi.get(
+    `/administracion/lista_gastos/${fil_fecha}/${prm1}/${prm2}`
+  );
+
+export const createGasto = async (gasto) =>
+  await dentalSmileApi.post("/administracion/lista_gastos/create", gasto);
+
+export const updateGasto = async (id_gasto, gasto) =>
+  await dentalSmileApi.put(
+    `/administracion/lista_gastos/update/${id_gasto}`,
+    gasto
+  );
+export const deleteGasto = async (id_gasto) =>
+  await dentalSmileApi.delete(
+    `/administracion/lista_gastos/delete/${id_gasto}`
   );

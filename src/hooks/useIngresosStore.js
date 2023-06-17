@@ -45,6 +45,7 @@ export const useIngresosStore = () => {
   } = useSelector((state) => state.ingresos);
 
   console.log(ingresosList);
+
   //funciones
   const startIngresosConsList = async (fil_tipo, fil_fecha, prm1, prm2) => {
     try {
@@ -59,12 +60,12 @@ export const useIngresosStore = () => {
         return acc + totalAct.total;
       }, 0);
 
-      dispatch(onSetTotalesIngresoCons(total.toFixed(2)));
+      dispatch(onSetTotalesIngresoCons(total));
     } catch (error) {
       console.log(error.response.data.message);
       if (error.response.data.message === "Ingresos no encontrados") {
         dispatch(onLoadIngresosConsList([]));
-        dispatch(onSetTotalesIngresoCons(""));
+        dispatch(onSetTotalesIngresoCons(0));
       }
     }
   };
@@ -80,12 +81,12 @@ export const useIngresosStore = () => {
       const total = dataFormateada.reduce((acc, montoAct) => {
         return acc + montoAct.monto;
       }, 0);
-      dispatch(onSetTotalesIngreso(total.toFixed(2)));
+      dispatch(onSetTotalesIngreso(total));
     } catch (error) {
       console.log(error.response.data.message);
       if (error.response.data.message === "Ingresos no encontrados") {
         dispatch(onLoadIngresosList([]));
-        dispatch(onSetTotalesIngreso(""));
+        dispatch(onSetTotalesIngreso(0));
       }
     }
   };
@@ -98,9 +99,9 @@ export const useIngresosStore = () => {
   const startSavingIngreso = async (dataIngreso) => {
     dispatch(clearErrorIngresoMsg());
     try {
-      console.log(ingresoActivo);
-      console.log(dataIngreso);
-      console.log(formatearDataIngresoToBD(dataIngreso));
+      // console.log(ingresoActivo);
+      // console.log(dataIngreso);
+      // console.log(formatearDataIngresoToBD(dataIngreso));
 
       if (ingresoActivo) {
         //actualizar

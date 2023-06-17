@@ -56,14 +56,16 @@ export const usePagosStore = () => {
     dispatch(clearErrorMessageCons());
     try {
       console.log(pagoData);
+      const dataFormateada = formatearDataPagoToBD({
+        id_consulta: consultaActiva.id_consulta,
+        ...pagoData,
+      });
+      console.log(dataFormateada);
       if (pagoActivo) {
         //actualizar
         const { data } = await updatePago(
           pagoActivo.id_ingreso,
-          formatearDataPagoToBD({
-            id_consulta: consultaActiva.id_consulta,
-            ...pagoData,
-          })
+          dataFormateada
         );
         console.log(data);
       } else {
@@ -71,10 +73,7 @@ export const usePagosStore = () => {
 
         const { data } = await createPago(
           consultaActiva.id_consulta,
-          formatearDataPagoToBD({
-            id_consulta: consultaActiva.id_consulta,
-            ...pagoData,
-          })
+          dataFormateada
         );
         console.log(data);
       }

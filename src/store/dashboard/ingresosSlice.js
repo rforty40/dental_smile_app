@@ -8,8 +8,8 @@ export const ingresosSlice = createSlice({
     ingresosConsList: [],
     ingresoActivo: null,
     errorMsgRegIngreso: { msg: "", error: "" },
-    totalIngCons: "",
-    totalIngresos: "",
+    totalIngCons: 0,
+    totalIngresos: 0,
   },
 
   reducers: {
@@ -46,9 +46,12 @@ export const ingresosSlice = createSlice({
         return ingreso;
       });
 
-      state.totalIngresos = state.ingresosList.reduce((acc, montoAct) => {
+      let total = 0;
+      total = state.ingresosList.reduce((acc, montoAct) => {
         return acc + montoAct.monto;
       }, 0);
+
+      state.totalIngresos = parseFloat(total);
     },
 
     onDeleteIngreso: (state, { payload }) => {
@@ -66,7 +69,7 @@ export const ingresosSlice = createSlice({
       total = state.ingresosList.reduce((acc, montoAct) => {
         return acc + montoAct.monto;
       }, 0);
-      state.totalIngresos = total;
+      state.totalIngresos = parseFloat(total);
     },
 
     onChangeRegErrIngreso: (state, { payload }) => {

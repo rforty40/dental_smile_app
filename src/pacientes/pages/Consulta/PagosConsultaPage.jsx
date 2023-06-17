@@ -101,6 +101,7 @@ export const PagosConsultaPage = () => {
 
   //guardar pago
   const savePago = async (dataPago) => {
+    console.log(dataPago);
     await startSavingPago(dataPago);
     handleOpenSnackbar();
   };

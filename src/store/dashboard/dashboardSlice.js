@@ -12,8 +12,8 @@ export const dashboardSlice = createSlice({
     //ganancias
     listGastosPanel: [],
     listIngresoPanel: [],
-    totallistGastos: null,
-    totallistIngreso: null,
+    totallistGastos: 0,
+    totallistIngreso: 0,
 
     messagePanelPac: "",
     messagePanelCons: "",

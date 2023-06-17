@@ -10,4 +10,5 @@ export * from "./pacientes/pacientesSlice";
 export * from "./pacientes/consultasSlice";
 export * from "./global/dataSlice";
 export * from "./dashboard/ingresosSlice";
+export * from "./dashboard/gastosSlice";
 export * from "./store";

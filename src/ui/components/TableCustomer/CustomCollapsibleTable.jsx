@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 
 import {
   Box,
-  Checkbox,
-  IconButton,
-  Link,
   Table,
   TableBody,
   TableCell,
@@ -14,13 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 
-import { MoreVert } from "@mui/icons-material";
-
 import { filter } from "lodash";
 
 import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
-import { Link as RouterLink } from "react-router-dom";
+
 import { CustomPopover } from "./CustomPopover";
 import { useDataStore, usePacienteStore } from "../../../hooks";
 import { RowTableCollapsible } from "./RowTableCollapsible";
@@ -28,45 +23,15 @@ import { RowTableCollapsible } from "./RowTableCollapsible";
 //
 //
 //
-const arrCuando = [
-  "Hoy",
-  "Mañana",
-  "Esta semana",
-  "Este mes",
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Noviembre",
-  "Diciembre",
-];
 
 //funcion del ordenamiento de registro
 function descendingComparator(a, b, orderBy) {
-  //columna cuando de la tabla Citas
-  // if (orderBy === "cuando") {
-  //   if (arrCuando.indexOf(b[orderBy]) < arrCuando.indexOf(a[orderBy])) {
-  //     return -1;
-  //   }
-  //   if (arrCuando.indexOf(b[orderBy]) > arrCuando.indexOf(a[orderBy])) {
-  //     return 1;
-  //   }
-  //   //
-  // } else {
-
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
   if (b[orderBy] > a[orderBy]) {
     return 1;
   }
-
-  // }
 
   return 0;
 }

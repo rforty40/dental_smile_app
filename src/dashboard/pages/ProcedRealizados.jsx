@@ -113,6 +113,7 @@ export const ProcedRealizados = () => {
           TABLE_HEAD={TABLE_HEAD}
           DATALIST={listProcedimientosPanel}
           withToolbar
+          withCheckbox={false}
           withBoxSearch
           withButton={false}
           iconosEnFila

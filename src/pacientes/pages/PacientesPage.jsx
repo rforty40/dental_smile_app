@@ -138,7 +138,7 @@ export const PacientesPage = () => {
           iconosEnFila={false}
           btnToolbarTable={BtnToolbarTable}
           // columnaABuscarPri="fecha"
-          columnaABuscarPri="nombre"
+          columnaABuscarPri="fecha"
           searchWhat={"Buscar pacientes ..."}
           txt_header={"Lista de pacientes"}
           // bgHeaderColor={""}
