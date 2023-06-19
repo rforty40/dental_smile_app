@@ -48,7 +48,7 @@ export const useExamenesStore = () => {
   const startLoadEnfermedadesCie = async () => {
     try {
       const { data } = await getEnfermedadesCIE();
-      console.log(data);
+
       dispatch(onLoadEnfermedadesCieList(formatearDataEnferCieList(data)));
     } catch (error) {
       console.log(error);
@@ -58,9 +58,8 @@ export const useExamenesStore = () => {
 
   const startLoadExamenes = async () => {
     try {
-      console.log(consultaActiva);
       const { data } = await getExamenes(consultaActiva.id_consulta);
-      console.log(data);
+
       dispatch(onLoadExamenesList(formatearDataExamenToTable(data)));
     } catch (error) {
       console.log(error);
@@ -72,14 +71,13 @@ export const useExamenesStore = () => {
   const startSavingExamen = async (examData) => {
     dispatch(clearErrorMessageCons());
     try {
-      console.log(examData);
       if (examenActivo) {
         //actualizar
         const { data } = await updateExamen(
           examenActivo.id,
           formatearDataExamenToBD(examData)
         );
-        console.log(data);
+
         dispatch(onUpdateExamen(formatearDataExamenToTable([data])[0]));
         dispatch(onSetActiveExamen(formatearDataExamenToTable([data])[0]));
       } else {
@@ -89,7 +87,7 @@ export const useExamenesStore = () => {
           consultaActiva.id_consulta,
           formatearDataExamenToBD(examData)
         );
-        console.log(data);
+
         dispatch(onSaveExamen(formatearDataExamenToTable([data])[0]));
         dispatch(onSetActiveExamen(formatearDataExamenToTable([data])[0]));
       }

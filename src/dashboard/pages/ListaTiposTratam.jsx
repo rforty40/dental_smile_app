@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-
 import { Box, Typography } from "@mui/material";
+import { DeleteForever } from "@mui/icons-material";
+import { MdPostAdd } from "react-icons/md";
 import {
   ButtonCustom,
   CustomAlert,
@@ -8,10 +9,8 @@ import {
   CustomTable,
   DeleteConfirm,
 } from "../../ui";
-import { MdPostAdd } from "react-icons/md";
-import { useDataStore, useTipTratamStore } from "../../hooks";
 import { FormTipTratam } from "../components";
-import { DeleteForever } from "@mui/icons-material";
+import { useDataStore, useTipTratamStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "tipo_de_tratamiento", label: "Tipo de tratamiento", alignLeft: true },
@@ -22,6 +21,9 @@ const TABLE_HEAD = [
 
 export const ListaTiposTratam = () => {
   //customs hooks store
+
+  const { changePage } = useUiStore();
+
   const {
     tipoTratamList,
     tipoTratamActivo,
@@ -32,6 +34,10 @@ export const ListaTiposTratam = () => {
   } = useTipTratamStore();
 
   const { dataActiva } = useDataStore();
+
+  useEffect(() => {
+    changePage();
+  }, []);
 
   //hooks
   const [stateTipo, setStateTipo] = useState("Todos");

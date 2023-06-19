@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
+import { DeleteForever } from "@mui/icons-material";
+import { MdPostAdd } from "react-icons/md";
 import {
   ButtonCustom,
   CustomAlert,
   CustomTable,
   DeleteConfirm,
 } from "../../ui";
-import { MdPostAdd } from "react-icons/md";
-import { useDataStore, useTipConsStore } from "../../hooks";
 import { FormTipCons } from "../components";
-import { DeleteForever } from "@mui/icons-material";
+import { useDataStore, useTipConsStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "tipo_de_consulta", label: "Tipo de consulta", alignLeft: true },
@@ -22,6 +20,8 @@ const TABLE_HEAD = [
 
 export const ListaTiposConsOdon = () => {
   //customs hooks store
+
+  const { changePage } = useUiStore();
 
   const {
     tipoConsList,
@@ -79,13 +79,13 @@ export const ListaTiposConsOdon = () => {
 
   //efectos secundarios
   useEffect(() => {
+    changePage();
     startLoadTipConsList();
   }, []);
 
   //efecto secundario pasar la info del registro de la tabla
   //al tipo de consulta activo
   useEffect(() => {
-    console.log(dataActiva);
     changeDataTipCons(dataActiva);
   }, [dataActiva]);
 

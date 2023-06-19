@@ -105,34 +105,3 @@ body,
 .ant-picker > .ant-picker-input > input::placeholder {
   color: black;
 }
-
-/* .headerFutCitasSticky {
-  border-top: 2px solid black;
-  
-  box-shadow: 5px 20px 7px rgba(0, 0, 0, 0.5);
-  background-color: #f5f7fa;
-
-} */
-
-/*
-/* Tres valores: flex-grow | flex-shrink | flex-basis */
-/* flex: 2 2 10%; */
-/* .ant-picker-range:hover {
-  background-color: #f5f7fa !important;
-}
-.ant-picker-range.ant-picker-focused {
-  background-color: #f5f7fa !important;
-}
-.ant-picker-range > .ant-picker-suffix {
-  color: #9c27b0 !important;
-}
-.ant-picker-range > .ant-picker-clear {
-  color: #9c27b0 !important;
-}
-.ant-picker-range > .ant-picker-range-separator > span {
-  color: #9c27b0 !important;
-}
-
-.ant-picker-range > .ant-picker-active-bar {
-  background-color: #116482 !important;
-} */

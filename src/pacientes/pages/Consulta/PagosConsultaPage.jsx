@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { usePagosStore, useTratamientosStore } from "../../../hooks";
 import {
   Box,
   Portal,
@@ -11,7 +10,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { invertDateFormat } from "../../../agenda/helpers/formatedDataCite";
 import {
   CheckCircleOutline,
   DeleteForever,
@@ -22,6 +20,8 @@ import {
 } from "@mui/icons-material";
 import { ButtonCustom, CustomAlert, DeleteConfirm } from "../../../ui";
 import { FormModalPago } from "../../components";
+import { usePagosStore, useTratamientosStore } from "../../../hooks";
+import { invertDateFormat } from "../../../agenda/helpers/formatedDataCite";
 
 const TABLE_HEAD_PAGO = [
   { id: "pago_por", label: "Pago por" },
@@ -30,6 +30,11 @@ const TABLE_HEAD_PAGO = [
   { id: "fecha_reg", label: "Fecha" },
   { id: "acciones", label: "" },
 ];
+
+//
+//
+//
+//
 
 export const PagosConsultaPage = () => {
   const {
@@ -43,11 +48,11 @@ export const PagosConsultaPage = () => {
 
   //store
   const { tratamientosList } = useTratamientosStore();
+
   useEffect(() => {
     startLoadPagos();
   }, [tratamientosList]);
 
-  console.log(pagosList);
   //hook abrir el formulario
   const [stateModalFormPago, setStateModalFormPago] = useState(false);
 
@@ -101,7 +106,6 @@ export const PagosConsultaPage = () => {
 
   //guardar pago
   const savePago = async (dataPago) => {
-    console.log(dataPago);
     await startSavingPago(dataPago);
     handleOpenSnackbar();
   };

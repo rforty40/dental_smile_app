@@ -44,7 +44,7 @@ export const useTipConsStore = () => {
   const startLoadTipConsList = async () => {
     try {
       const { data } = await getTipoDeCons();
-      // console.log(data);
+
       dispatch(onLoadTipoConsList(formatearDataTipConsToTable(data)));
       dispatch(onLoadTipoConsListBusq(formatearDataTipConsBusq(data)));
     } catch (error) {
@@ -66,7 +66,6 @@ export const useTipConsStore = () => {
           formatearDataTipConsToBD(dataTipCons)
         );
 
-        // console.log(data);
         dispatch(onUpdateTipoCons(formatearDataTipConsToTable([data])[0]));
         dispatch(onSetActiveTipoCons(formatearDataTipConsToTable([data])[0]));
         //

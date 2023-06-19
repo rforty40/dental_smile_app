@@ -42,8 +42,6 @@ export const useGastosStore = () => {
     try {
       const { data } = await getAllGastos(fil_fecha, prm1, prm2);
 
-      console.log(data);
-
       const dataFormateada = formatearDataGastosToTable(data);
 
       dispatch(onLoadGastosList(dataFormateada));
@@ -63,17 +61,12 @@ export const useGastosStore = () => {
   };
 
   const changeDataGasto = (dataGasto) => {
-    console.log(dataGasto);
     dispatch(onSetActiveGasto(dataGasto));
   };
 
   const startSavingGasto = async (dataGasto) => {
     dispatch(clearErrorGastoMsg());
     try {
-      console.log(gastoActivo);
-      console.log(dataGasto);
-      console.log(formatearDataGastoToBD(dataGasto));
-
       if (gastoActivo) {
         //actualizar
         const { data } = await updateGasto(

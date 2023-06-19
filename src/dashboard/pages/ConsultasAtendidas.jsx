@@ -1,17 +1,16 @@
-import { Box, Typography } from "@mui/material";
-import { useDashboardStore } from "../../hooks";
-import { ConsultaPanelItem } from "../components";
 import { useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import { ConsultaPanelItem } from "../components";
+import { useDashboardStore, useUiStore } from "../../hooks";
 
 export const ConsultasAtendidas = () => {
+  const { changePage } = useUiStore();
   const {
     messagePanelCons,
     listConsultasPanel,
     parametrosBusqueda,
     startLoadPanel,
   } = useDashboardStore();
-
-  console.log(listConsultasPanel);
 
   const actualizarListaPac = () => {
     if (JSON.stringify(parametrosBusqueda) === "{}") {
@@ -31,6 +30,7 @@ export const ConsultasAtendidas = () => {
   };
 
   useEffect(() => {
+    changePage();
     actualizarListaPac();
   }, []);
 

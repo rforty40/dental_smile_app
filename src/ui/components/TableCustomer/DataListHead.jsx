@@ -1,4 +1,3 @@
-// @mui
 import {
   Checkbox,
   TableRow,

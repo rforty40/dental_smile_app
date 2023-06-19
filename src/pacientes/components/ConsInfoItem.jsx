@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export const ConsInfoItem = ({ icon_name, lblItem, dataCons }) => {
   return (

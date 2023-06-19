@@ -108,8 +108,7 @@ export const FormModalPlan = ({ openModal, setOpenModal, title, tipoPlan }) => {
 
   //
   useEffect(() => {
-    console.log(title.includes("Editar") && planActivo);
-    if (planActivo) {
+    if (title.includes("Editar") && planActivo) {
       //cargar los componentes
       switch (tipoPlan) {
         case "de Diagnóstico":
@@ -125,7 +124,6 @@ export const FormModalPlan = ({ openModal, setOpenModal, title, tipoPlan }) => {
       }
       setStateDescripcion(planActivo.descripcion);
     } else {
-      console.log("esta en registro");
       resetInputText();
     }
   }, [planActivo, title]);

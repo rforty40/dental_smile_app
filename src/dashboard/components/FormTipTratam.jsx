@@ -1,11 +1,10 @@
 import { forwardRef, useState, useEffect } from "react";
 
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
 import {
   Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Icon,
   IconButton,
   Portal,
@@ -62,8 +61,6 @@ export const FormTipTratam = ({
   const [stateTratamiento, setStateTratamiento] = useState("");
 
   useEffect(() => {
-    // console.log(title);
-    // console.log(tipoTratamActivo);
     if (title.toUpperCase().includes("EDITAR")) {
       setMsgAlert(`Se actualizaron los datos del tipo de tratamiento 🙂.`);
       setTxtButton("Actualizar");
@@ -78,12 +75,6 @@ export const FormTipTratam = ({
       setStateTratamiento("");
     }
   }, [title, tipoTratamActivo]);
-
-  //custom hook form
-  // const { formState, formValidation, onInputChange, isFormValid } = useForm(
-  //   formDataPac.dataForm,
-  //   formDataPac.formValidationsTipTratam
-  // );
 
   const cerrarModal = () => {
     setOpenModalForm(false);
@@ -109,8 +100,6 @@ export const FormTipTratam = ({
   //control envio del formulario
   const onSubmit = (event) => {
     event.preventDefault();
-    // console.log(stateTratamiento);
-    // console.log(stateRadioTt);
     setFormSubmitted(true);
     if (stateTratamiento === "") return;
     if (stateRadioTt === "") return;
@@ -128,11 +117,6 @@ export const FormTipTratam = ({
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
-
-      // if (!title.toUpperCase().includes("EDITAR")) {
-      // setStateTratamiento("");
-      // setStateRadioTt("");
-      // }
     }
 
     if (errorMsgRegTipoTratam.msg === "Hay errores" && formSubmitted) {

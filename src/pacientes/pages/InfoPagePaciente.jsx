@@ -1,23 +1,22 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, Paper, Typography } from "@mui/material";
+import { DeleteForever } from "@mui/icons-material";
+import { FaUserEdit } from "react-icons/fa";
+import { MdPostAdd } from "react-icons/md";
+import { TiUserDelete } from "react-icons/ti";
 import {
   ButtonCustom,
   CustomAlert,
   CustomTable,
   DeleteConfirm,
 } from "../../ui";
-
-import { FaUserEdit } from "react-icons/fa";
-import { TiUserDelete } from "react-icons/ti";
+import { FormModalAntec, FormModalPac, PacInfoItem } from "../components";
 import {
   useAntecedenteStore,
   useDataStore,
   usePacienteStore,
 } from "../../hooks";
-import { FormModalAntec, FormModalPac, PacInfoItem } from "../components";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { MdPostAdd } from "react-icons/md";
-import { DeleteForever } from "@mui/icons-material";
 
 const TABLE_HEAD = [
   { id: "tip_antecedente", label: "Tipo de antecedente", alignLeft: true },

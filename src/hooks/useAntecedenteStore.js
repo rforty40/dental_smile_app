@@ -57,7 +57,7 @@ export const useAntecedenteStore = () => {
 
   const startSavingAntecedente = async (dataAnteced) => {
     dispatch(clearErrorMessageAnte());
-    // console.log(pacienteActivo.id);
+
     try {
       if (dataAnteced.id_antecedente) {
         //actualizando
@@ -74,7 +74,6 @@ export const useAntecedenteStore = () => {
           dataAnteced
         );
 
-        // console.log(data);
         dispatch(onSaveAntecedente(formatearDataAntecedToTable([data])[0]));
         dispatch(onLoadAntecActivo(formatearDataAntecedToTable([data])[0]));
       }

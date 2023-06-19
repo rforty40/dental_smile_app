@@ -1,4 +1,3 @@
-// export * from "./auth/authSlice";
 export * from "./agenda/agendaSlice";
 export * from "./ui/uiSlice";
 export * from "./dashboard/dashboardSlice";
@@ -11,4 +10,5 @@ export * from "./pacientes/consultasSlice";
 export * from "./global/dataSlice";
 export * from "./dashboard/ingresosSlice";
 export * from "./dashboard/gastosSlice";
+export * from "./auth/authSlice";
 export * from "./store";

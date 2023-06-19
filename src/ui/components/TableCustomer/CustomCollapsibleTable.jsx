@@ -12,14 +12,11 @@ import {
 } from "@mui/material";
 
 import { filter } from "lodash";
-
 import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
-
 import { CustomPopover } from "./CustomPopover";
-import { useDataStore, usePacienteStore } from "../../../hooks";
 import { RowTableCollapsible } from "./RowTableCollapsible";
-
+import { useDataStore, usePacienteStore } from "../../../hooks";
 //
 //
 //
@@ -37,7 +34,6 @@ function descendingComparator(a, b, orderBy) {
 }
 //funcion del ordenamiento de registro
 function getComparator(order, orderBy) {
-  // console.log(orderBy);
   return order === "desc"
     ? //estas funciones son las que se ejecutas en applySortFilter
       (a, b) => descendingComparator(a, b, orderBy)
@@ -47,7 +43,7 @@ function getComparator(order, orderBy) {
 //aplicar ordenamiento por filtro
 function applySortFilter(array, comparator, query, columnaABuscar) {
   const stabilizedThis = array.map((el, index) => [el, index]);
-  // console.log("columnaABuscar", columnaABuscar);
+
   //ordeamiento de los datos
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -60,7 +56,7 @@ function applySortFilter(array, comparator, query, columnaABuscar) {
   if (query) {
     const datosBuscados = filter(array, (_user) => {
       const txt_celda = _user[columnaABuscar];
-      console.log(txt_celda);
+
       //si txt_celda existe
       if (txt_celda) {
         //si el tipo de celda es un numero
@@ -210,8 +206,6 @@ export const CustomCollapsibleTable = ({
     */
     const selectedIndex = selected.indexOf(name);
 
-    //console.log(selectedIndex);
-
     let newSelected = [];
 
     //seleccionable
@@ -247,7 +241,6 @@ export const CustomCollapsibleTable = ({
 
   //handler para actualizar el hook page y el hook rowsPerPage
   const handleChangeRowsPerPage = (event) => {
-    //console.log(event.target.value);
     setPage(0);
 
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -343,7 +336,6 @@ export const CustomCollapsibleTable = ({
             />
 
             {/* Cuerpo de Tabla */}
-            {/* {console.log(filteredUsers.length)} */}
 
             <TableBody>
               {filteredUsers

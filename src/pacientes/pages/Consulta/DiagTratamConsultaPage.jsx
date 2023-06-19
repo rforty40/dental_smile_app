@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 import { Box, Portal, Typography } from "@mui/material";
+import { DeleteForever, NoteAdd } from "@mui/icons-material";
 import {
   ButtonCustom,
   CustomAlert,
   CustomTable,
   DeleteConfirm,
 } from "../../../ui";
-import { DeleteForever, NoteAdd } from "@mui/icons-material";
-import {
-  useDataStore,
-  useDiagnosticosStore,
-  useTratamientosStore,
-} from "../../../hooks";
-
 import {
   FormModalDiag,
   FormModalTratam,
   TratamientoItem,
 } from "../../components";
+import {
+  useDataStore,
+  useDiagnosticosStore,
+  useTratamientosStore,
+} from "../../../hooks";
 
 const TABLE_HEAD_DIAG = [
   {
@@ -49,7 +48,6 @@ export const DiagTratamConsultaPage = () => {
 
   const { tratamientosList } = useTratamientosStore();
 
-  console.log(tratamientosList);
   //hook abrir el formulario
   const [stateModalFormDiag, setStateModalFormDiag] = useState(false);
   const [stateModalFormTratam, setStateModalFormTratam] = useState(false);

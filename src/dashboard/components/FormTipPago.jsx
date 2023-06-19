@@ -1,11 +1,9 @@
-import { forwardRef, useMemo, useState } from "react";
-
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
+import { forwardRef, useMemo, useState, useEffect } from "react";
 import {
   Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Icon,
   IconButton,
   Portal,
@@ -21,11 +19,8 @@ import {
   SaveOutlined,
 } from "@mui/icons-material";
 import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
-
 import { useForm, useTipPagoStore } from "../../hooks";
-
 import { formValidationsTipPago } from "./validationsFormDashboard";
-import { useEffect } from "react";
 
 //
 //
@@ -123,7 +118,6 @@ export const FormTipPago = ({
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
-    // console.log(formState);
     startSavingTipPago(formState);
   };
 
@@ -133,13 +127,6 @@ export const FormTipPago = ({
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
-
-      // if (!title.toUpperCase().includes("EDITAR")) {
-      //   formDataPac.dataForm = {
-      //     tipo_de_pago: "",
-      //     precio: "",
-      //   };
-      // }
     }
 
     if (errorMsgRegTipoPago.msg === "Hay errores" && formSubmitted) {

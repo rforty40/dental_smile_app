@@ -1,9 +1,9 @@
-import { DeleteForever } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { CustomAlert, CustomTable, DeleteConfirm } from "../../ui";
 import { Box, Typography } from "@mui/material";
+import { DeleteForever } from "@mui/icons-material";
+import { CustomAlert, CustomTable, DeleteConfirm } from "../../ui";
 import { FormModalPac } from "../../pacientes/components/FormModalPac";
-import { useDashboardStore, usePacienteStore } from "../../hooks";
+import { useDashboardStore, usePacienteStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -14,12 +14,13 @@ const TABLE_HEAD = [
   { id: "email", label: "Email", alignLeft: true },
   { id: "responsable", label: "Responsable", alignLeft: true },
   { id: "fecha", label: "Fecha", alignLeft: true },
-  // { id: "fecha_upd", label: "Actualización", alignLeft: true },
 ];
 
 export const PacientesPanel = () => {
   //control form
-  const [stateModalPac, setStateModalPac] = useState(false);
+
+  const { changePage } = useUiStore();
+
   const {
     messagePanelPac,
     listPacientesPanel,
@@ -46,6 +47,13 @@ export const PacientesPanel = () => {
       );
     }
   };
+
+  useEffect(() => {
+    changePage();
+  }, []);
+
+  //hook modal form paciente
+  const [stateModalPac, setStateModalPac] = useState(false);
 
   //funcion abrir modal editar
   const openModalPacienteEdit = () => {

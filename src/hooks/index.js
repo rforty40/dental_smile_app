@@ -17,3 +17,4 @@ export * from "./useTratamientosStore";
 export * from "./usePagosStore";
 export * from "./useIngresosStore";
 export * from "./useGastosStore";
+export * from "./useAuthStore";

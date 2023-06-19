@@ -1,12 +1,8 @@
-import { forwardRef, useMemo, useState } from "react";
-
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
-import { FaNotesMedical } from "react-icons/fa";
-import { TbMedicalCross } from "react-icons/tb";
+import { forwardRef, useMemo, useState, useEffect } from "react";
 import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Grid,
   Icon,
   IconButton,
@@ -22,13 +18,12 @@ import {
   SaveOutlined,
   Subject,
 } from "@mui/icons-material";
+import { FaNotesMedical } from "react-icons/fa";
+import { TbMedicalCross } from "react-icons/tb";
 import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
-
-import { useForm, useProcedStore } from "../../hooks";
-
-import { formValidationsProced } from "./validationsFormDashboard";
-import { useEffect } from "react";
 import { FormChooseProced } from "./FormChooseProced";
+import { useForm, useProcedStore } from "../../hooks";
+import { formValidationsProced } from "./validationsFormDashboard";
 
 //
 //
@@ -154,12 +149,11 @@ export const FormProced = ({
     setFormSubmitted(true);
     if (!isFormValid) return;
 
-    // console.log(formState);
     const formStateNew = {
       ...formState,
       ...stateNomenProced,
     };
-    // console.log(formStateNew);
+
     startSavingProced(formStateNew);
   };
 
@@ -249,15 +243,6 @@ export const FormProced = ({
                   label="Código:"
                   type="text"
                   name="codigo"
-                  // value={formState.codigo === "" ? "Código" : formState.codigo}
-                  // value={
-                  //   stateNomenProced.codigo !== ""
-                  //     ? formState.codigo === ""
-                  //       ? "Código"
-                  //       : formState.codigo
-                  //     : stateNomenProced.codigo
-                  // }
-
                   value={stateNomenProced.codigo}
                   onChange={(event) => {
                     setStateNomenProced({
@@ -265,7 +250,6 @@ export const FormProced = ({
                       codigo: event.target.value,
                     });
                   }}
-                  // helperText={formValidation.codigoValid}
                   InputProps={{ readOnly: true }}
                   colorIcon="celesteNeon.main"
                   colorHover="celesteNeon.main"
@@ -316,9 +300,6 @@ export const FormProced = ({
                   type="text"
                   multiline
                   name="procedimiento"
-                  // value={formState.procedimiento}
-                  // onChange={onInputChange}
-                  // helperText={formValidation.procedimientoValid}
                   value={stateNomenProced.procedimiento}
                   onChange={(event) => {
                     setStateNomenProced({

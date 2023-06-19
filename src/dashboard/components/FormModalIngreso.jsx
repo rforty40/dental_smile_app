@@ -82,17 +82,12 @@ export const FormModalIngreso = ({ openModal, setOpenModal, title }) => {
 
   //control formulario de registro y edición
   useEffect(() => {
-    console.log(ingresoActivo);
-
     if (ingresoActivo && title.includes("Editar")) {
-      console.log("actualización");
-
       //cargar los componentes
       setStateIngreso(ingresoActivo.ingreso_por);
       setStatePrecio(ingresoActivo.monto);
       setStateNota(ingresoActivo.nota);
     } else {
-      console.log("registro");
       resetInputText();
     }
   }, [ingresoActivo, title]);
@@ -124,13 +119,6 @@ export const FormModalIngreso = ({ openModal, setOpenModal, title }) => {
     //validaciones
     if (stateIngreso.length === 0) return;
     if (statePrecio.length === 0) return;
-
-    console.log(ingresoActivo);
-    console.log({
-      text_ingreso: stateIngreso,
-      monto_ingreso: statePrecio,
-      desc_ingreso: stateNota,
-    });
 
     //enviando al custom hook
     startSavingIngreso({
@@ -246,7 +234,6 @@ export const FormModalIngreso = ({ openModal, setOpenModal, title }) => {
                   type="number"
                   value={statePrecio}
                   onChange={({ target }) => {
-                    console.log(target.value);
                     setStatePrecio(target.value);
                   }}
                   colorIcon="primary.main"

@@ -1,5 +1,5 @@
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, Icon, IconButton, Typography } from "@mui/material";
-import { ButtonCustom, IconTextField } from "../../ui";
 import {
   AccessTime,
   CloseOutlined,
@@ -10,9 +10,8 @@ import {
   PostAddOutlined,
   SegmentOutlined,
 } from "@mui/icons-material";
+import { ButtonCustom, IconTextField } from "../../ui";
 import { useAgendaStore, useConsultasStore, useUiStore } from "../../hooks";
-
-import { useNavigate } from "react-router-dom";
 
 export const ViewCita = ({ closeCitaView }) => {
   //
@@ -44,12 +43,11 @@ export const ViewCita = ({ closeCitaView }) => {
   };
 
   const handleOpenFormCons = () => {
-    console.log(activeCita.id_paciente);
     navigate(`/pacientes/${activeCita.id_paciente}/historial`);
     handleChangeTabs(2);
     changeTitleFormCons("Registrar consulta odontológica");
     changeStateFormCons(true);
-    console.log(activeCita);
+
     changeDataConsulta({
       updateCita: true,
       fecha_cita: activeCita.fecha_cita,

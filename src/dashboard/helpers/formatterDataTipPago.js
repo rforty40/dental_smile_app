@@ -12,7 +12,6 @@ export const formatearDataTipPagoToTable = (dataFromBD) => {
 };
 
 export const formatearDataTipPagoToBD = (dataTipPago) => {
-  console.log(dataTipPago);
   return {
     // id_tipoConsul:
     //   dataTipPago.id_tipoConsul !== undefined

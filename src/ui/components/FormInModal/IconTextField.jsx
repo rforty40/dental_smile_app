@@ -78,6 +78,9 @@ export const IconTextField = ({
         "& .MuiFormHelperText-root.Mui-error": {
           color: colorErr,
         },
+        "& .MuiSvgIcon-root": {
+          color: colorIcon,
+        },
         ...propsXS,
       }}
       {...props}

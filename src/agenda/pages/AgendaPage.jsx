@@ -1,20 +1,15 @@
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-
+import { DeleteForever } from "@mui/icons-material";
 import { Calendar } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-
 import "./react-big-calendar.css";
-
-import { AgendaModal, CalendarEvent } from "../components/";
-import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
-import { useEffect, useState } from "react";
-
-import { CustomAlert, DeleteConfirm, Topbar } from "../../ui";
 import { getMessagesES } from "../helpers/getMessages";
 import { localizer } from "../helpers/calendarLocalizer";
-import { DeleteForever } from "@mui/icons-material";
+import { AgendaModal, CalendarEvent } from "../components/";
+import { CustomAlert, DeleteConfirm, Topbar } from "../../ui";
+import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -23,6 +18,7 @@ const DnDCalendar = withDragAndDrop(Calendar);
 
 export const AgendaPage = () => {
   //store
+
   const { changePage } = useUiStore();
 
   const { startLoadPacientes } = usePacienteStore();
@@ -84,25 +80,20 @@ export const AgendaPage = () => {
 
   //eventos del calendario
   const onViewChanged = (event) => {
-    console.log(event);
     localStorage.setItem("lastView", event);
     setLastView(event);
   };
 
   const onSelect = (event) => {
-    console.log("onSelect");
-
     changeDataCite(event);
   };
 
   const onSelectDrag = ({ event }) => {
-    console.log("onSelectedDrag");
     changeDataCite(event);
   };
 
   //funcion se activa al seleccionar uno o varios slots
   const clickSlot = (slotInfo) => {
-    // console.log(slotInfo);
     const { start, end } = slotInfo;
 
     changeDataCite({
@@ -114,7 +105,6 @@ export const AgendaPage = () => {
   };
 
   const onEventDropResizable = (data) => {
-    console.log("onEventDropResizable");
     const { start, end, event } = data;
 
     startUpdatingCita(event.fecha_cita, event.hora_inicio, {
@@ -161,8 +151,6 @@ export const AgendaPage = () => {
         className="box-shadow animate__animated animate__fadeIn"
       >
         <DnDCalendar
-          // className="animate__animated animate__fadeIn"
-          // selectable
           selectable
           formats={{ dayRangeHeaderFormat }}
           views={{
@@ -174,7 +162,6 @@ export const AgendaPage = () => {
           culture="es"
           localizer={localizer}
           events={citasList}
-          // defaultView="week"
           defaultView={lastView}
           startAccessor="start"
           endAccessor="end"
@@ -202,9 +189,7 @@ export const AgendaPage = () => {
           }
           onView={onViewChanged}
           onSelectEvent={onSelect}
-          // onKeyPressEvent={onSelect}
           onDragStart={onSelectDrag}
-          // onDragOver={onSelectDrag}
           onEventDrop={onEventDropResizable}
           resizable
           onEventResize={onEventDropResizable}

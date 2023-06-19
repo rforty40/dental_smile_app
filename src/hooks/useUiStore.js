@@ -24,6 +24,10 @@ export const useUiStore = () => {
 
   const changePage = () => {
     const { pathname } = window.location;
+
+    if (pathname !== "/auth/login") {
+      localStorage.setItem("lastRoute", pathname);
+    }
     const pathnameCut = pathname.substring(0, 17);
     let pageActive = "";
     if (pathnameCut.includes("agenda")) {

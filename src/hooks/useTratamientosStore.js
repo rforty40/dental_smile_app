@@ -50,8 +50,6 @@ export const useTratamientosStore = () => {
       const { data } = await getTratamientos(consultaActiva.id_consulta);
 
       dispatch(onLoadTratamientosList(data));
-
-      // console.log(data);
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
@@ -176,7 +174,7 @@ export const useTratamientosStore = () => {
 
   const startSavingTratamiento = async (tratamiento) => {
     dispatch(clearErrorMessageTram());
-    console.log(tratamiento);
+
     try {
       let tratamNew = null;
       // const codigoCIEformat =
@@ -190,7 +188,7 @@ export const useTratamientosStore = () => {
 
       if (tratamActivo) {
         //actualizando
-        console.log(tratamiento);
+
         const { data } = await updateTratamiento(
           tratamActivo.id_tratam,
           codigoCIEformat
@@ -238,7 +236,6 @@ export const useTratamientosStore = () => {
             ? []
             : newPresc.filter((el) => el !== undefined),
       };
-      // console.log(newTratamiento);
 
       if (tratamActivo) {
         //actualizacion

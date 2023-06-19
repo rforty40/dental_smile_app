@@ -44,19 +44,15 @@ export const useIngresosStore = () => {
     totalIngresos,
   } = useSelector((state) => state.ingresos);
 
-  console.log(ingresosList);
-
   //funciones
   const startIngresosConsList = async (fil_tipo, fil_fecha, prm1, prm2) => {
     try {
       const { data } = await getAllingresos(fil_tipo, fil_fecha, prm1, prm2);
-      // console.log(data);
-      // console.log(formatearDataConsIngToTable(data));
+
       const dataFormateada = formatearDataConsIngToTable(data);
       dispatch(onLoadIngresosConsList(dataFormateada));
 
       const total = dataFormateada.reduce((acc, totalAct) => {
-        console.log(typeof totalAct.total);
         return acc + totalAct.total;
       }, 0);
 
@@ -73,7 +69,7 @@ export const useIngresosStore = () => {
   const startIngresosList = async (fil_fecha, prm1, prm2) => {
     try {
       const { data } = await getAllingresos("usuario", fil_fecha, prm1, prm2);
-      console.log(data);
+
       const dataFormateada = formatearDataIngresosToTable(data);
 
       dispatch(onLoadIngresosList(dataFormateada));
@@ -92,24 +88,19 @@ export const useIngresosStore = () => {
   };
 
   const changeDataIngreso = (dataIngreso) => {
-    console.log(dataIngreso);
     dispatch(onSetActiveIngreso(dataIngreso));
   };
 
   const startSavingIngreso = async (dataIngreso) => {
     dispatch(clearErrorIngresoMsg());
     try {
-      // console.log(ingresoActivo);
-      // console.log(dataIngreso);
-      // console.log(formatearDataIngresoToBD(dataIngreso));
-
       if (ingresoActivo) {
         //actualizar
         const { data } = await updateIngreso(
           ingresoActivo.id,
           formatearDataIngresoToBD(dataIngreso)
         );
-        // console.log(data);
+
         dispatch(onUpdateIngreso(formatearDataIngresosToTable([data])[0]));
         dispatch(onSetActiveIngreso(formatearDataIngresosToTable([data])[0]));
         //
@@ -144,7 +135,6 @@ export const useIngresosStore = () => {
         }
       }
       dispatch(onDeleteIngreso(arrIdIngresos));
-      console.log(ingresosList);
     } catch (error) {
       console.log(error);
     }

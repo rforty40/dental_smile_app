@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import { DeleteForever, PersonAddAlt } from "@mui/icons-material";
 import {
   ButtonCustom,
   CustomAlert,
@@ -7,12 +8,8 @@ import {
   DeleteConfirm,
   Topbar,
 } from "../../ui";
-
-import { usePacienteStore, useUiStore } from "../../hooks";
-
 import { FormModalPac } from "../components";
-
-import { DeleteForever, PersonAddAlt } from "@mui/icons-material";
+import { usePacienteStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -24,6 +21,11 @@ const TABLE_HEAD = [
   { id: "responsable", label: "Responsable", alignLeft: true },
   { id: "fecha", label: "Fecha", alignLeft: true },
 ];
+
+//
+//
+//
+//
 
 export const PacientesPage = () => {
   //control form
@@ -39,11 +41,8 @@ export const PacientesPage = () => {
   } = usePacienteStore();
 
   useEffect(() => {
-    console.log("PacientePage");
     changePage();
-  }, []);
 
-  useEffect(() => {
     startLoadPacientes();
   }, []);
 

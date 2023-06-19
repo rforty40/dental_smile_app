@@ -40,7 +40,7 @@ export const useTipTratamStore = () => {
   const startLoadTipTratamList = async (type, param2) => {
     try {
       const { data } = await getTipoDeTratam(type, param2);
-      console.log(data);
+
       dispatch(onLoadTipoTratamList(formatearDataTipTratamToTable(data)));
       dispatch(clearErrorTipTratamMsg());
     } catch (error) {
@@ -65,7 +65,6 @@ export const useTipTratamStore = () => {
           formatearDataTipTratamToBD(dataTipTratam)
         );
 
-        // console.log(data);
         dispatch(onUpdateTipoTratam(formatearDataTipTratamToTable([data])[0]));
         dispatch(
           onSetActiveTipoTratam(formatearDataTipTratamToTable([data])[0])

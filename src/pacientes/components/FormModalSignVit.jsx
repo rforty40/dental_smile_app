@@ -88,7 +88,7 @@ export const FormModalSignVit = ({
   const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-    console.log(formState);
+
     startSavingSignVit(formState);
   };
 

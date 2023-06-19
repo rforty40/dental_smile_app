@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -5,6 +6,8 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import { DeleteForever, ExpandMore } from "@mui/icons-material";
+import { MdPostAdd } from "react-icons/md";
 import {
   ButtonCustom,
   CustomAlert,
@@ -12,16 +15,11 @@ import {
   CustomSelect,
   DeleteConfirm,
 } from "../../ui";
-
-import { MdPostAdd } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { extraerFecha } from "../../agenda/helpers/formatedDataCite";
-
-import { DeleteForever, ExpandMore } from "@mui/icons-material";
-
-import { useAgendaStore, usePacienteStore } from "../../hooks";
 import { ProxCiteItem } from "../components/ProxCiteItem";
 import { AgendaModal } from "../../agenda/components";
+import { useAgendaStore, usePacienteStore } from "../../hooks";
+import { extraerFecha } from "../../agenda/helpers/formatedDataCite";
+
 //
 //
 //

@@ -1,15 +1,17 @@
-import { Box, Grid, Typography } from "@mui/material";
 import { useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
+import { EditNoteOutlined } from "@mui/icons-material";
+import { ButtonCustom } from "../../../ui";
 import {
   ConsDetalleItem,
   FormModalCons,
   FormModalSignVit,
 } from "../../components";
 import { useConsultasStore } from "../../../hooks";
-import { EditNoteOutlined } from "@mui/icons-material";
-import { ButtonCustom } from "../../../ui";
 
 export const DetalleConsultaPage = () => {
+  //
+
   const [openModalSignVit, setOpenModalSignVit] = useState(false);
 
   const handleOpenFormSingVit = () => {

@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import { CancelOutlined, Close } from "@mui/icons-material";
 import {
   Box,
   Dialog,
@@ -10,9 +9,9 @@ import {
   Slide,
   Typography,
 } from "@mui/material";
-
-import { ButtonCustom } from "./ButtonCustom";
+import { CancelOutlined, Close } from "@mui/icons-material";
 import { GiConfirmed } from "react-icons/gi";
+import { ButtonCustom } from "./ButtonCustom";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return (

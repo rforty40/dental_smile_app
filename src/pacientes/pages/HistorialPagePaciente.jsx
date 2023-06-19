@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -5,6 +6,8 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import { DeleteForever, ExpandMore } from "@mui/icons-material";
+import { FaNotesMedical } from "react-icons/fa";
 import {
   ButtonCustom,
   CustomAlert,
@@ -12,16 +15,10 @@ import {
   CustomRangeDate,
   DeleteConfirm,
 } from "../../ui";
-import { FaNotesMedical } from "react-icons/fa";
-
-import { useEffect, useState } from "react";
+import { ConsultaItem, FormModalCons } from "../components";
+import { useConsultasStore, usePacienteStore } from "../../hooks";
 import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
 
-import { DeleteForever, ExpandMore } from "@mui/icons-material";
-
-import { useConsultasStore, usePacienteStore } from "../../hooks";
-
-import { ConsultaItem, FormModalCons } from "../components";
 //
 //
 //
@@ -129,7 +126,6 @@ export const HistorialPagePaciente = () => {
 
   useEffect(() => {
     if (statePickerYear.valueYear !== null) {
-      console.log(statePickerYear.anioStr);
       startLoadConsultas("anio", statePickerYear.anioStr, "_");
     }
   }, [statePickerYear]);

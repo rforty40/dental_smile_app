@@ -27,37 +27,9 @@ import { useDataStore, usePacienteStore } from "../../../hooks";
 //
 //
 //
-const arrCuando = [
-  "Hoy",
-  "Mañana",
-  "Esta semana",
-  "Este mes",
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Noviembre",
-  "Diciembre",
-];
 
 //funcion del ordenamiento de registro
 function descendingComparator(a, b, orderBy) {
-  //columna cuando de la tabla Citas
-  // if (orderBy === "cuando") {
-  //   if (arrCuando.indexOf(b[orderBy]) < arrCuando.indexOf(a[orderBy])) {
-  //     return -1;
-  //   }
-  //   if (arrCuando.indexOf(b[orderBy]) > arrCuando.indexOf(a[orderBy])) {
-  //     return 1;
-  //   }
-  //   //
-  // } else {
-
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -71,7 +43,6 @@ function descendingComparator(a, b, orderBy) {
 }
 //funcion del ordenamiento de registro
 function getComparator(order, orderBy) {
-  // console.log(orderBy);
   return order === "desc"
     ? //estas funciones son las que se ejecutas en applySortFilter
       (a, b) => descendingComparator(a, b, orderBy)
@@ -81,7 +52,7 @@ function getComparator(order, orderBy) {
 //aplicar ordenamiento por filtro
 function applySortFilter(array, comparator, query, columnaABuscar) {
   const stabilizedThis = array.map((el, index) => [el, index]);
-  // console.log("columnaABuscar", columnaABuscar);
+
   //ordeamiento de los datos
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -94,7 +65,7 @@ function applySortFilter(array, comparator, query, columnaABuscar) {
   if (query) {
     const datosBuscados = filter(array, (_user) => {
       const txt_celda = _user[columnaABuscar];
-      console.log(txt_celda);
+
       //si txt_celda existe
       if (txt_celda) {
         //si el tipo de celda es un numero
@@ -240,8 +211,6 @@ export const CustomTable = ({
     */
     const selectedIndex = selected.indexOf(name);
 
-    //console.log(selectedIndex);
-
     let newSelected = [];
 
     //seleccionable
@@ -277,7 +246,6 @@ export const CustomTable = ({
 
   //handler para actualizar el hook page y el hook rowsPerPage
   const handleChangeRowsPerPage = (event) => {
-    //console.log(event.target.value);
     setPage(0);
 
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -372,7 +340,6 @@ export const CustomTable = ({
             />
 
             {/* Cuerpo de Tabla */}
-            {/* {console.log(filteredUsers.length)} */}
 
             <TableBody>
               {filteredUsers
@@ -423,8 +390,6 @@ export const CustomTable = ({
                         }
                       }}
                     >
-                      {/* {console.log(row[keys[0]])}
-                      {console.log(row["id"])} */}
                       {/* celda checkbox */}
                       {withCheckbox && (
                         <TableCell
@@ -452,7 +417,6 @@ export const CustomTable = ({
                                 border: "3px solid",
                                 borderColor: "colorTable.main",
                               }}
-                              // key={`${row[keys[0]]}${index}`}
                               key={`${row["id"]}${index}`}
                               align="left"
                             >

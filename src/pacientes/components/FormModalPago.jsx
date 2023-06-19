@@ -25,15 +25,9 @@ import {
   CustomAlert,
   CustomAutocomplete,
   IconTextField,
-  RadioGroupCustom,
 } from "../../ui";
 
-import {
-  useDiagnosticosStore,
-  useExamenesStore,
-  usePagosStore,
-  useTipPagoStore,
-} from "../../hooks";
+import { usePagosStore, useTipPagoStore } from "../../hooks";
 
 //
 //
@@ -43,8 +37,6 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
   //store
 
   const { tipoPagosList, startLoadTipPagoList } = useTipPagoStore();
-
-  console.log(tipoPagosList);
 
   const { pagoActivo, errorMsgRegCons, changeDataPago, startSavingPago } =
     usePagosStore();
@@ -99,11 +91,7 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
 
   //control formulario de registro y edición
   useEffect(() => {
-    console.log(pagoActivo);
-
     if (title.includes("Editar") && pagoActivo) {
-      console.log("actualización");
-
       //cargar los componentes
       const tipPago = tipoPagosList.find(
         (tPago) => tPago.tipo_de_pago === pagoActivo.pago_por
@@ -119,7 +107,6 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
         pagoActivo.desc_ingreso === undefined ? "" : pagoActivo.desc_ingreso
       );
     } else {
-      console.log("registro");
       resetInputText();
     }
   }, [pagoActivo, title]);
@@ -153,14 +140,6 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
     if (statePrecio.length === 0) return;
 
     const id_tra_pro = pagoActivo ? pagoActivo.id_tratam_proced : null;
-
-    console.log(pagoActivo);
-    console.log({
-      pago_por: stateTipPagoStr,
-      monto: parseFloat(statePrecio),
-      desc_ingreso: stateDescripcion,
-      id_tratam_proced: id_tra_pro,
-    });
 
     //enviando al custom hook
     startSavingPago({
@@ -251,7 +230,6 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
                   // inputValue={stateTipPago}
                   value={stateTipPago}
                   onChange={(event, newValue) => {
-                    console.log(newValue);
                     setStateTipPago(newValue);
                     if (newValue !== null) {
                       setStatePrecio(newValue.precio.toString());
@@ -260,7 +238,6 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
                     }
                   }}
                   onInputChange={(event, newValue) => {
-                    console.log(newValue);
                     setStateTipPagoStr(newValue);
                   }}
                   propsTextField={{
@@ -302,7 +279,6 @@ export const FormModalPago = ({ openModal, setOpenModal, title }) => {
                   type="number"
                   value={statePrecio}
                   onChange={({ target }) => {
-                    console.log(target.value);
                     setStatePrecio(target.value);
                   }}
                   colorIcon="primary.main"

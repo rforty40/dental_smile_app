@@ -102,9 +102,7 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
 
   //control formulario de registro y edición
   useEffect(() => {
-    console.log(examenActivo);
     if (examenActivo && title.includes("Editar")) {
-      console.log(examenActivo);
       //cargar los componentes
       const enfermedadCie = enfermedadesCieList.find(
         (enferCie) => enferCie.id === examenActivo.codigoCIE
@@ -114,7 +112,6 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
       setStateRegAfec(examenActivo.region_afectada);
       setStateDescripcion(examenActivo.descripcion);
     } else {
-      console.log("esta en registro");
       resetInputText();
     }
   }, [examenActivo, title]);
@@ -145,11 +142,7 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
     const codigoCIE = stateCodigoCie === null ? "" : stateCodigoCie.id;
 
     //enviando al custom hook
-    console.log({
-      region_afectada: stateRegAfec,
-      codigoCIE,
-      descripcion: stateDescripcion.trim(),
-    });
+
     startSavingExamen({
       region_afectada: stateRegAfec,
       codigoCIE,

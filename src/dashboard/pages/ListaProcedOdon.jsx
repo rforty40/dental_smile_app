@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
+import { DeleteForever } from "@mui/icons-material";
+import { MdPostAdd } from "react-icons/md";
 import {
   ButtonCustom,
   CustomAlert,
   CustomTable,
   DeleteConfirm,
 } from "../../ui";
-import { MdPostAdd } from "react-icons/md";
-import { useDataStore, useProcedStore } from "../../hooks";
 import { FormProced } from "../components";
-import { DeleteForever } from "@mui/icons-material";
+import { useDataStore, useProcedStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "codigo", label: "Código", alignLeft: true },
@@ -24,6 +22,8 @@ const TABLE_HEAD = [
 
 export const ListaProcedOdon = () => {
   //customs hooks store
+
+  const { changePage } = useUiStore();
 
   const {
     procedList,
@@ -83,6 +83,7 @@ export const ListaProcedOdon = () => {
 
   //efectos secundarios
   useEffect(() => {
+    changePage();
     startLoadProcedList();
     startLoadTitulosList();
   }, []);

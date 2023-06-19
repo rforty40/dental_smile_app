@@ -1,5 +1,4 @@
 import { Grid, Icon } from "@mui/material";
-import { ButtonCustom, IconTextField } from "../../ui";
 import {
   AccessTime,
   DeleteOutlined,
@@ -8,7 +7,7 @@ import {
   PostAddOutlined,
   SegmentOutlined,
 } from "@mui/icons-material";
-
+import { ButtonCustom, IconTextField } from "../../ui";
 import {
   useAgendaStore,
   useConsultasStore,
@@ -52,7 +51,7 @@ export const ProxCiteItem = ({ cita }) => {
     handleChangeTabs(2);
     changeTitleFormCons("Registrar consulta odontológica");
     changeStateFormCons(true);
-    console.log(cita);
+
     changeDataConsulta({
       updateCita: true,
       fecha_cita: cita.fecha_cita,
@@ -69,12 +68,9 @@ export const ProxCiteItem = ({ cita }) => {
 
   return (
     <>
-      {/* <Box width="90%"> */}
       <Grid
         container
         display="grid"
-        // flexDirection="row"
-        // border="2px solid"
         borderColor="primary.main"
         boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
         sx={{
@@ -82,15 +78,11 @@ export const ProxCiteItem = ({ cita }) => {
           padding: "20px 0px",
           marginTop: "5px",
           borderRadius: "10px",
-          // backgroundColor: "rgba(255,255,255,0.6)",
-
-          // backgroundColor: "myBgColor.main",
           backgroundColor: `${
             cita.esta_citaAgen === "Pendiente"
               ? "rgba(17, 100, 130, 0.1)"
               : "rgba(211, 47, 47, 0.1)"
           }`,
-          // alignItems: "center",
           gridTemplateColumns: "10% 75% 15%",
           gridTemplateRows: "repeat(3, max-content)",
           gridTemplateAreas: `"icono dates botones" 
@@ -126,8 +118,6 @@ export const ProxCiteItem = ({ cita }) => {
             <IconTextField
               label="Fecha:"
               type="text"
-              //   value={"2023/06/14"}
-              // value={activeCita.fecha_cita}
               value={cita.fecha_cita}
               colorIcon="primary.main"
               colorHover="primary.main"
@@ -161,7 +151,6 @@ export const ProxCiteItem = ({ cita }) => {
               label="Hora Inicio:"
               type="text"
               value={cita.hora_inicio}
-              // value={activeCita.hora_inicio}
               colorIcon="primary.main"
               colorHover="primary.main"
               colorTxt="black"
@@ -194,7 +183,6 @@ export const ProxCiteItem = ({ cita }) => {
               label="Hora Fin:"
               type="text"
               value={cita.hora_fin}
-              // value={activeCita.hora_inicio}
               colorIcon="primary.main"
               colorHover="primary.main"
               colorTxt="black"
@@ -231,7 +219,6 @@ export const ProxCiteItem = ({ cita }) => {
               label="Motivo de consulta:"
               multiline
               type="text"
-              // value={activeCita.moti_citaAgen}
               value={cita.moti_citaAgen}
               colorIcon="primary.main"
               colorHover="primary.main"
@@ -308,7 +295,6 @@ export const ProxCiteItem = ({ cita }) => {
           />
         </Grid>
       </Grid>
-      {/* </Box> */}
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { useAntecedenteStore, usePacienteStore, useUiStore } from "../../hooks";
 import {
   CalendarMonth,
   ContactPage,
@@ -8,9 +8,8 @@ import {
 } from "@mui/icons-material";
 import { InfoPagePaciente } from "./InfoPagePaciente";
 import { HistorialPagePaciente } from "./HistorialPagePaciente";
-import { useParams } from "react-router-dom";
 import { ProxCitasPagePaciente } from "./ProxCitasPagePaciente";
-
+import { useAntecedenteStore, usePacienteStore, useUiStore } from "../../hooks";
 //
 //
 //
@@ -23,20 +22,13 @@ export const PacienteHistorial = () => {
 
   const { startLoadAntecedentes } = useAntecedenteStore();
 
-  // const [hookTabs, setHookTabs] = useState(
-  //   parseInt(localStorage.getItem("lastTabPaciente")) || 0
-  // );
-
-  useEffect(() => {
-    handleChangeTabs(parseInt(localStorage.getItem("lastTabPaciente")) || 0);
-  }, []);
-
   const { id_pac } = useParams();
 
   useEffect(() => {
     changePage();
     startLoadPaciente(id_pac);
     startLoadAntecedentes(id_pac);
+    handleChangeTabs(parseInt(localStorage.getItem("lastTabPaciente")) || 0);
   }, []);
 
   return (
@@ -51,9 +43,7 @@ export const PacienteHistorial = () => {
         zIndex="10000"
         boxShadow="3px 3px 5px rgba(0, 0, 0, 0.5)"
         sx={{
-          // backgroundColor: "rgba(245, 247, 250, 0.9)",
           backgroundColor: "myBgColor.main",
-          // borderBottom: "2px solid grey",
         }}
       >
         <Typography

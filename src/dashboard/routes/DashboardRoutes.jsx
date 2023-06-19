@@ -17,6 +17,7 @@ export const DashboardRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<DashboardPage />} />
+      <Route path="/*" element={<Navigate to="/administracion" />} />
       <Route path="/listaprocedimientosodon" element={<ListaProcedOdon />} />
       <Route path="/listatiposconsodon" element={<ListaTiposConsOdon />} />
       <Route path="/listatipostratam" element={<ListaTiposTratam />} />

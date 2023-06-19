@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import {
   Box,
   Dialog,
@@ -10,7 +9,6 @@ import {
   Portal,
   Typography,
 } from "@mui/material";
-
 import {
   CancelOutlined,
   CheckCircleOutline,
@@ -18,15 +16,14 @@ import {
   NoteAddOutlined,
   SaveOutlined,
 } from "@mui/icons-material";
-
-import { ButtonCustom, CustomAlert, CustomAutocomplete } from "../../ui";
 import { FaNotesMedical } from "react-icons/fa";
-import { useDiagnosticosStore, useTratamientosStore } from "../../hooks";
+import { ButtonCustom, CustomAlert, CustomAutocomplete } from "../../ui";
 import { TxtCompFormTratam } from "./TxtCompFormTratam";
-import { formatDataTratamForm } from "../helpers";
 import { FormModalProcedTratam } from "./FormModalProcedTratam";
 import { TxtProcedFormTratam } from "./TxtProcedFormTratam";
 import { TxtPrescrFormTratam } from "./TxtPrescrFormTratam";
+import { useDiagnosticosStore, useTratamientosStore } from "../../hooks";
+import { formatDataTratamForm } from "../helpers";
 
 //
 //
@@ -195,7 +192,6 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
 
   /********************control formulario de registro y edición********************/
   useEffect(() => {
-    console.log(tratamActivo);
     if (tratamActivo && title.includes("Editar")) {
       //cargar los componentes
       const enfermedadCie = diagnosticosList.find(
@@ -219,7 +215,6 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
           : [{ id: 0, desc_presc: "", dosi_presc: "" }]
       );
     } else {
-      console.log("esta en registro");
       resetInputText();
     }
   }, [tratamActivo, title]);
@@ -243,7 +238,7 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
     setFormSubmitted(true);
 
     //enviando al custom hook
-    console.log(stateCodigoCie);
+
     const codigoCIE = stateCodigoCie === null ? "" : stateCodigoCie.codigoCIE;
 
     startSavingTratamiento({

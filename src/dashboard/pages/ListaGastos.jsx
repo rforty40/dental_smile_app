@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Box, Portal, Typography } from "@mui/material";
+import { DeleteForever, MonetizationOn } from "@mui/icons-material";
 import {
   ButtonCustom,
   CustomAlert,
@@ -7,10 +9,8 @@ import {
   CustomTable,
   DeleteConfirm,
 } from "../../ui";
-import { Box, Portal, Typography } from "@mui/material";
-import { DeleteForever, MonetizationOn } from "@mui/icons-material";
-import { useDataStore, useGastosStore } from "../../hooks";
 import { FormModalGasto } from "../components";
+import { useDataStore, useGastosStore, useUiStore } from "../../hooks";
 import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
 
 const TABLE_HEAD_GASTOS = [
@@ -28,6 +28,8 @@ const TABLE_HEAD_GASTOS = [
 
 export const ListaGastos = () => {
   //store
+
+  const { changePage } = useUiStore();
   const { dataActiva } = useDataStore();
 
   const {
@@ -37,6 +39,11 @@ export const ListaGastos = () => {
     changeDataGasto,
     startDeletingGasto,
   } = useGastosStore();
+
+  useEffect(() => {
+    changePage();
+    startGastosList("todos", "_", "_");
+  }, []);
 
   //hook abrir el formulario
   const [stateModalFormGasto, setStateModalFormGasto] = useState(false);
@@ -110,7 +117,6 @@ export const ListaGastos = () => {
   };
 
   useEffect(() => {
-    console.log(dataActiva);
     changeDataGasto(dataActiva);
   }, [dataActiva]);
 
@@ -172,8 +178,6 @@ export const ListaGastos = () => {
 
   useEffect(() => {
     if (statePickerYear.valueYear !== null) {
-      // console.log(statePickerYear.anioStr);
-
       startGastosList("anio", statePickerYear.anioStr, "_");
     }
   }, [statePickerYear]);
@@ -182,8 +186,6 @@ export const ListaGastos = () => {
 
   const onChangeMonth = (date, dateString) => {
     //Limpiar los demas componentes
-    // console.log(date);
-    // console.log(dateString);
     setStateDatesRange({ ...stateDatesRange, values: null });
     setStatePickerYear({
       valueYear: null,
@@ -212,10 +214,6 @@ export const ListaGastos = () => {
 
   /************************************************ */
   /************************************************ */
-
-  useEffect(() => {
-    startGastosList("todos", "_", "_");
-  }, []);
 
   const customFormat = (value) => {
     return arrMes[value["$d"].getMonth()] + " " + value["$d"].getFullYear();

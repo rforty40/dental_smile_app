@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
   agendaSlice,
+  authSlice,
   consultasSlice,
   dashboardSlice,
   dataSlice,
@@ -28,6 +29,7 @@ export const store = configureStore({
     ingresos: ingresosSlice.reducer,
     gastos: gastosSlice.reducer,
     dataGlobal: dataSlice.reducer,
+    auth: authSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>

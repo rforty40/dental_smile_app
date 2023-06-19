@@ -1,14 +1,14 @@
+import { useState } from "react";
 import { Box } from "@mui/material";
+import { DeleteOutlined, EditNoteOutlined } from "@mui/icons-material";
+import { ButtonCustom, CustomBasicTable, DeleteConfirm } from "../../ui";
+import { useTratamientosStore } from "../../hooks";
 import {
   formatearDataCompliToTable,
   formatearDataPrescToTable,
   formatearDataProcedTratamToTable,
   formatearDataTratamToTable,
 } from "../helpers";
-import { ButtonCustom, CustomBasicTable, DeleteConfirm } from "../../ui";
-import { DeleteOutlined, EditNoteOutlined } from "@mui/icons-material";
-import { useTratamientosStore } from "../../hooks";
-import { useState } from "react";
 
 const TABLE_HEAD_TRATAM = [
   { id: "codigo_CIE", label: "Código CIE" },
@@ -25,6 +25,11 @@ const TABLE_HEAD_PRESC = [
   { id: "prescripcion", label: "Prescripciones" },
   { id: "dosis", label: "Dosis" },
 ];
+
+//
+//
+//
+
 export const TratamientoItem = ({ dataTratam, fnOpenFormEdit }) => {
   //
 

@@ -37,11 +37,10 @@ export const usePagosStore = () => {
 
   const startLoadPagos = async () => {
     try {
-      // console.log(consultaActiva);
       const { data } = await getPagos(consultaActiva.id_consulta);
-      // console.log(data);
+
       const { data: dataSum } = await getSumPago(consultaActiva.id_consulta);
-      console.log(dataSum);
+
       dispatch(onLoadPagosList(data));
       dispatch(onSetSumPagos(parseFloat(Object.values(dataSum)[0])));
     } catch (error) {
@@ -55,19 +54,17 @@ export const usePagosStore = () => {
   const startSavingPago = async (pagoData) => {
     dispatch(clearErrorMessageCons());
     try {
-      console.log(pagoData);
       const dataFormateada = formatearDataPagoToBD({
         id_consulta: consultaActiva.id_consulta,
         ...pagoData,
       });
-      console.log(dataFormateada);
+
       if (pagoActivo) {
         //actualizar
         const { data } = await updatePago(
           pagoActivo.id_ingreso,
           dataFormateada
         );
-        console.log(data);
       } else {
         //registrar
 
@@ -75,7 +72,6 @@ export const usePagosStore = () => {
           consultaActiva.id_consulta,
           dataFormateada
         );
-        console.log(data);
       }
 
       //actualizar errores

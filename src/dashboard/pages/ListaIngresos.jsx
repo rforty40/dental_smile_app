@@ -1,6 +1,8 @@
-import { Box, Link, Portal, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { Box, Link, Portal, Typography } from "@mui/material";
+import { DeleteForever, MonetizationOn } from "@mui/icons-material";
+import { FaRegFolderOpen } from "react-icons/fa";
 import {
   ButtonCustom,
   CustomAlert,
@@ -11,13 +13,9 @@ import {
   CustomTable,
   DeleteConfirm,
 } from "../../ui";
-import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
-
-import { FaRegFolderOpen } from "react-icons/fa";
-import { useDataStore, useIngresosStore, useUiStore } from "../../hooks";
-import { MdPostAdd } from "react-icons/md";
-import { DeleteForever, MonetizationOn, NoteAdd } from "@mui/icons-material";
 import { FormModalIngreso } from "../components";
+import { useDataStore, useIngresosStore, useUiStore } from "../../hooks";
+import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
 
 const TABLE_HEAD = [
   { id: "fecha", label: "Fecha" },
@@ -35,15 +33,6 @@ const TABLE_HEAD_COLLAPSED = [
   { id: "fecha", label: "Fecha" },
   { id: "fecha_upd", label: "Fecha de actualización" },
 ];
-
-// const mesActual = () => {
-//   const today = new Date();
-//   const year = today.getFullYear();
-//   let mes = today.getMonth() + 1;
-//   mes = mes.toString().padStart(2, "0");
-//   // console.log(`${year}${mes}`);
-//   return `${year}${mes}`;
-// };
 
 const getParamIngreso1 = (tipIng) => {
   switch (tipIng) {
@@ -75,12 +64,12 @@ const getParamIngreso2 = (tipIng) => {
 
 export const ListaIngresos = () => {
   //store
+
   const {
     ingresosConsList,
     ingresosList,
     totalIngCons,
     totalIngresos,
-
     startIngresosConsList,
     startIngresosList,
     changeDataIngreso,
@@ -89,7 +78,13 @@ export const ListaIngresos = () => {
 
   const { dataActiva } = useDataStore();
 
-  const { handleChangeTabsCons } = useUiStore();
+  const { handleChangeTabsCons, changePage } = useUiStore();
+
+  useEffect(() => {
+    changePage();
+    startIngresosConsList("consultas", "todos", "_", "_");
+    startIngresosList("todos", "_", "_");
+  }, []);
 
   //hook abrir el formulario
   const [stateModalFormIng, setStateModalFormIng] = useState(false);
@@ -174,7 +169,6 @@ export const ListaIngresos = () => {
   };
 
   useEffect(() => {
-    console.log(dataActiva);
     changeDataIngreso(dataActiva);
   }, [dataActiva]);
 
@@ -189,7 +183,6 @@ export const ListaIngresos = () => {
     const {
       target: { value },
     } = event;
-    console.log(value);
     setTipIngreso(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
@@ -197,12 +190,8 @@ export const ListaIngresos = () => {
   };
 
   useEffect(() => {
-    // console.log(tipIngreso);
-    // console.log(paramFecha);
     switch (tipIngreso.length) {
       case 0:
-        // setParamTI("consultas");
-
         startIngresosConsList(
           "consultas",
           paramFecha.fecha,
@@ -212,10 +201,6 @@ export const ListaIngresos = () => {
         break;
 
       case 1:
-        // console.log(tipIngreso);
-        //   console.log(getParamIngreso1(tipIngreso[0]));
-        // setParamTI(getParamIngreso1(tipIngreso[0]));
-
         startIngresosConsList(
           getParamIngreso1(tipIngreso[0]),
           paramFecha.fecha,
@@ -225,11 +210,6 @@ export const ListaIngresos = () => {
         break;
 
       case 2:
-        // console.log(tipIngreso);
-        // console.log(getParamIngreso2(tipIngreso));
-        // setParamTI(getParamIngreso2(tipIngreso));
-        console.log(getParamIngreso2(tipIngreso));
-        console.log(paramFecha);
         startIngresosConsList(
           getParamIngreso2(tipIngreso),
           paramFecha.fecha,
@@ -239,8 +219,6 @@ export const ListaIngresos = () => {
         break;
 
       case 3:
-        // console.log(tipIngreso);
-        // setParamTI("consultas");
         startIngresosConsList(
           "consultas",
           paramFecha.fecha,
@@ -331,7 +309,6 @@ export const ListaIngresos = () => {
 
   useEffect(() => {
     if (statePickerYear.valueYear !== null) {
-      // console.log(statePickerYear.anioStr);
       startIngresosConsList("consultas", "anio", statePickerYear.anioStr, "_");
       setParamFecha({
         fecha: "anio",
@@ -346,8 +323,6 @@ export const ListaIngresos = () => {
 
   const onChangeMonth = (date, dateString) => {
     //Limpiar los demas componentes
-    // console.log(date);
-    // console.log(dateString);
     setStateDatesRange({ ...stateDatesRange, values: null });
     setStatePickerYear({
       valueYear: null,
@@ -393,16 +368,10 @@ export const ListaIngresos = () => {
   /************************************************ */
   /************************************************ */
 
-  useEffect(() => {
-    startIngresosConsList("consultas", "todos", "_", "_");
-    startIngresosList("todos", "_", "_");
-  }, []);
-
   const customFormat = (value) => {
     return arrMes[value["$d"].getMonth()] + " " + value["$d"].getFullYear();
   };
   const BtnInFila = ({ infoRow }) => {
-    // console.log(infoRow);
     return (
       <Link
         component={RouterLink}

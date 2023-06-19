@@ -1,11 +1,9 @@
-import { forwardRef, useMemo, useState } from "react";
-
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
+import { forwardRef, useMemo, useState, useEffect } from "react";
 import {
   Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Icon,
   IconButton,
   Portal,
@@ -21,11 +19,8 @@ import {
   Subject,
 } from "@mui/icons-material";
 import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
-
 import { useForm, useTipConsStore } from "../../hooks";
-
 import { formValidationsTipCons } from "./validationsFormDashboard";
-import { useEffect } from "react";
 
 //
 //
@@ -63,8 +58,6 @@ export const FormTipCons = ({
       if (tipoConsActivo) {
         return {
           dataForm: {
-            // id: tipoConsActivo.id,
-            // tipo_de_consulta: tipoConsActivo.tipo_de_consulta,
             ...tipoConsActivo,
             precio: tipoConsActivo.precio.toString(),
           },
@@ -122,7 +115,6 @@ export const FormTipCons = ({
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
-    console.log(formState);
     startSavingTipCons(formState);
   };
 
@@ -132,13 +124,6 @@ export const FormTipCons = ({
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
-
-      // if (!title.toUpperCase().includes("EDITAR")) {
-      //   formDataPac.dataForm = {
-      //     tipo_de_consulta: "",
-      //     precio: "",
-      //   };
-      // }
     }
 
     if (errorMsgRegTipoCons.msg === "Hay errores" && formSubmitted) {

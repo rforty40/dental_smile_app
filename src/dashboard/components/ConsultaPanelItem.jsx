@@ -1,3 +1,4 @@
+import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Grid,
@@ -6,16 +7,17 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { ButtonCustom, CustomStandardTF } from "../../ui";
-import { invertDateFormat } from "../../agenda/helpers/formatedDataCite";
-import { FaRegFolderOpen } from "react-icons/fa";
-import { useUiStore } from "../../hooks";
-import { useNavigate } from "react-router-dom";
 import { PersonSearch } from "@mui/icons-material";
+import { FaRegFolderOpen } from "react-icons/fa";
+import { ButtonCustom, CustomStandardTF } from "../../ui";
+import { useUiStore } from "../../hooks";
+import { invertDateFormat } from "../../agenda/helpers/formatedDataCite";
+
+//
+//
+//
 
 export const ConsultaPanelItem = ({ consultaItem }) => {
-  const navigate = useNavigate();
   const { handleChangeTabsCons, handleChangeTabs } = useUiStore();
 
   const diagnosticosStr = consultaItem.diagnosticos.reduce((acc, diag) => {
@@ -29,25 +31,17 @@ export const ConsultaPanelItem = ({ consultaItem }) => {
   }, "");
 
   const handleOpenCons = () => {
-    // changeDataConsulta(consultaItem);
     handleChangeTabsCons(0);
-    // navigate(
-    //   `/pacientes/${consultaItem.id_paciente}/historial/${consultaItem.id_consulta}`
-    // );
   };
 
   const handleOpenPac = () => {
     handleChangeTabs(0);
-    // navigate(`/pacientes/${consultaItem.id_paciente}/historial`);
   };
   return (
     <>
-      {/* <Box width="90%"> */}
       <Grid
         container
         display="grid"
-        // flexDirection="row"
-        // border="2px solid"
         boxShadow="5px 7px 7px rgba(0, 0, 0, 0.5)"
         sx={{
           //
@@ -56,15 +50,11 @@ export const ConsultaPanelItem = ({ consultaItem }) => {
           marginTop: "5px",
           borderRadius: "10px",
           transitionProperty: "transform",
-          // transitionDelay: "0.1s",
+
           transition: "all 0.1s ease-in-out",
-          // backgroundColor: "rgba(255,255,255,0.6)",
-          //   ":hover": {
-          //     transform: "scale(1.04)",
-          //   },
+
           backgroundColor: "white",
-          //   backgroundColor: colorChoose ? "primary.main" : "white",
-          // alignItems: "center",
+
           gridTemplateColumns: "8% 62% 20% 10%",
           gridTemplateRows: "repeat(2, max-content)",
           gridTemplateAreas: `". . infoCons infoCons" 
@@ -235,36 +225,28 @@ export const ConsultaPanelItem = ({ consultaItem }) => {
                     colorBrd="#602A90"
                   />
 
-                  {
-                    tratam.procedimientos.length > 0 && (
-                      // tratam.procedimientos.map((proced, index) => {
-                      // return (
-                      <CustomStandardTF
-                        // key={index}
-                        multiline
-                        // value={proced.Procedimiento}
-                        line_he="30px"
-                        propsSX={{ paddingLeft: "40px" }}
-                        value={tratam.procedimientos.reduce(
-                          (acc, procAct, index) => {
-                            if (index === 0) {
-                              acc = `${procAct.Procedimiento}`;
-                            } else {
-                              acc = `${acc}\n${procAct.Procedimiento}`;
-                            }
-                            return acc;
-                          },
-                          ""
-                        )}
-                        helperText="Procedimientos"
-                        colorTxt="black"
-                        colorHelp="#602A90"
-                        colorBrd="#602A90"
-                      />
-                    )
-                    // );
-                    // })
-                  }
+                  {tratam.procedimientos.length > 0 && (
+                    <CustomStandardTF
+                      multiline
+                      line_he="30px"
+                      propsSX={{ paddingLeft: "40px" }}
+                      value={tratam.procedimientos.reduce(
+                        (acc, procAct, index) => {
+                          if (index === 0) {
+                            acc = `${procAct.Procedimiento}`;
+                          } else {
+                            acc = `${acc}\n${procAct.Procedimiento}`;
+                          }
+                          return acc;
+                        },
+                        ""
+                      )}
+                      helperText="Procedimientos"
+                      colorTxt="black"
+                      colorHelp="#602A90"
+                      colorBrd="#602A90"
+                    />
+                  )}
                 </>
               );
             })}
@@ -301,7 +283,6 @@ export const ConsultaPanelItem = ({ consultaItem }) => {
           </Link>
         </Grid>
       </Grid>
-      {/* </Box> */}
     </>
   );
 };

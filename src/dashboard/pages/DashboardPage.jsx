@@ -1,26 +1,28 @@
-import { Box, ToggleButtonGroup } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDashboardStore, useUiStore } from "../../hooks";
-
-import { CustomDatePickerAntd, CustomRangeDate, Topbar } from "../../ui";
-
-import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
-
+import { Box, ToggleButtonGroup } from "@mui/material";
+import { RiLockPasswordLine } from "react-icons/ri";
+import {
+  ButtonCustom,
+  CustomDatePickerAntd,
+  CustomRangeDate,
+  Topbar,
+} from "../../ui";
 import {
   CardDashboard,
+  FormChangePassword,
   MenuListDashboard,
   MyButtonInGroup,
 } from "../components";
+import { useDashboardStore, useUiStore } from "../../hooks";
+import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
 
 /*************************************************************************************************** */
 
 export const DashboardPage = () => {
   //
-
   const { changePage } = useUiStore();
 
   useEffect(() => {
-    console.log("Dashboard Page");
     changePage();
   }, []);
 
@@ -190,6 +192,13 @@ export const DashboardPage = () => {
     return arrMes[value["$d"].getMonth()] + " " + value["$d"].getFullYear();
   };
 
+  //change password
+
+  const [stateFormChangePass, setStateFormChangePass] = useState(false);
+
+  const openModalChangePassword = () => {
+    setStateFormChangePass(true);
+  };
   return (
     <div
       style={{
@@ -306,11 +315,9 @@ export const DashboardPage = () => {
         className="animate__animated animate__fadeIn"
         margin="30px 30px 0px 30px"
         display="flex"
-        // flexDirection="column"
         flexWrap="wrap"
         rowGap="15px"
         columnGap="15px"
-        // sx={{ backgroundColor: "white" }}
       >
         <MenuListDashboard
           txtLabel={"Lista de procedimientos odontológicos"}
@@ -334,6 +341,26 @@ export const DashboardPage = () => {
         />
         <MenuListDashboard txtLabel={"Lista de gastos"} route={"listagastos"} />
       </Box>
+      <Box display="flex" justifyContent="end" paddingRight="20px">
+        <ButtonCustom
+          altura={"42px"}
+          colorf={"rgba(255,255,255,0.7)"}
+          colorh={"primary.main"}
+          colort={"primary.main"}
+          colorth={"white"}
+          txt_b={"Cambiar contraseña"}
+          flexDir="row"
+          txt_b_size="17px"
+          // fontW="bold"
+          propsXS={{ borderRadius: "5px !important" }}
+          iconB={<RiLockPasswordLine />}
+          onClick={openModalChangePassword}
+        />
+      </Box>
+      <FormChangePassword
+        openModal={stateFormChangePass}
+        setOpenModal={setStateFormChangePass}
+      />
     </div>
   );
 };

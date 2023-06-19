@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
+
+import { DeleteForever, NoteAdd } from "@mui/icons-material";
+import { Box, Portal, Typography } from "@mui/material";
 import {
   ButtonCustom,
   CustomAlert,
   CustomTable,
   DeleteConfirm,
 } from "../../../ui";
-import { DeleteForever, NoteAdd } from "@mui/icons-material";
-import { Box, Portal, Typography } from "@mui/material";
-import {
-  useConsultasStore,
-  useDataStore,
-  useExamenesStore,
-  usePlanesStore,
-} from "../../../hooks";
-
 import { FormModalExam } from "../../components/FormModalExam";
 import { FormModalPlan } from "../../components/FormModalPlan";
+import { useDataStore, useExamenesStore, usePlanesStore } from "../../../hooks";
 
 const TABLE_HEAD_EXAM = [
   { id: "region_afectada", label: "Región afectada", alignLeft: true },

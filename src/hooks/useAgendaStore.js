@@ -82,7 +82,7 @@ export const useAgendaStore = () => {
       const { data } = await createCita(formatearDataCiteToBD(dataCite));
 
       //guardando y actualizando el store
-      console.log(data);
+
       dispatch(onSaveCita(formatedDataCite([data])[0]));
       dispatch(onSetActiveCita(formatedDataCite([data])[0]));
 
@@ -116,7 +116,6 @@ export const useAgendaStore = () => {
       );
 
       //guardando y actualizando el store
-      console.log(data);
       dispatch(onUpdateCita(formatedDataCite([data])[0]));
       dispatch(onSetActiveCita(formatedDataCite([data])[0]));
 
@@ -139,8 +138,6 @@ export const useAgendaStore = () => {
   };
 
   const startUpdatingCitaState = async (fechaCite, horaIni, dataCite) => {
-    console.log(dataCite);
-
     try {
       await updateCita(fechaCite.replaceAll("/", "-"), horaIni, dataCite);
       //

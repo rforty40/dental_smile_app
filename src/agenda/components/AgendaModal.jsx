@@ -1,11 +1,4 @@
-import {
-  CancelOutlined,
-  CheckCircleOutline,
-  CloseOutlined,
-  PersonSearch,
-  SaveOutlined,
-  SegmentOutlined,
-} from "@mui/icons-material";
+import { useMemo, useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import {
+  CancelOutlined,
+  CheckCircleOutline,
+  CloseOutlined,
+  PersonSearch,
+  SaveOutlined,
+  SegmentOutlined,
+} from "@mui/icons-material";
+import {
   ButtonCustom,
   CustomAlert,
   CustomAutocomplete,
@@ -24,13 +25,7 @@ import {
   CustomTimePicker,
   IconTextField,
 } from "../../ui";
-
 import { useAgendaStore, usePacienteStore } from "../../hooks";
-
-import { useMemo, useState } from "react";
-
-import { useEffect } from "react";
-
 import {
   extraerFecha,
   retornarHourWithNewDate,
@@ -119,7 +114,6 @@ export const AgendaModal = () => {
       setStateTimeFin(activeCita.end);
 
       if (activeCita.id_paciente !== undefined) {
-        console.log("editar");
         setStatePacList(activeCita.id_paciente);
 
         setStatePacValue(
@@ -132,9 +126,7 @@ export const AgendaModal = () => {
         setErrorHourFin(null);
         setStateMotivo(activeCita.moti_citaAgen);
       } else {
-        console.log("register");
         setStatePacList(0);
-        // setStateDefPac(null);
         setStatePacValue(null);
         setStateMotivo("");
       }
@@ -226,8 +218,6 @@ export const AgendaModal = () => {
     //enviando al custom hook
 
     if (titleFormAgenda.includes("Editar")) {
-      console.log("Envio datos a actualizar");
-
       startUpdatingCita(activeCita.fecha_cita, activeCita.hora_inicio, {
         statePacList: !blockPaciente ? statePacList : pacienteActivo.id,
         stateDatePicker,

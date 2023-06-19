@@ -89,7 +89,6 @@ export const useConsultasStore = () => {
 
       const dataFormated = formatedDataConsulta(data);
 
-      console.log(dataFormated);
       //1er bucle
       //para crear los elementos objetos del array, cuya unica llave es el nombre del mes + el año,
       // se usa un array para controlar que no se repitan los meses
@@ -147,7 +146,6 @@ export const useConsultasStore = () => {
           consData.id,
           formatearDataConsToBD(consData)
         );
-        console.log(data);
 
         //actualizacion en la consulta desde el detalle en la consulta
         dispatch(onSetActivaConsulta(formatedDataConsulta([data])[0]));
@@ -160,7 +158,6 @@ export const useConsultasStore = () => {
           formatearDataConsToBD(consData)
         );
 
-        console.log(data);
         startLoadConsultas("no_filtros", "_", "_");
         // dispatch(onSetActivaConsulta(formatedDataConsulta([data])[0]));
       }
@@ -199,7 +196,7 @@ export const useConsultasStore = () => {
     try {
       const { data: dataPac } = await getPacienteById(id_pac);
       const { data: dataCons } = await getConsultaById(id_cons);
-      console.log(dataCons);
+
       dispatch(onLoadPacActivo(formatearDataPacToTable([dataPac])[0]));
       dispatch(onSetActivaConsulta(formatedDataConsulta([dataCons])[0]));
     } catch (error) {
@@ -211,7 +208,7 @@ export const useConsultasStore = () => {
   const startLoadSignVit = async () => {
     try {
       const { data } = await getSignosVitales(consultaActiva.id_consulta);
-      console.log(data);
+
       dispatch(onSetActiveSignVit(data));
     } catch (error) {
       console.log(error);

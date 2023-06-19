@@ -1,7 +1,15 @@
 //
 //
-
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Box, Tabs, Typography } from "@mui/material";
+import { DeleteOutlined } from "@mui/icons-material";
+import { DetalleConsultaPage } from "./DetalleConsultaPage";
+import { ExamPlanConsultaPage } from "./ExamPlanConsultaPage";
+import { DiagTratamConsultaPage } from "./DiagTratamConsultaPage";
+import { PagosConsultaPage } from "./PagosConsultaPage";
+import { ButtonCustom, CustomTab, DeleteConfirm } from "../../../ui";
+import { ConsInfoItem } from "../../components";
 import {
   useConsultasStore,
   useDiagnosticosStore,
@@ -12,17 +20,7 @@ import {
   useTratamientosStore,
   useUiStore,
 } from "../../../hooks";
-import { Box, Tabs, Typography } from "@mui/material";
-import { DetalleConsultaPage } from "./DetalleConsultaPage";
-import { ExamPlanConsultaPage } from "./ExamPlanConsultaPage";
-import { DiagTratamConsultaPage } from "./DiagTratamConsultaPage";
-import { PagosConsultaPage } from "./PagosConsultaPage";
-import { DeleteOutlined } from "@mui/icons-material";
-import { useEffect } from "react";
-import { ButtonCustom, CustomTab, DeleteConfirm } from "../../../ui";
-import { ConsInfoItem } from "../../components";
 import { invertDateFormat } from "../../../agenda/helpers/formatedDataCite";
-
 //
 //
 //
@@ -51,17 +49,14 @@ export const ConsultaPage = () => {
 
   const { startLoadPagos } = usePagosStore();
 
-  useEffect(() => {
-    handleChangeTabsCons(
-      parseInt(localStorage.getItem("lastTabPacienteCons")) || 0
-    );
-  }, []);
-
   const { id_pac, id_cons } = useParams();
 
   useEffect(() => {
     changePage();
     startLoadConsulta(id_pac, id_cons);
+    handleChangeTabsCons(
+      parseInt(localStorage.getItem("lastTabPacienteCons")) || 0
+    );
   }, []);
 
   useEffect(() => {

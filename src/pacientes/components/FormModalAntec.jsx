@@ -1,13 +1,8 @@
 import { forwardRef, useEffect, useMemo, useState } from "react";
-
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
-import { MdOutlineDescription } from "react-icons/md";
-
-import { RiParentLine } from "react-icons/ri";
 import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Grid,
   Icon,
   IconButton,
@@ -21,15 +16,15 @@ import {
   CloseOutlined,
   SaveOutlined,
 } from "@mui/icons-material";
+import { MdOutlineDescription } from "react-icons/md";
+import { RiParentLine } from "react-icons/ri";
 import {
   ButtonCustom,
   CustomAlert,
   IconTextField,
   SelectedCustom,
 } from "../../ui";
-
 import { useAntecedenteStore, useForm } from "../../hooks";
-
 import { formValidations } from "./validationsFormAnteced";
 
 //
@@ -190,9 +185,6 @@ export const FormModalAntec = ({
         onClose={cerrarModal}
         TransitionComponent={Transition}
         keepMounted
-        // sx={{
-        //   backdropFilter: "blur(0.7px)",
-        // }}
       >
         <DialogTitle
           display="flex"

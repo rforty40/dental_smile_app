@@ -39,9 +39,8 @@ export const useDiagnosticosStore = () => {
 
   const startLoadDiagnosticos = async () => {
     try {
-      console.log(consultaActiva);
       const { data } = await getDiagnosticos(consultaActiva.id_consulta);
-      console.log(data);
+
       dispatch(onLoadDiagnosticosList(formatearDataDiagToTable(data)));
     } catch (error) {
       console.log(error);
@@ -53,14 +52,13 @@ export const useDiagnosticosStore = () => {
   const startSavingDiagnostico = async (diagData) => {
     dispatch(clearErrorMessageCons());
     try {
-      console.log(diagData);
       if (diagActivo) {
         //actualizar
         const { data } = await updateDiagnostico(
           diagActivo.id,
           formatearDataDiagToBD(diagData)
         );
-        console.log(data);
+
         dispatch(onUpdateDiag(formatearDataDiagToTable([data])[0]));
         dispatch(onSetActiveDiag(formatearDataDiagToTable([data])[0]));
       } else {
@@ -70,7 +68,7 @@ export const useDiagnosticosStore = () => {
           consultaActiva.id_consulta,
           formatearDataDiagToBD(diagData)
         );
-        console.log(data);
+
         dispatch(onSaveDiag(formatearDataDiagToTable([data])[0]));
         dispatch(onSetActiveDiag(formatearDataDiagToTable([data])[0]));
       }

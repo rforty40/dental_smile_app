@@ -1,25 +1,22 @@
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Checkbox,
   Collapse,
   IconButton,
   Link,
-  Table,
-  TableBody,
   TableCell,
-  TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
-import { useDataStore, usePacienteStore } from "../../../hooks";
-import { Link as RouterLink } from "react-router-dom";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
   MoreVert,
 } from "@mui/icons-material";
 import { CustomBasicTable } from "../FormInModal/CustomBasicTable";
+import { useDataStore, usePacienteStore } from "../../../hooks";
 
 //
 //
@@ -173,30 +170,6 @@ export const RowTableCollapsible = ({
                 table_head={TABLE_HEAD_COLLAPSED}
                 table_data={row[propertyCollapsed]}
               />
-
-              {/* <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    {TABLE_HEAD_COLLAPSED.map((element) => (
-                      <TableCell key={element.id}>{element.label}</TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell>{historyRow.amount}</TableCell>
-                      <TableCell>
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table> */}
             </Box>
           </Collapse>
         </TableCell>

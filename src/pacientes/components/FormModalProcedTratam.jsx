@@ -27,16 +27,9 @@ export const FormModalProcedTratam = ({
 
   const { procedList, startLoadProcedList } = useProcedStore();
 
-  console.log(procedList);
-
-  //
-  const [stateProced, setStateProced] = useState(null);
-
-  console.log(stateProced);
   //cerrarModal
   const cerrarModal = () => {
     setOpenModal(false);
-    // setStateProced(null);
   };
 
   useEffect(() => {
@@ -85,9 +78,7 @@ export const FormModalProcedTratam = ({
               open={true}
               fullWidth
               options={procedList}
-              // value={stateProced}
               onChange={(event, newValue) => {
-                // setStateProced(newValue);
                 if (newValue !== null) {
                   fnAddProced(
                     newValue.codigo,
@@ -98,7 +89,6 @@ export const FormModalProcedTratam = ({
                 cerrarModal();
               }}
               getOptionLabel={(option) => {
-                console.log(option);
                 return option.codigo.length > 0
                   ? option.codigo + " - " + option.procedimiento
                   : option.procedimiento;

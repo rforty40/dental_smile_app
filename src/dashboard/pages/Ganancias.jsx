@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useDashboardStore, useUiStore } from "../../hooks";
 import { Box, Link, Typography } from "@mui/material";
-
-import { ButtonCustom, CustomTable } from "../../ui";
 import { FaRegFolderOpen } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
+import { ButtonCustom, CustomTable } from "../../ui";
+import { useDashboardStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD_COLLAPSED = [
   { id: "ingreso_por", label: "Ingreso por" },
@@ -28,8 +27,9 @@ const TABLE_HEAD_GASTOS = [
 //
 
 export const Ganancias = () => {
+  const { changePage } = useUiStore();
+
   const {
-    messagePanelIngre,
     messagePanelGananc,
     startLoadGanancias,
     parametrosBusqueda,
@@ -59,6 +59,7 @@ export const Ganancias = () => {
   };
 
   useEffect(() => {
+    changePage();
     actualizarListaGan();
   }, []);
 
@@ -89,7 +90,6 @@ export const Ganancias = () => {
   };
 
   const BtnInFila = ({ infoRow }) => {
-    // console.log(infoRow);
     return infoRow.id_paciente ? (
       <Link
         component={RouterLink}

@@ -28,10 +28,6 @@ export const purpleTheme = createTheme(
         main: "#F2F0F0",
       },
 
-      // colorIconMolar: {
-      //   main: "#9349FB",
-      // },
-
       colorIconMolar: {
         main: "#3a1d64",
       },

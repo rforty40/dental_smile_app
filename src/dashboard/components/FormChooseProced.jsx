@@ -1,10 +1,14 @@
 import { forwardRef, useLayoutEffect, useState, useEffect } from "react";
 
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
-import { Box, IconButton, Slide, Typography } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Slide,
+  Typography,
+} from "@mui/material";
 
 import { CloseOutlined } from "@mui/icons-material";
 
@@ -177,7 +181,6 @@ export const FormChooseProced = ({
                 options={titulosList}
                 value={stateTitulos}
                 onChange={(event, newValue) => {
-                  // console.log(newValue);
                   newValue !== null
                     ? setStateTitulos(newValue)
                     : setStateTitulos({ id: 0, label: "" });
@@ -193,7 +196,6 @@ export const FormChooseProced = ({
                 options={subtitulosList}
                 value={stateSubTitulos}
                 onChange={(event, newValue) => {
-                  // console.log(newValue);
                   newValue !== null
                     ? setStateSubTitulos(newValue)
                     : setStateSubTitulos({ id: 0, label: "" });
@@ -216,7 +218,6 @@ export const FormChooseProced = ({
                 options={procedWithCodeList}
                 value={stateProcedList}
                 onChange={(event, newValue) => {
-                  // console.log(newValue);
                   newValue !== null
                     ? setStateProcedList(newValue)
                     : setStateProcedList({ id: "", label: "" });

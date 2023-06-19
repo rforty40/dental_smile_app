@@ -1,14 +1,8 @@
 import { forwardRef, useEffect, useMemo, useState } from "react";
-
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
-import { FaChild, FaIdCard, FaUserEdit } from "react-icons/fa";
-import { MdContactPhone, MdEmail, MdFamilyRestroom } from "react-icons/md";
-import { IoIosContacts } from "react-icons/io";
-
 import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Grid,
   Icon,
   IconButton,
@@ -23,15 +17,16 @@ import {
   PhoneIphone,
   SaveOutlined,
 } from "@mui/icons-material";
+import { FaChild, FaIdCard, FaUserEdit } from "react-icons/fa";
+import { MdContactPhone, MdEmail, MdFamilyRestroom } from "react-icons/md";
+import { IoIosContacts } from "react-icons/io";
 import {
   ButtonCustom,
   CustomAlert,
   IconTextField,
   RadioGroupCustom,
 } from "../../ui";
-
 import { useForm, usePacienteStore } from "../../hooks";
-
 import { formValidations } from "./validationsFormPac";
 import { formatearPacActiveToForm } from "../helpers";
 

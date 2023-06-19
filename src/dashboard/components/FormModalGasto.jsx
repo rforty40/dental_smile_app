@@ -18,12 +18,11 @@ import {
   CloseOutlined,
   MonetizationOn,
   SaveOutlined,
-  SegmentOutlined,
 } from "@mui/icons-material";
 
 import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
 
-import { useGastosStore, useIngresosStore } from "../../hooks";
+import { useGastosStore } from "../../hooks";
 
 //
 //
@@ -34,8 +33,6 @@ export const FormModalGasto = ({ openModal, setOpenModal, title }) => {
 
   const { gastoActivo, errorMsgRegGasto, startSavingGasto, changeDataGasto } =
     useGastosStore();
-
-  console.log(gastoActivo);
 
   //hook del formulario
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -76,16 +73,11 @@ export const FormModalGasto = ({ openModal, setOpenModal, title }) => {
 
   //control formulario de registro y edición
   useEffect(() => {
-    console.log(gastoActivo);
-
     if (gastoActivo && title.includes("Editar")) {
-      console.log("actualización");
-
       //cargar los componentes
       setStateGasto(gastoActivo.desc);
       setStatePrecio(gastoActivo.monto);
     } else {
-      console.log("registro");
       resetInputText();
     }
   }, [gastoActivo, title]);
@@ -117,12 +109,6 @@ export const FormModalGasto = ({ openModal, setOpenModal, title }) => {
     //validaciones
     if (stateGasto.length === 0) return;
     if (statePrecio.length === 0) return;
-
-    console.log(gastoActivo);
-    console.log({
-      desc: stateGasto,
-      monto: statePrecio,
-    });
 
     //enviando al custom hook
     startSavingGasto({
@@ -202,21 +188,13 @@ export const FormModalGasto = ({ openModal, setOpenModal, title }) => {
                 columnGap: "25px",
               }}
             >
-              <Grid
-                item
-                gridArea="monto"
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="end"
-              >
+              <Grid item gridArea="monto" display="flex" alignItems="end">
                 <IconTextField
                   fullWidth
                   label="Monto:"
                   type="number"
                   value={statePrecio}
                   onChange={({ target }) => {
-                    console.log(target.value);
                     setStatePrecio(target.value);
                   }}
                   colorIcon="primary.main"

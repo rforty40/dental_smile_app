@@ -57,7 +57,7 @@ export const useProcedStore = () => {
   const startLoadProcedList = async () => {
     try {
       const { data } = await getAllProcedimientos();
-      // console.log(data);
+
       dispatch(onLoadProcedList(formatearDataProcedToTable(data)));
     } catch (error) {
       console.log(error.response.data.message);
@@ -71,16 +71,13 @@ export const useProcedStore = () => {
   const startSavingProced = async (dataProced) => {
     dispatch(clearErrorProcedMsg());
     try {
-      console.log(dataProced);
-      console.log(formatearDataProcedToBD(dataProced));
-
       if (dataProced.id) {
         //actualizar
         const { data } = await updateProcedimiento(
           dataProced.id,
           formatearDataProcedToBD(dataProced)
         );
-        // console.log(data);
+
         dispatch(onUpdateProced(formatearDataProcedToTable([data])[0]));
         dispatch(onSetActiveProced(formatearDataProcedToTable([data])[0]));
         //
@@ -123,7 +120,7 @@ export const useProcedStore = () => {
   const startLoadTitulosList = async () => {
     try {
       const { data } = await getTitulos();
-      // console.log(data);
+
       dispatch(onLoadTitulosList(formatearDataTitulos(data)));
     } catch (error) {
       console.log(error.response.data.message);
@@ -133,7 +130,7 @@ export const useProcedStore = () => {
   const startLoadSubtitulosList = async (id_titulo) => {
     try {
       const { data } = await getSubtitulos(id_titulo);
-      console.log(data);
+
       dispatch(onLoadSubtitulosList(formatearDataSubtitulos(data)));
     } catch (error) {
       console.log(error.response.data.message);
@@ -150,7 +147,7 @@ export const useProcedStore = () => {
   const startProcedNomenList = async (ti_subti, id_titSubti) => {
     try {
       const { data } = await getProcedNomen(ti_subti, id_titSubti);
-      console.log(data);
+
       dispatch(onLoadProcedNomenList(formatearDataProcedNomen(data)));
     } catch (error) {
       console.log(error.response.data.message);
@@ -160,8 +157,7 @@ export const useProcedStore = () => {
   const startProcedNomenListBusq = async () => {
     try {
       const { data } = await getProcedBusqueda();
-      console.log(data);
-      console.log(formatearDataProcedNomen(data));
+
       dispatch(onLoadProcedNomenList(formatearDataProcedNomen(data)));
     } catch (error) {
       console.log(error.response.data.message);
@@ -170,7 +166,7 @@ export const useProcedStore = () => {
   const changeDataProcedTS = async (cod) => {
     try {
       const { data } = await getAllDataProced(cod);
-      console.log(data);
+
       dispatch(onChangeAllDataProced(data));
     } catch (error) {
       console.log(error.response.data.message);

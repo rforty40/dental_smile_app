@@ -47,12 +47,9 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
 
   return (
     <>
-      {/* <Box width="90%"> */}
       <Grid
         container
         display="grid"
-        // flexDirection="row"
-        // border="2px solid"
         boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
         sx={{
           //
@@ -61,15 +58,15 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           marginTop: "5px",
           borderRadius: "10px",
           transitionProperty: "transform",
-          // transitionDelay: "0.1s",
+
           transition: "all 0.1s ease-in-out",
-          // backgroundColor: "rgba(255,255,255,0.6)",
+
           ":hover": {
             transform: "scale(1.04)",
           },
-          // backgroundColor: "myBgColor.main",
+
           backgroundColor: colorChoose ? "primary.main" : "white",
-          // alignItems: "center",
+
           gridTemplateColumns: "8% 62% 20% 10%",
           gridTemplateRows: "repeat(2, max-content)",
           gridTemplateAreas: `". . infoCons infoCons" 
@@ -201,36 +198,28 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
                     colorBrd={colorChoose ? "white" : "#602A90"}
                   />
 
-                  {
-                    tratam.procedimientos.length > 0 && (
-                      // tratam.procedimientos.map((proced, index) => {
-                      // return (
-                      <CustomStandardTF
-                        // key={index}
-                        multiline
-                        // value={proced.Procedimiento}
-                        line_he="30px"
-                        propsSX={{ paddingLeft: "40px" }}
-                        value={tratam.procedimientos.reduce(
-                          (acc, procAct, index) => {
-                            if (index === 0) {
-                              acc = `${procAct.Procedimiento}`;
-                            } else {
-                              acc = `${acc}\n${procAct.Procedimiento}`;
-                            }
-                            return acc;
-                          },
-                          ""
-                        )}
-                        helperText="Procedimientos"
-                        colorTxt={colorChoose ? "white" : "black"}
-                        colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
-                        colorBrd={colorChoose ? "white" : "#602A90"}
-                      />
-                    )
-                    // );
-                    // })
-                  }
+                  {tratam.procedimientos.length > 0 && (
+                    <CustomStandardTF
+                      multiline
+                      line_he="30px"
+                      propsSX={{ paddingLeft: "40px" }}
+                      value={tratam.procedimientos.reduce(
+                        (acc, procAct, index) => {
+                          if (index === 0) {
+                            acc = `${procAct.Procedimiento}`;
+                          } else {
+                            acc = `${acc}\n${procAct.Procedimiento}`;
+                          }
+                          return acc;
+                        },
+                        ""
+                      )}
+                      helperText="Procedimientos"
+                      colorTxt={colorChoose ? "white" : "black"}
+                      colorHelp={colorChoose ? "#02ECEE" : "#602A90"}
+                      colorBrd={colorChoose ? "white" : "#602A90"}
+                    />
+                  )}
                 </>
               );
             })}
@@ -291,7 +280,6 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           />
         </Grid>
       </Grid>
-      {/* </Box> */}
     </>
   );
 };

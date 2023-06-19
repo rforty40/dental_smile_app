@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { styled } from "@mui/material/styles";
 import {
   Box,
   ClickAwayListener,
@@ -6,9 +7,6 @@ import {
   Typography,
   Zoom,
 } from "@mui/material";
-
-import { styled } from "@mui/material/styles";
-
 import { ViewCita } from "./ViewCita";
 
 const StyledTooltip = styled((props) => (
@@ -49,16 +47,7 @@ export const CalendarEvent = ({ event }) => {
     setOpen(!open);
   };
 
-  const {
-    Cuando,
-    fecha_cita,
-    hora_inicio,
-    hora_fin,
-    id_paciente,
-    Paciente,
-    moti_citaAgen,
-    esta_citaAgen,
-  } = event;
+  const { Paciente, moti_citaAgen } = event;
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -77,14 +66,8 @@ export const CalendarEvent = ({ event }) => {
           <Box
             component="div"
             onClick={handleTooltipOpen}
-            // display="flex"
-            // flexDirection="row"
-            // padding="5px"
-            // height="100vh"
-            // width="100%"
             sx={{
               borderRadius: "5px",
-              // backgroundColor: "orange",
             }}
           >
             <Typography
@@ -102,16 +85,7 @@ export const CalendarEvent = ({ event }) => {
               {moti_citaAgen}
             </Typography>
 
-            {/* <div
-              onClick={() => navigate(`/pacientes/${id_paciente}/historial`)}
-            > */}
             <Typography
-              // sx={{
-              //   ":hover": {
-              //     cursor: "pointer",
-              //     color: "#01EBED",
-              //   },
-              // }}
               fontSize="13px"
               fontStyle="italic"
               color="black"
@@ -119,7 +93,6 @@ export const CalendarEvent = ({ event }) => {
             >
               {Paciente}
             </Typography>
-            {/* </div> */}
           </Box>
         </StyledTooltip>
       </div>

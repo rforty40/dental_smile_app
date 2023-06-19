@@ -1,30 +1,36 @@
+import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AgendaRoutes } from "../agenda";
 import { DashboardRoutes } from "../dashboard";
 import { PacientesRoutes } from "../pacientes";
 
+import { LoginPage } from "../auth/pages/LoginPage";
+import { AppTheme } from "../theme";
+import { useAuthStore } from "../hooks";
+
 export const AppRouter = () => {
   //
+  const { authenticatedStatus, checkAuthStatus } = useAuthStore();
 
-  return (
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  const lastRoute = localStorage.getItem("lastRoute") || "/agenda";
+
+  return authenticatedStatus === false ? (
     <Routes>
-      {/* ruta de inicio por defecto */}
-      <Route path="/*" element={<Navigate to="/agenda" />} />
-      {/* {status === "authenticated" ? (
-        <Route path="/*" element={<JournalRoutes />} />
-      ) : (
-        <Route path="/auth/*" element={<AuthRoutes />} />
-      )}
-
-      <Route path="/*" element={<Navigate to="/auth/login" />} /> */}
-
-      {/* Login y Registro */}
-      {/* <Route path="/auth/*" element={ <AuthRoutes /> } /> */}
-
-      {/* DentalSmileApp */}
-      <Route path="/agenda/*" element={<AgendaRoutes />} />
-      <Route path="/administracion/*" element={<DashboardRoutes />} />
-      <Route path="/pacientes/*" element={<PacientesRoutes />} />
+      <Route path="/auth/login" element={<LoginPage />} />
+      <Route path="/*" element={<Navigate to="/auth/login" />} />
     </Routes>
+  ) : (
+    <AppTheme>
+      <Routes>
+        <Route path="/*" element={<Navigate to={lastRoute} />} />
+        <Route path="/agenda/*" element={<AgendaRoutes />} />
+        <Route path="/administracion/*" element={<DashboardRoutes />} />
+        <Route path="/pacientes/*" element={<PacientesRoutes />} />
+      </Routes>
+    </AppTheme>
   );
 };

@@ -43,10 +43,9 @@ export const usePlanesStore = () => {
 
   const startLoadPlanes = async () => {
     try {
-      console.log(consultaActiva);
       if (consultaActiva) {
         const { data } = await getPlanes(consultaActiva.id_consulta);
-        // console.log(data);
+
         dispatch(
           onLoadPlanesList([
             formatearDataPlanDiagToTable(data[0]),
@@ -65,7 +64,6 @@ export const usePlanesStore = () => {
   const startSavingPlan = async (tipPlan, planData) => {
     dispatch(clearErrorMessageCons());
     try {
-      console.log(planData);
       if (planActivo) {
         //actualizar
         const { data } = await updatePlan(
@@ -75,7 +73,7 @@ export const usePlanesStore = () => {
 
         const posTipPlan = tipoPlanesArr.indexOf(tipPlan);
         const dataFormateada = formatearDataPlan(posTipPlan, data);
-        console.log(dataFormateada);
+
         dispatch(
           onUpdatePlan({
             tipo: posTipPlan,
@@ -93,7 +91,7 @@ export const usePlanesStore = () => {
         );
         const posTipPlan = tipoPlanesArr.indexOf(tipPlan);
         const dataFormateada = formatearDataPlan(posTipPlan, data);
-        console.log(dataFormateada);
+
         dispatch(
           onSavePlan({
             tipo: posTipPlan,

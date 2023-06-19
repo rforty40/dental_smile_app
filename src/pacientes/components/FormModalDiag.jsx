@@ -86,7 +86,6 @@ export const FormModalDiag = ({ openModal, setOpenModal, title }) => {
 
   //control formulario de registro y edición
   useEffect(() => {
-    console.log(diagActivo);
     if (title.includes("Editar") && diagActivo) {
       //cargar los componentes
       const enfermedadCie = enfermedadesCieList.find(
@@ -97,7 +96,6 @@ export const FormModalDiag = ({ openModal, setOpenModal, title }) => {
       setStateRadioDiag(diagActivo.presuntivo_definitivo);
       setStateDescripcion(diagActivo.descripcion);
     } else {
-      console.log("esta en registro");
       resetInputText();
     }
   }, [diagActivo, title]);

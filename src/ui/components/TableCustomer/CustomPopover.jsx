@@ -34,7 +34,6 @@ export const CustomPopover = ({
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         sx={{
           boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-          // backdropFilter: "blur(0.7px)",
         }}
         PaperProps={{
           sx: {

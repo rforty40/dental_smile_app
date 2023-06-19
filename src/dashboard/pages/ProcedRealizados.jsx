@@ -1,9 +1,9 @@
-import { ButtonCustom, CustomTable } from "../../ui";
-import { Box, Link, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { useDashboardStore, useUiStore } from "../../hooks";
-import { FaRegFolderOpen } from "react-icons/fa";
 import { useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { Box, Link, Typography } from "@mui/material";
+import { FaRegFolderOpen } from "react-icons/fa";
+import { ButtonCustom, CustomTable } from "../../ui";
+import { useDashboardStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "fecha", label: "Fecha", alignLeft: true },
@@ -15,7 +15,7 @@ const TABLE_HEAD = [
 ];
 
 export const ProcedRealizados = () => {
-  const { handleChangeTabsCons } = useUiStore();
+  const { handleChangeTabsCons, changePage } = useUiStore();
 
   const {
     messagePanelProced,
@@ -25,11 +25,7 @@ export const ProcedRealizados = () => {
   } = useDashboardStore();
 
   const handleOpenCons = () => {
-    // changeDataConsulta(consultaItem);
     handleChangeTabsCons(2);
-    // navigate(
-    //   `/pacientes/${consultaItem.id_paciente}/historial/${consultaItem.id_consulta}`
-    // );
   };
 
   const actualizarListaPac = () => {
@@ -50,11 +46,11 @@ export const ProcedRealizados = () => {
   };
 
   useEffect(() => {
+    changePage();
     actualizarListaPac();
   }, []);
 
   const BtnInFila = ({ infoRow }) => {
-    console.log(infoRow);
     return (
       <Link
         component={RouterLink}

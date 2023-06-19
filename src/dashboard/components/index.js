@@ -9,3 +9,4 @@ export * from "./FormChooseProced";
 export * from "./ConsultaPanelItem";
 export * from "./FormModalIngreso";
 export * from "./FormModalGasto";
+export * from "./FormChangePassword";

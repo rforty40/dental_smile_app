@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useTipPagoStore } from "../../hooks/useTipPagoStore";
 import { Box, Typography } from "@mui/material";
+import { DeleteForever } from "@mui/icons-material";
+import { MdPostAdd } from "react-icons/md";
 import {
   ButtonCustom,
   CustomAlert,
@@ -8,10 +9,8 @@ import {
   CustomTable,
   DeleteConfirm,
 } from "../../ui";
-import { MdPostAdd } from "react-icons/md";
-import { useDataStore } from "../../hooks";
 import { FormTipPago } from "../components";
-import { DeleteForever } from "@mui/icons-material";
+import { useDataStore, useTipPagoStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "tipo_de_pago", label: "Tipo de pago", alignLeft: true },
@@ -22,6 +21,8 @@ const TABLE_HEAD = [
 
 export const ListaTiposPagos = () => {
   //customs hooks store
+
+  const { changePage } = useUiStore();
   const {
     tipoPagoActivo,
     tipoPagosList,
@@ -32,6 +33,10 @@ export const ListaTiposPagos = () => {
   } = useTipPagoStore();
 
   const { dataActiva } = useDataStore();
+
+  useEffect(() => {
+    changePage();
+  }, []);
 
   //hooks
   const [stateTipo, setStateTipo] = useState("Todos");
@@ -103,6 +108,7 @@ export const ListaTiposPagos = () => {
 
   //efecto secundario pasar la info del registro de la tabla
   //al tipo de pago activo
+
   useEffect(() => {
     changeDataTipPago(dataActiva);
   }, [dataActiva]);
@@ -170,7 +176,6 @@ export const ListaTiposPagos = () => {
             txt_b={"Agregar tipo de pago"}
             flexDir="row"
             txt_b_size="17px"
-            // fontW="bold"
             propsXS={{ boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)" }}
             iconB={<MdPostAdd />}
             onClick={openModalTipPagoReg}

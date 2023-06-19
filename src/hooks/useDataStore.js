@@ -17,11 +17,9 @@ export const useDataStore = () => {
   //
   return {
     //* Propiedades
-
     dataActiva,
 
     //* Métodos
-
     changeDataActiva,
   };
 };

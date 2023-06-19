@@ -1,6 +1,6 @@
-import { Typography } from "@mui/material";
-import { MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
+import { MenuItem } from "react-pro-sidebar";
+import { Typography } from "@mui/material";
 import { useUiStore } from "../../hooks";
 
 export const SideBarItem = ({ title, to, icon }) => {

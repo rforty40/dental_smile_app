@@ -66,7 +66,6 @@ export const useDashboardStore = () => {
     );
     const parametroBusq = switchDataDashboard(tipo, param_fechaIni, fechaFin);
 
-    console.log(param_fechaIni);
     //Pacientes
     try {
       const { data: dataPacientes } = await getPanelData(
@@ -75,10 +74,9 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      // console.log(dataPacientes);
+
       dispatch(onLoadListPacPanel(formatearDataPacToTable(dataPacientes)));
 
-      // console.log(msgPanelPac + parametroBusq);
       dispatch(onChangeMsgPanelPac("Pacientes registrados " + parametroBusq));
     } catch (error) {
       if (error.response.data.message.includes("pacientes")) {
@@ -97,10 +95,9 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataConsultas);
+
       dispatch(onLoadListConsPanel(dataConsultas));
 
-      // console.log(msgPanelCons + parametroBusq);
       dispatch(onChangeMsgPanelCons("Consultas atendidas " + parametroBusq));
     } catch (error) {
       if (error.response.data.message.includes("consultas")) {
@@ -121,13 +118,12 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      //console.log(dataProcedimientos);
+
       dispatch(
         onLoadListProcedPanel(
           formatearDataProcedRealizadosToTable(dataProcedimientos)
         )
       );
-      // console.log(msgPanelProced + parametroBusq);
 
       dispatch(
         onChangeMsgPanelProced(`Procedimientos realizados ` + parametroBusq)
@@ -172,15 +168,13 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      //console.log(dataIngresos);
+
       dispatch(
         onLoadListIngresoPanel(formatearDataIngresosToTableGan(dataIngresos))
       );
 
-      // console.log(msgPanelIngre + parametroBusq);
       dispatch(onChangeMsgPanelIngre("Ingresos " + parametroBusq));
     } catch (error) {
-      //console.log(error.response.data.message);
       if (error.response.data.message.includes("ingresos")) {
         dispatch(onLoadListIngresoPanel([]));
         dispatch(
@@ -197,14 +191,15 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      //console.log(totalIngresos);
+
       let valorIngreso = 0;
       if (Object.values(totalIngresos[0])[0] !== null) {
         valorIngreso = parseFloat(Object.values(totalIngresos[0])[0]);
       }
       dispatch(onLoadListTotalIngreso(valorIngreso));
     } catch (error) {
-      //console.log(error.response.data.message);
+      console.log(error);
+      console.log(error.response.data.message);
     }
 
     //gastos
@@ -215,13 +210,11 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataGastos);
+
       dispatch(onLoadListGastosPanel(formatearDataGastosToTable(dataGastos)));
 
-      // console.log(msgPanelGastos + parametroBusq);
       dispatch(onChangeMsgPanelGastos("Gastos " + parametroBusq));
     } catch (error) {
-      //console.log(error.response.data.message);
       if (error.response.data.message.includes("gastos")) {
         dispatch(onLoadListGastosPanel([]));
         dispatch(
@@ -238,15 +231,15 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      //console.log(totalGastos);
+
       let valorGasto = 0;
       if (Object.values(totalGastos[0])[0] !== null) {
         valorGasto = parseFloat(Object.values(totalGastos[0])[0]);
       }
-      //console.log(valorGasto);
+
       dispatch(onLoadListTotalGastos(valorGasto));
     } catch (error) {
-      //console.log(error.response.data.message);
+      console.log(error.response.data.message);
     }
   };
 

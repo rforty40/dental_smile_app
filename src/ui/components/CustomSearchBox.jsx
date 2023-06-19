@@ -1,5 +1,5 @@
-import { Close } from "@mui/icons-material";
 import { IconButton, OutlinedInput } from "@mui/material";
+import { Close } from "@mui/icons-material";
 
 export const CustomSearchBox = ({
   stateTxt,

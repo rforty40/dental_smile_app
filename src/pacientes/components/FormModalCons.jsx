@@ -118,12 +118,7 @@ export const FormModalCons = () => {
   };
   //control formulario de registro y edición
   useEffect(() => {
-    console.log("cambio");
-    console.log(consultaActiva);
     if (titleFormConsulta.includes("Editar") && consultaActiva) {
-      console.log("esta en editar");
-      // if (titleFormConsulta.includes("Editar")) {
-      //
       //setear datos
       const tipoConsulta = tipoConsListBusq.find(
         (tipCons) => tipCons.id === consultaActiva.id_tipoConsul
@@ -135,10 +130,9 @@ export const FormModalCons = () => {
       setStateMotivo(consultaActiva.mot_consulta);
       setStateProbl(consultaActiva.probleAct_consulta);
 
-      // }
+      //
     } else {
       resetInputText();
-      console.log("esta en registro");
     }
   }, [consultaActiva, titleFormConsulta]);
 
@@ -197,9 +191,8 @@ export const FormModalCons = () => {
     if (stateMotivo.length === 0) return;
 
     //enviando al custom hook
-    console.log("enviado datos");
+
     if (titleFormConsulta.includes("Editar")) {
-      console.log("Envio datos a actualizar");
       startSavingConsulta({
         id: consultaActiva.id_consulta,
         id_tipoConsulta: stateTipConsList.id,

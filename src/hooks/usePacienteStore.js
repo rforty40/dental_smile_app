@@ -62,7 +62,7 @@ export const usePacienteStore = () => {
   const startLoadPacientes = async () => {
     try {
       const { data } = await getAllPaciente();
-      // console.log(data);
+
       dispatch(onLoadPacientesList(formatearDataPacToTable(data)));
 
       dispatch(onLoadPacientesListBusq(formatearDataPacToBusList(data)));
@@ -102,7 +102,6 @@ export const usePacienteStore = () => {
           formatearDataPacToBD(dataPaciente)
         );
 
-        // console.log(data);
         dispatch(onSavePaciente(formatearDataPacToTable([data])[0]));
         dispatch(onLoadPacActivo(formatearDataPacToTable([data])[0]));
       }
@@ -132,7 +131,6 @@ export const usePacienteStore = () => {
         }
       }
       dispatch(onDeletePaciente(id_paciente));
-      // console.log(pacienteActivo.id);
     } catch (error) {
       console.log(error);
     }
@@ -151,7 +149,6 @@ export const usePacienteStore = () => {
 
       const arrMesAnio = [];
 
-      console.log(data);
       //1er bucle
       //para crear los elementos objetos del array, cuya unica llave es el nombre del mes + el año,
       // se usa un array para controlar que no se repitan los meses
@@ -185,16 +182,13 @@ export const usePacienteStore = () => {
         );
       });
 
-      // console.log(arrayCitesMonth);
-
       dispatch(onLoadFuturasCitas(arrayCitesMonth));
       dispatch(changeErrorLoadFutCitas(null));
     } catch (error) {
       console.log("Error cargando lista de futuras citas");
       console.log(error.response.data.message);
-      // if (error.response.data.message.includes("No se encontraron citas")) {
+
       dispatch(changeErrorLoadFutCitas(error.response.data.message));
-      // }
     }
   };
 
