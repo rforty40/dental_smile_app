@@ -118,7 +118,7 @@ export const PacientesPage = () => {
     >
       <Topbar />
       <Box
-        margin="0px 20px"
+        margin="30px 20px 0px 20px"
         display="flex"
         justifyContent="end"
         padding="15px"
@@ -136,11 +136,9 @@ export const PacientesPage = () => {
           withButton
           iconosEnFila={false}
           btnToolbarTable={BtnToolbarTable}
-          // columnaABuscarPri="fecha"
           columnaABuscarPri="fecha"
           searchWhat={"Buscar pacientes ..."}
           txt_header={"Lista de pacientes"}
-          // bgHeaderColor={""}
           bgColorPagination="rgba(255,255,255,0.7)"
           dataOmitida={9}
           openModalEdit={openModalPacienteEdit}

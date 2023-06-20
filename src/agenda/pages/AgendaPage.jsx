@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { DeleteForever } from "@mui/icons-material";
+import { DeleteForever, PersonAddAlt } from "@mui/icons-material";
 import { Calendar } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
@@ -8,7 +8,7 @@ import "./react-big-calendar.css";
 import { getMessagesES } from "../helpers/getMessages";
 import { localizer } from "../helpers/calendarLocalizer";
 import { AgendaModal, CalendarEvent } from "../components/";
-import { CustomAlert, DeleteConfirm, Topbar } from "../../ui";
+import { ButtonCustom, CustomAlert, DeleteConfirm, Topbar } from "../../ui";
 import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
 
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -176,6 +176,7 @@ export const AgendaPage = () => {
           eventPropGetter={eventStyleGetter}
           components={{
             event: CalendarEvent,
+            agenda: BtnToolbarTable,
           }}
           timeslots={lastView === "week" ? 4 : 1} // number of per section
           step={15} // number of minutes per timeslot
@@ -230,5 +231,20 @@ export const AgendaPage = () => {
         iconAlert={<DeleteForever sx={{ color: "white" }} />}
       />
     </div>
+  );
+};
+const BtnToolbarTable = ({ date, time, event }) => {
+  return (
+    <ButtonCustom
+      altura={"40px"}
+      colorf="white"
+      colorh="black"
+      colort="black"
+      colorth="celesteNeon.main"
+      txt_b={"Registrar Paciente"}
+      fontW="bold"
+      iconB={<PersonAddAlt />}
+      // onClick={openModalPaciente}
+    />
   );
 };
