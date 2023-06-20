@@ -81,6 +81,8 @@ export const useAgendaStore = () => {
       //registrando al backend
       const { data } = await createCita(formatearDataCiteToBD(dataCite));
 
+      console.log(data);
+
       //guardando y actualizando el store
 
       dispatch(onSaveCita(formatedDataCite([data])[0]));

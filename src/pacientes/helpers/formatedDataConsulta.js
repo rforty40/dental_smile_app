@@ -14,9 +14,15 @@ export const formatearDataConsToBD = (dataConsulta) => {
   return {
     mot_consulta: dataConsulta.stateMotivo,
     probleAct_consulta: dataConsulta.stateProbl,
-    fecha_consulta: dataConsulta.stateDatePicker
-      .toLocaleString("sv-SE", { hour12: false })
-      .split(" ")[0],
+    fecha_consulta:
+      dataConsulta.stateDatePicker
+        .toLocaleString("sv-SE", { hour12: false })
+        .split(" ")[0] +
+      " " +
+      dataConsulta.stateTimeIni
+        .toLocaleString("sv-SE", { hour12: false })
+        .split(" ")[1],
+
     hora_consulta: dataConsulta.stateTimeIni
       .toLocaleString("sv-SE", { hour12: false })
       .split(" ")[1]

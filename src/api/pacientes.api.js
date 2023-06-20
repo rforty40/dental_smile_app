@@ -1,7 +1,7 @@
 import dentalSmileApi from "./dentalSmileApi";
 
 export const getAllPaciente = async () =>
-  await dentalSmileApi.get("/pacientes/_");
+  await dentalSmileApi.get("/getPacientes");
 
 export const createPaciente = async (paciente) =>
   await dentalSmileApi.post("/createPaciente", paciente);
