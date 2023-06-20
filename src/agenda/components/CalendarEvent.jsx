@@ -40,7 +40,6 @@ export const CalendarEvent = ({ event }) => {
 
   const handleTooltipClose = () => {
     setOpen(false);
-    return;
   };
 
   const handleTooltipOpen = () => {

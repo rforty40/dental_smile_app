@@ -5,7 +5,7 @@ export const agendaSlice = createSlice({
 
   initialState: {
     citasList: [],
-    activeCita: {},
+    activeCita: null,
     stateOpenFormAgenda: false,
     titleFormAgenda: "",
     errorRegCiteMessage: { msg: "", error: "" },
@@ -57,7 +57,7 @@ export const agendaSlice = createSlice({
           cita.hora_inicio !== state.activeCita.hora_inicio
       );
 
-      state.activeCita = {};
+      state.activeCita = null;
     },
 
     changeRegisterCiteError: (state, { payload }) => {

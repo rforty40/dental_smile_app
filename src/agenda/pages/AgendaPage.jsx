@@ -84,10 +84,12 @@ export const AgendaPage = () => {
     setLastView(event);
   };
 
+  //click en la cita
   const onSelect = (event) => {
     changeDataCite(event);
   };
 
+  //iniciar el arraste (drag) de la cita
   const onSelectDrag = ({ event }) => {
     changeDataCite(event);
   };
@@ -104,9 +106,9 @@ export const AgendaPage = () => {
     handleOpenModalAgenda();
   };
 
+  //soltar la cita (Drop) la cita
   const onEventDropResizable = (data) => {
     const { start, end, event } = data;
-
     startUpdatingCita(event.fecha_cita, event.hora_inicio, {
       statePacList: event.id_paciente,
       stateDatePicker: start,
@@ -167,7 +169,7 @@ export const AgendaPage = () => {
           endAccessor="end"
           style={{
             width: "100%",
-            height: "calc(100vh - 100px)",
+            height: "calc(100vh - 96px)",
             backgroundColor: "transparent",
             padding: "20px",
             borderRadius: "10px",
@@ -176,7 +178,6 @@ export const AgendaPage = () => {
           eventPropGetter={eventStyleGetter}
           components={{
             event: CalendarEvent,
-            agenda: BtnToolbarTable,
           }}
           timeslots={lastView === "week" ? 4 : 1} // number of per section
           step={15} // number of minutes per timeslot
@@ -194,9 +195,9 @@ export const AgendaPage = () => {
           onEventDrop={onEventDropResizable}
           resizable
           onEventResize={onEventDropResizable}
-          onSelectSlot={clickSlot}
+          // onSelectSlot={clickSlot}
+          //bloquear la expansion en la vista de mes
           resizableAccessor={() => lastView !== "month"}
-
           // tooltipAccessor={null}
           // dayLayoutAlgorithm={"no-overlap"}
         />
@@ -212,9 +213,7 @@ export const AgendaPage = () => {
             ¿Está segura que desea eliminar la cita agendada de
             <span style={{ color: "#9c27b0" }}>
               {" "}
-              {JSON.stringify(activeCita) !== "{}" &&
-                activeCita.Paciente !== undefined &&
-                `${activeCita.Paciente}`}
+              {activeCita && `${activeCita.Paciente}`}
             </span>
             ?
           </>
@@ -231,20 +230,5 @@ export const AgendaPage = () => {
         iconAlert={<DeleteForever sx={{ color: "white" }} />}
       />
     </div>
-  );
-};
-const BtnToolbarTable = ({ date, time, event }) => {
-  return (
-    <ButtonCustom
-      altura={"40px"}
-      colorf="white"
-      colorh="black"
-      colort="black"
-      colorth="celesteNeon.main"
-      txt_b={"Registrar Paciente"}
-      fontW="bold"
-      iconB={<PersonAddAlt />}
-      // onClick={openModalPaciente}
-    />
   );
 };

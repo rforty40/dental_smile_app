@@ -47,7 +47,7 @@ export const ViewCita = ({ closeCitaView }) => {
     handleChangeTabs(2);
     changeTitleFormCons("Registrar consulta odontológica");
     changeStateFormCons(true);
-
+    console.log(activeCita.moti_citaAgen);
     changeDataConsulta({
       updateCita: true,
       fecha_cita: activeCita.fecha_cita,

@@ -81,12 +81,6 @@ export const AgendaModal = () => {
   //hook inputTextField
   const [stateMotivo, setStateMotivo] = useState("");
 
-  //cerrarModal
-  const cerrarModal = () => {
-    changeStateFormAgenda(false);
-    changeDataCite({});
-  };
-
   //control alert
   const [msgAlert, setMsgAlert] = useState("");
   const [stateSnackbar, setStateSnackbar] = useState(false);
@@ -106,26 +100,39 @@ export const AgendaModal = () => {
     setStateSnackbarError(true);
   };
 
+  //cerrarModal
+  const cerrarModal = () => {
+    changeStateFormAgenda(false);
+    changeDataCite(null);
+    setErrorDate(null);
+    setErrorHourInit(null);
+    setErrorHourFin(null);
+  };
+
+  //efecto secundario de cambio de la consulta activa
   //extraer fecha, horaI, fechaF del activeCita
   useEffect(() => {
-    if (JSON.stringify(activeCita) !== "{}") {
+    //
+    if (activeCita) {
+      //en registro y edicion la fecha y horas ya se setean
       setStateDatePicker(activeCita.start);
       setStateTimeIni(activeCita.start);
       setStateTimeFin(activeCita.end);
 
+      //editar cita
       if (activeCita.id_paciente !== undefined) {
+        //
         setStatePacList(activeCita.id_paciente);
-
         setStatePacValue(
           pacientesListBusq.find(
             (paciente) => paciente.id === activeCita.id_paciente
           )
         );
-        setErrorDate(null);
-        setErrorHourInit(null);
-        setErrorHourFin(null);
         setStateMotivo(activeCita.moti_citaAgen);
-      } else {
+      }
+
+      //registrar cita
+      else {
         setStatePacList(0);
         setStatePacValue(null);
         setStateMotivo("");
@@ -137,7 +144,9 @@ export const AgendaModal = () => {
     if (titleFormAgenda.includes("Editar")) {
       setTxtButton("Actualizar");
       setMsgAlert(
-        `Se actualizaron los datos de la cita de ${activeCita.Paciente} 🙂.`
+        `Se actualizaron los datos de la cita de ${
+          activeCita && activeCita.Paciente
+        } 🙂.`
       );
     } else {
       setTxtButton("Registrar");
