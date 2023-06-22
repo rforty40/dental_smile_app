@@ -153,7 +153,7 @@ export const usePacienteStore = () => {
       //para crear los elementos objetos del array, cuya unica llave es el nombre del mes + el año,
       // se usa un array para controlar que no se repitan los meses
       data.forEach((fecha) => {
-        const nameMesAnio = extractMesAnio(fecha.fecha_cita);
+        const nameMesAnio = extractMesAnio(fecha.fecha);
 
         if (!arrMesAnio.includes(nameMesAnio)) {
           arrMesAnio.push(nameMesAnio);
@@ -168,7 +168,7 @@ export const usePacienteStore = () => {
       //Buscar extraer mes de la consulta para que coincida con los objetos del primer bucle
       //buscar la ubicacion del array donde esta el objeto con la llave mes_año
       data.forEach((fecha) => {
-        const nameMesAnio = extractMesAnio(fecha.fecha_cita);
+        const nameMesAnio = extractMesAnio(fecha.fecha);
 
         arrayCitesMonth.forEach((element, index) => {
           if (Object.keys(element)[0] === nameMesAnio) {

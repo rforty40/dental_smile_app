@@ -1,20 +1,28 @@
 export const formatedDataCite = (citas) => {
-  return citas.map((cita) => {
+  return citas.map((cita, index) => {
+    console.log(cita);
+    const fechaHoraCita = cita.fecha + " " + cita.hora + ":00";
     return {
-      start: new Date(
-        Date.parse(cita.fecha_cita + " " + cita.hora_inicio + ":00")
-      ),
-      end: new Date(Date.parse(cita.fecha_cita + " " + cita.hora_fin + ":00")),
-      ...cita,
+      start: new Date(Date.parse(fechaHoraCita)),
+      end: new Date(Date.parse(cita.fecha + " " + cita.hora_fin + ":00")),
+      fechaHoraCita,
+      hora_fin: cita.hora_fin,
+      id_paciente: cita.id_paciente,
+      id: index,
+      cuando: cita.cuando,
+      hora: cita.hora,
+      fecha: cita.fecha,
+      paciente: cita.paciente,
+      telefono: cita.telefono,
+      edad: cita.eda_paciente,
+      motivo: cita.motivo,
+      estado: cita.estado,
     };
   });
 };
 
 // new Date('2023-06-03T16:15:00.000Z') -->   '2023-06-03'
 export const formatearDataCiteToBD = (dataCita) => {
-  console.log(dataCita);
-  console.log(extraerFecha(dataCita.stateDatePicker));
-
   return {
     fecha_citaAgen: dataCita.stateDatePicker
       .toLocaleString("sv-SE", { hour12: false })
@@ -39,7 +47,7 @@ export const comprobarErrorCite = (typeError) => {
 
   if (
     typeError.includes("Duplicate entry") &&
-    typeError.includes("citaagendada_tbl.PRIMARY")
+    typeError.includes("citaAgendada_tbl.PRIMARY")
   ) {
     msgError = "Ya existe una cita registrada en la misma hora de inicio.";
   } else if (typeError.includes("Data too long for column")) {
@@ -125,5 +133,14 @@ export const DiaActualFormated = (today) => {
 };
 // 2022-06-22 --> 22/06/2022
 export const invertDateFormat = (fechaStr) => {
-  return fechaStr.split("-").reverse().join("/");
+  if (fechaStr) {
+    return fechaStr.split("-").reverse().join("/");
+  } else {
+    return "";
+  }
+};
+
+// new Date('2023-06-05T04:59:59.000Z') -->   '2023-05-29'
+export const extraerFecha2 = (fecha) => {
+  return fecha.toLocaleString("sv-SE", { hour12: false }).split(" ")[0];
 };

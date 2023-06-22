@@ -80,7 +80,6 @@ const formatearRes = (nom, parent, telres) => {
 };
 export const formatearDataPacToTable = (dataFromBD) => {
   return dataFromBD.map((data) => {
-    console.log(data.create_paciente);
     return {
       id: data.id_paciente,
       erNombre: data.priNom_paciente,

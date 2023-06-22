@@ -398,8 +398,7 @@ export const HistorialPagePaciente = () => {
           <>
             ¿Está segura que desea eliminar la consulta de
             <span style={{ color: "#9c27b0" }}>
-              {pacienteActivo.nombre !== undefined &&
-                ` ${pacienteActivo.nombre}`}
+              {pacienteActivo !== null && ` ${pacienteActivo.nombre}`}
             </span>
             ?
           </>

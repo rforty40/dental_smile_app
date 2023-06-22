@@ -215,55 +215,58 @@ export const InfoPagePaciente = () => {
               "sexo telefono  fechas "`,
                 }}
               >
-                <PacInfoItem
-                  gridArea={"nombre"}
-                  lblItem={"Paciente"}
-                  dataPac={pacienteActivo.nombre}
-                />
+                {pacienteActivo && (
+                  <>
+                    <PacInfoItem
+                      gridArea={"nombre"}
+                      lblItem={"Paciente"}
+                      dataPac={pacienteActivo.nombre}
+                    />
 
-                <PacInfoItem
-                  gridArea={"cedula"}
-                  lblItem={"Cédula"}
-                  dataPac={pacienteActivo.cedula}
-                />
-                <PacInfoItem
-                  gridArea={"responsable"}
-                  lblItem={"Responsable"}
-                  dataPac={
-                    <>
-                      <span style={{ display: "block" }}>
-                        {pacienteActivo.nomRes}
-                      </span>
-                      <span style={{ display: "block" }}>
-                        {pacienteActivo.parRes}
-                      </span>
-                      <span style={{ display: "block" }}>
-                        {pacienteActivo.telRes}
-                      </span>
-                    </>
-                  }
-                />
-                <PacInfoItem
-                  gridArea={"edad"}
-                  lblItem={"Edad"}
-                  dataPac={pacienteActivo.edad}
-                />
-                <PacInfoItem
-                  gridArea={"email"}
-                  lblItem={"Email"}
-                  dataPac={pacienteActivo.email}
-                />
-                <PacInfoItem
-                  gridArea={"sexo"}
-                  lblItem={"Sexo"}
-                  dataPac={pacienteActivo.sexo}
-                />
-                <PacInfoItem
-                  gridArea={"telefono"}
-                  lblItem={"Teléfono"}
-                  dataPac={pacienteActivo.telefono}
-                />
-
+                    <PacInfoItem
+                      gridArea={"cedula"}
+                      lblItem={"Cédula"}
+                      dataPac={pacienteActivo.cedula}
+                    />
+                    <PacInfoItem
+                      gridArea={"responsable"}
+                      lblItem={"Responsable"}
+                      dataPac={
+                        <>
+                          <span style={{ display: "block" }}>
+                            {pacienteActivo.nomRes}
+                          </span>
+                          <span style={{ display: "block" }}>
+                            {pacienteActivo.parRes}
+                          </span>
+                          <span style={{ display: "block" }}>
+                            {pacienteActivo.telRes}
+                          </span>
+                        </>
+                      }
+                    />
+                    <PacInfoItem
+                      gridArea={"edad"}
+                      lblItem={"Edad"}
+                      dataPac={pacienteActivo.edad}
+                    />
+                    <PacInfoItem
+                      gridArea={"email"}
+                      lblItem={"Email"}
+                      dataPac={pacienteActivo.email}
+                    />
+                    <PacInfoItem
+                      gridArea={"sexo"}
+                      lblItem={"Sexo"}
+                      dataPac={pacienteActivo.sexo}
+                    />
+                    <PacInfoItem
+                      gridArea={"telefono"}
+                      lblItem={"Teléfono"}
+                      dataPac={pacienteActivo.telefono}
+                    />
+                  </>
+                )}
                 <Grid
                   item
                   gridArea="fechas"
@@ -280,8 +283,7 @@ export const InfoPagePaciente = () => {
                         color: "black",
                       }}
                     >
-                      {" "}
-                      {pacienteActivo.fecha}
+                      {pacienteActivo ? ` ${pacienteActivo.fecha}` : ""}
                     </span>
                   </Typography>
                   <Typography sx={{ color: "grey", fontWeight: "bold" }}>
@@ -293,8 +295,7 @@ export const InfoPagePaciente = () => {
                         color: "black",
                       }}
                     >
-                      {" "}
-                      {pacienteActivo.fecha_upd}
+                      {pacienteActivo ? ` ${pacienteActivo.fecha_upd}` : ""}
                     </span>
                   </Typography>
                 </Grid>
@@ -418,7 +419,7 @@ export const InfoPagePaciente = () => {
         </div>
       </Box>
 
-      {JSON.stringify(pacienteActivo) !== "{}" && pacienteActivo !== null ? (
+      {pacienteActivo !== null ? (
         <FormModalPac
           openModalForm={stateModalPac}
           setOpenModalForm={setStateModalPac}
@@ -440,9 +441,8 @@ export const InfoPagePaciente = () => {
           <>
             ¿Está segura que desea eliminar el registro de
             <span style={{ color: "#9c27b0" }}>
-              {" "}
               {pacienteActivo !== null &&
-                `${pacienteActivo.nombre} - ${pacienteActivo.cedula}`}
+                ` ${pacienteActivo.nombre} - ${pacienteActivo.cedula}`}
             </span>
             ?
           </>

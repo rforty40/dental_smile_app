@@ -118,7 +118,7 @@ export const FormModalCons = () => {
   };
   //control formulario de registro y edición
   useEffect(() => {
-    if (titleFormConsulta.includes("Editar") && consultaActiva) {
+    if (consultaActiva) {
       //setear datos
       const tipoConsulta = tipoConsListBusq.find(
         (tipCons) => tipCons.id === consultaActiva.id_tipoConsul
@@ -134,7 +134,7 @@ export const FormModalCons = () => {
     } else {
       resetInputText();
     }
-  }, [consultaActiva, titleFormConsulta]);
+  }, [consultaActiva]);
 
   useEffect(() => {
     if (titleFormConsulta.includes("Editar")) {

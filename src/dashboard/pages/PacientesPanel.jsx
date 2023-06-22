@@ -159,9 +159,8 @@ export const PacientesPanel = () => {
             <>
               ¿Está segura que desea eliminar el registro de
               <span style={{ color: "#9c27b0" }}>
-                {" "}
                 {pacienteActivo !== null &&
-                  `${pacienteActivo.nombre} - ${pacienteActivo.cedula}`}
+                  ` ${pacienteActivo.nombre} - ${pacienteActivo.cedula}`}
               </span>
               ?
             </>

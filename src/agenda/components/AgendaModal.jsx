@@ -128,7 +128,7 @@ export const AgendaModal = () => {
             (paciente) => paciente.id === activeCita.id_paciente
           )
         );
-        setStateMotivo(activeCita.moti_citaAgen);
+        setStateMotivo(activeCita.motivo);
       }
 
       //registrar cita
@@ -145,7 +145,7 @@ export const AgendaModal = () => {
       setTxtButton("Actualizar");
       setMsgAlert(
         `Se actualizaron los datos de la cita de ${
-          activeCita && activeCita.Paciente
+          activeCita && activeCita.paciente
         } 🙂.`
       );
     } else {
@@ -227,7 +227,7 @@ export const AgendaModal = () => {
     //enviando al custom hook
 
     if (titleFormAgenda.includes("Editar")) {
-      startUpdatingCita(activeCita.fecha_cita, activeCita.hora_inicio, {
+      startUpdatingCita(activeCita.fecha, activeCita.hora, {
         statePacList: !blockPaciente ? statePacList : pacienteActivo.id,
         stateDatePicker,
         stateTimeIni,

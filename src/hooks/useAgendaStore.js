@@ -11,11 +11,13 @@ import {
   onDeleteCita,
   onChangeOpenDeleteConf,
   onChangeBlockPaciente,
+  onChangeOpenVCita,
+  onLoadCitasAgenda,
 } from "../store";
 import {
   createCita,
   deleteCita,
-  getAllCites,
+  getCites,
   updateCita,
 } from "../api/agenda.api";
 import {
@@ -34,13 +36,14 @@ export const useAgendaStore = () => {
 
   const {
     stateOpenFormAgenda,
-
     titleFormAgenda,
     citasList,
+    citasListAgenda,
     activeCita,
     errorRegCiteMessage,
     stateOpenDeleteConf,
     blockPaciente,
+    stateOpenVCita,
   } = useSelector((state) => state.agenda);
 
   const changeStateFormAgenda = (flag) => {
@@ -59,18 +62,41 @@ export const useAgendaStore = () => {
     dispatch(onChangeBlockPaciente(flag));
   };
 
+  const changeStateViewCita = (flag) => {
+    dispatch(onChangeOpenVCita(flag));
+  };
+
   const changeDataCite = (dataCite) => {
     dispatch(onSetActiveCita(dataCite));
   };
 
   const startLoadCites = async () => {
     try {
-      const { data } = await getAllCites();
+      const { data } = await getCites("all", "_", "_");
 
       dispatch(onLoadCitas(formatedDataCite(data)));
+      dispatch(onLoadCitasAgenda(formatedDataCite(data)));
     } catch (error) {
       console.log("Error cargando lista de citas");
       console.log(error);
+    }
+  };
+
+  const startLoadCitesAgenda = async (fechaIni, fechaFin) => {
+    try {
+      console.log(fechaIni.replaceAll("/", "-"));
+      console.log(fechaFin.replaceAll("/", "-"));
+      const { data } = await getCites(
+        "range",
+        fechaIni, //.replaceAll("/", "-"),
+        fechaFin //.replaceAll("/", "-")
+      );
+      dispatch(onLoadCitasAgenda(formatedDataCite(data)));
+    } catch (error) {
+      console.log("Error cargando lista de citas");
+      console.log(error);
+      console.log(error.response.data.message);
+      dispatch(onLoadCitasAgenda([]));
     }
   };
 
@@ -81,7 +107,7 @@ export const useAgendaStore = () => {
       //registrando al backend
       const { data } = await createCita(formatearDataCiteToBD(dataCite));
 
-      console.log(data);
+      // console.log(data);
 
       //guardando y actualizando el store
 
@@ -102,7 +128,7 @@ export const useAgendaStore = () => {
         })
       );
     } finally {
-      startLoadCites();
+      await startLoadCites();
     }
   };
 
@@ -135,7 +161,7 @@ export const useAgendaStore = () => {
         })
       );
     } finally {
-      startLoadCites();
+      await startLoadCites();
     }
   };
 
@@ -147,32 +173,33 @@ export const useAgendaStore = () => {
       console.log(error);
       console.log(error.response.data.message);
     } finally {
-      startLoadCites();
+      await startLoadCites();
     }
   };
 
   const startDeletingCite = async () => {
     try {
-      await deleteCita(
-        activeCita.fecha_cita.replaceAll("/", "-"),
-        activeCita.hora_inicio
-      );
+      await deleteCita(activeCita.fecha.replaceAll("/", "-"), activeCita.hora);
 
       dispatch(onDeleteCita());
     } catch (error) {
       console.log(error.response.data.message);
+    } finally {
+      startLoadCites();
     }
   };
 
   return {
     //* Propiedades
     citasList,
+    citasListAgenda,
     activeCita,
     errorRegCiteMessage,
     stateOpenFormAgenda,
     titleFormAgenda,
     stateOpenDeleteConf,
     blockPaciente,
+    stateOpenVCita,
 
     //* Métodos
     changeStateFormAgenda,
@@ -181,9 +208,11 @@ export const useAgendaStore = () => {
     changeBlockPaciente,
     changeDataCite,
     startLoadCites,
+    startLoadCitesAgenda,
     startSavingCita,
     startUpdatingCita,
     startDeletingCite,
     startUpdatingCitaState,
+    changeStateViewCita,
   };
 };

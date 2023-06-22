@@ -196,7 +196,7 @@ export const useConsultasStore = () => {
     try {
       const { data: dataPac } = await getPacienteById(id_pac);
       const { data: dataCons } = await getConsultaById(id_cons);
-
+      console.log(dataCons);
       dispatch(onLoadPacActivo(formatearDataPacToTable([dataPac])[0]));
       dispatch(onSetActivaConsulta(formatedDataConsulta([dataCons])[0]));
     } catch (error) {

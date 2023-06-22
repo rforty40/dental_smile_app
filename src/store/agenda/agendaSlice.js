@@ -5,12 +5,14 @@ export const agendaSlice = createSlice({
 
   initialState: {
     citasList: [],
+    citasListAgenda: [],
     activeCita: null,
     stateOpenFormAgenda: false,
     titleFormAgenda: "",
     errorRegCiteMessage: { msg: "", error: "" },
     stateOpenDeleteConf: false,
     blockPaciente: false,
+    stateOpenVCita: false,
   },
 
   reducers: {
@@ -32,6 +34,10 @@ export const agendaSlice = createSlice({
 
     onLoadCitas: (state, { payload }) => {
       state.citasList = payload;
+    },
+
+    onLoadCitasAgenda: (state, { payload }) => {
+      state.citasListAgenda = payload;
     },
 
     onSaveCita: (state, { payload }) => {
@@ -71,6 +77,10 @@ export const agendaSlice = createSlice({
     onChangeBlockPaciente: (state, { payload }) => {
       state.blockPaciente = payload;
     },
+
+    onChangeOpenVCita: (state, { payload }) => {
+      state.stateOpenVCita = payload;
+    },
   },
 });
 
@@ -86,4 +96,6 @@ export const {
   clearErrorCiteMessage,
   onChangeOpenDeleteConf,
   onChangeBlockPaciente,
+  onChangeOpenVCita,
+  onLoadCitasAgenda,
 } = agendaSlice.actions;

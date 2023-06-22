@@ -30,17 +30,19 @@ import { useDataStore, usePacienteStore } from "../../../hooks";
 
 //funcion del ordenamiento de registro
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  //columna cuando de la tabla Citas
+  const fieldSelect = orderBy === "cuando" ? "fechaHoraCita" : orderBy;
+
+  if (b[fieldSelect] < a[fieldSelect]) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (b[fieldSelect] > a[fieldSelect]) {
     return 1;
   }
 
-  // }
-
   return 0;
 }
+
 //funcion del ordenamiento de registro
 function getComparator(order, orderBy) {
   return order === "desc"
@@ -51,12 +53,23 @@ function getComparator(order, orderBy) {
 
 //aplicar ordenamiento por filtro
 function applySortFilter(array, comparator, query, columnaABuscar) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  // const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => {
+    // console.log(el.fecha);
+
+    // console.log(new Date(el.fecha));
+
+    // console.log(Date.parse(el.fecha));
+    // console.log(new Date(Date.parse(el.fecha)));
+    // const fe = new Date(Date.parse(el.fecha));
+    // console.log(fe.toLocaleString("sv-SE", { hour12: false }));
+
+    return [el, index];
+  });
 
   //ordeamiento de los datos
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-
     if (order !== 0) return order;
     return a[1] - b[1];
   });
@@ -113,6 +126,7 @@ export const CustomTable = ({
   dataOmitida = 1, // por defecto solo el id
   iconosEnFila = true,
   columnaABuscarPri = "",
+  firstOrden = "desc",
   openModalEdit,
   funcionBtnTblDelete,
 
@@ -147,7 +161,7 @@ export const CustomTable = ({
   const [page, setPage] = useState(0);
 
   //hook  orden de la columna asc or desc
-  const [order, setOrder] = useState("desc");
+  const [order, setOrder] = useState(firstOrden);
 
   //hook captura de  la columna seleccionada debe ser una columna con un dato unico
   const [orderBy, setOrderBy] = useState(columnaABuscarPri);
@@ -382,11 +396,6 @@ export const CustomTable = ({
                           keys.includes("paciente")
                         ) {
                           changeDataPaciente(row);
-
-                          // localStorage.setItem(
-                          //   "pacienteActivo",
-                          //   JSON.stringify(row)
-                          // );
                         }
                       }}
                     >
@@ -437,6 +446,38 @@ export const CustomTable = ({
                                   {row[key]}
                                 </Typography>
                               </Link>
+                            </TableCell>
+                          );
+                        } else if (key === "estado") {
+                          return (
+                            <TableCell
+                              sx={{
+                                height: "10px",
+                                border: "3px solid",
+                                borderColor: "colorTable.main",
+                              }}
+                              key={`${row["id"]}${index}`}
+                              align="left"
+                            >
+                              <Typography
+                                sx={{
+                                  color:
+                                    row[key] === "Perdida"
+                                      ? "rgb(183, 33, 54)"
+                                      : "rgb(34, 154, 22)",
+                                  fontSize: "14px",
+                                  fontWeight: "bold",
+                                  padding: "2px",
+                                  borderRadius: "3px",
+                                  textAlign: "center",
+                                  backgroundColor:
+                                    row[key] === "Perdida"
+                                      ? "rgba(255, 72, 66, 0.16)"
+                                      : "rgba(84, 214, 44, 0.16)",
+                                }}
+                              >
+                                {row[key]}
+                              </Typography>
                             </TableCell>
                           );
                         } else {

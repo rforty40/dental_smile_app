@@ -6,7 +6,7 @@ export const pacientesSlice = createSlice({
   initialState: {
     //Paciente
     titleForm: "",
-    pacienteActivo: {},
+    pacienteActivo: null,
     pacientesList: [],
     pacientesListBusq: [],
     errorMsgRegPac: { msg: "", error: "" },

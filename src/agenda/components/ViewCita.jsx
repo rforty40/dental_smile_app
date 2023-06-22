@@ -12,8 +12,9 @@ import {
 } from "@mui/icons-material";
 import { ButtonCustom, IconTextField } from "../../ui";
 import { useAgendaStore, useConsultasStore, useUiStore } from "../../hooks";
+import { useEffect } from "react";
 
-export const ViewCita = ({ closeCitaView }) => {
+export const ViewCita = ({ closeCitaView, setOpen }) => {
   //
   const { handleChangeTabs } = useUiStore();
 
@@ -26,6 +27,7 @@ export const ViewCita = ({ closeCitaView }) => {
     activeCita,
     changeStateDeleteCofirm,
     changeBlockPaciente,
+    changeStateViewCita,
   } = useAgendaStore();
 
   const navigate = useNavigate();
@@ -42,24 +44,34 @@ export const ViewCita = ({ closeCitaView }) => {
     closeCitaView();
   };
 
+  useEffect(() => {
+    changeStateViewCita(true);
+    // console.log("se renderiza");
+    return () => {
+      // console.log("se desmontan");
+      changeStateViewCita(false);
+    };
+  }, []);
+
   const handleOpenFormCons = () => {
-    navigate(`/pacientes/${activeCita.id_paciente}/historial`);
-    handleChangeTabs(2);
-    changeTitleFormCons("Registrar consulta odontológica");
-    changeStateFormCons(true);
-    console.log(activeCita.moti_citaAgen);
     changeDataConsulta({
       updateCita: true,
-      fecha_cita: activeCita.fecha_cita,
-      hora_inicio_cite: activeCita.hora_inicio,
+      fecha_cita: activeCita.fecha,
+      hora_inicio_cite: activeCita.hora,
 
       //
       id_tipoConsul: null,
       fecha_consulta_date: activeCita.start,
       hora_consulta_date: activeCita.start,
-      mot_consulta: activeCita.moti_citaAgen,
+      mot_consulta: activeCita.motivo,
       probleAct_consulta: "",
     });
+    navigate(`/pacientes/${activeCita.id_paciente}/historial`);
+    handleChangeTabs(2);
+    changeTitleFormCons("Registrar consulta odontológica");
+    changeStateFormCons(true);
+    console.log(activeCita.motivo);
+
     closeCitaView();
   };
 
@@ -131,7 +143,7 @@ export const ViewCita = ({ closeCitaView }) => {
             label="Paciente:"
             type="text"
             // defaultValue={"Hello World"}
-            value={activeCita.Paciente}
+            value={activeCita.paciente}
             colorTxt="white"
             font_we="bold"
             font_sty="italic"
@@ -174,7 +186,7 @@ export const ViewCita = ({ closeCitaView }) => {
             fullWidth
             label="Fecha:"
             type="text"
-            value={activeCita.fecha_cita}
+            value={activeCita.fecha}
             colorTxt="white"
             font_we="bold"
             font_sty="italic"
@@ -206,7 +218,7 @@ export const ViewCita = ({ closeCitaView }) => {
             fullWidth
             label="Hora Inicio:"
             type="text"
-            value={activeCita.hora_inicio}
+            value={activeCita.hora}
             colorTxt="white"
             font_we="bold"
             font_sty="italic"
@@ -271,7 +283,7 @@ export const ViewCita = ({ closeCitaView }) => {
             multiline
             label="Motivo de consulta:"
             type="text"
-            value={activeCita.moti_citaAgen}
+            value={activeCita.motivo}
             colorIcon="blueSecondary.main"
             colorHover="#02ECEE"
             colorLabel="#02ECEE"

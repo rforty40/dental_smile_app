@@ -46,13 +46,15 @@ export const CalendarEvent = ({ event }) => {
     setOpen(!open);
   };
 
-  const { Paciente, moti_citaAgen } = event;
+  const { paciente, motivo } = event;
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
       <div>
         <StyledTooltip
-          title={<ViewCita closeCitaView={handleTooltipClose} />}
+          title={
+            <ViewCita closeCitaView={handleTooltipClose} setOpen={setOpen} />
+          }
           arrow
           placement="top"
           onClose={handleTooltipClose}
@@ -81,7 +83,7 @@ export const CalendarEvent = ({ event }) => {
               color="white"
               fontWeight="bold"
             >
-              {moti_citaAgen}
+              {motivo}
             </Typography>
 
             <Typography
@@ -90,7 +92,7 @@ export const CalendarEvent = ({ event }) => {
               color="black"
               fontWeight="bold"
             >
-              {Paciente}
+              {paciente}
             </Typography>
           </Box>
         </StyledTooltip>

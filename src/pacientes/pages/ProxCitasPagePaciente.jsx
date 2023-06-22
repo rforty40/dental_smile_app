@@ -65,8 +65,8 @@ export const ProxCitasPagePaciente = () => {
   //estado citas
   const [stateCita, setStateCita] = useState("Pendientes");
 
-  const funcSearch = () => {
-    startLoadFuturasCitas(
+  const funcSearch = async () => {
+    await startLoadFuturasCitas(
       stateCita.slice(0, stateCita.length - 1),
       stateDatesRange.fechaIni,
       stateDatesRange.fechaFin
@@ -111,6 +111,7 @@ export const ProxCitasPagePaciente = () => {
   //Confirm Dialog
   const deleteRegisterCita = async () => {
     await startDeletingCite();
+    funcSearch();
     handleOpenSnackbar();
   };
 
@@ -313,9 +314,7 @@ export const ProxCitasPagePaciente = () => {
           <>
             ¿Está segura que desea eliminar la cita agendada de
             <span style={{ color: "#9c27b0" }}>
-              {" "}
-              {pacienteActivo.nombre !== undefined &&
-                `${pacienteActivo.nombre}`}
+              {pacienteActivo !== null && ` ${pacienteActivo.nombre}`}
             </span>
             ?
           </>

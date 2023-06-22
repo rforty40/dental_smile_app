@@ -24,3 +24,4 @@ export * from "./components/CustomTab.jsx";
 export * from "./components/TableCustomer/CustomCollapsibleTable";
 export * from "./components/TableCustomer/RowTableCollapsible";
 export * from "./components/FormInModal/CustomSelectMultiple";
+export * from "./components/MyButtonInGroup";

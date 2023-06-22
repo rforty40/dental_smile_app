@@ -118,7 +118,7 @@ export const PacientesPage = () => {
     >
       <Topbar />
       <Box
-        margin="30px 20px 0px 20px"
+        margin="25px 20px 0px 20px"
         display="flex"
         justifyContent="end"
         padding="15px"
@@ -159,9 +159,8 @@ export const PacientesPage = () => {
             <>
               ¿Está segura que desea eliminar el registro de
               <span style={{ color: "#9c27b0" }}>
-                {" "}
                 {pacienteActivo !== null &&
-                  `${pacienteActivo.nombre} - ${pacienteActivo.cedula}`}
+                  ` ${pacienteActivo.nombre} - ${pacienteActivo.cedula}`}
               </span>
               ?
             </>

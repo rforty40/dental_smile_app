@@ -1,7 +1,7 @@
 import dentalSmileApi from "./dentalSmileApi";
 
-export const getAllCites = async () =>
-  await dentalSmileApi.get("/citas/all/_/_");
+export const getCites = async (filtro, fechaIni, fechaFin) =>
+  await dentalSmileApi.get(`/citas/${filtro}/${fechaIni}/${fechaFin}`);
 
 export const createCita = async (cita) =>
   await dentalSmileApi.post("/createCita", cita);

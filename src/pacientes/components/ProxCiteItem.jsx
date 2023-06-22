@@ -54,14 +54,14 @@ export const ProxCiteItem = ({ cita }) => {
 
     changeDataConsulta({
       updateCita: true,
-      fecha_cita: cita.fecha_cita,
-      hora_inicio_cite: cita.hora_inicio,
+      fecha_cita: cita.fecha,
+      hora_inicio_cite: cita.hora,
 
       //
       id_tipoConsul: null,
       fecha_consulta_date: cita.start,
       hora_consulta_date: cita.start,
-      mot_consulta: cita.moti_citaAgen,
+      mot_consulta: cita.motivo,
       probleAct_consulta: "",
     });
   };
@@ -79,7 +79,7 @@ export const ProxCiteItem = ({ cita }) => {
           marginTop: "5px",
           borderRadius: "10px",
           backgroundColor: `${
-            cita.esta_citaAgen === "Pendiente"
+            cita.estado === "Pendiente"
               ? "rgba(17, 100, 130, 0.1)"
               : "rgba(211, 47, 47, 0.1)"
           }`,
@@ -118,7 +118,7 @@ export const ProxCiteItem = ({ cita }) => {
             <IconTextField
               label="Fecha:"
               type="text"
-              value={cita.fecha_cita}
+              value={cita.fecha}
               colorIcon="primary.main"
               colorHover="primary.main"
               colorTxt="black"
@@ -150,7 +150,7 @@ export const ProxCiteItem = ({ cita }) => {
             <IconTextField
               label="Hora Inicio:"
               type="text"
-              value={cita.hora_inicio}
+              value={cita.hora}
               colorIcon="primary.main"
               colorHover="primary.main"
               colorTxt="black"
@@ -219,7 +219,7 @@ export const ProxCiteItem = ({ cita }) => {
               label="Motivo de consulta:"
               multiline
               type="text"
-              value={cita.moti_citaAgen}
+              value={cita.motivo}
               colorIcon="primary.main"
               colorHover="primary.main"
               colorTxt="black"
