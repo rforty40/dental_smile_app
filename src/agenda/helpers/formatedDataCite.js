@@ -1,6 +1,5 @@
 export const formatedDataCite = (citas) => {
   return citas.map((cita, index) => {
-    console.log(cita);
     const fechaHoraCita = cita.fecha + " " + cita.hora + ":00";
     return {
       start: new Date(Date.parse(fechaHoraCita)),

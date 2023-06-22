@@ -19,7 +19,6 @@
     "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.5.0",
     "axios": "^1.4.0",
-    "date-arithmetic": "^4.1.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "lodash": "^4.17.21",

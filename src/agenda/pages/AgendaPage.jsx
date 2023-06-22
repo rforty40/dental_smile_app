@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { addMonths } from "date-fns";
 import { Box } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import { Calendar } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import "./dragAndDrop.css";
+
 import "./react-big-calendar.css";
+// import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import "./dragAndDrop/styles.css";
 import { getMessagesES } from "../helpers/getMessages";
 import { localizer } from "../helpers/calendarLocalizer";
 import { AgendaModal, CalendarEvent, ViewAgendaTable } from "../components/";
 import { CustomAlert, DeleteConfirm, Topbar } from "../../ui";
 import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
-import { addMonths } from "date-fns";
+import { extraerFecha2, invertDateFormat } from "../helpers/formatedDataCite";
 
 const DnDCalendar = withDragAndDrop(Calendar);
-import * as dates from "date-arithmetic";
-import dayjs from "dayjs";
-import { extraerFecha2 } from "../helpers/formatedDataCite";
 //
 //
 
@@ -55,9 +56,12 @@ export const AgendaPage = () => {
   );
 
   useEffect(() => {
-    console.log("aaa");
     changePage();
     startLoadCites();
+    startLoadCitesAgenda(
+      extraerFecha2(new Date()),
+      extraerFecha2(addMonths(new Date(), 1))
+    );
     startLoadPacientes();
   }, []);
 
@@ -66,6 +70,10 @@ export const AgendaPage = () => {
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
       backgroundColor: event.estado === "Pendiente" ? "#116482" : "#d32f2f",
+      // backgroundColor:
+      //   event.estado === "Pendiente"
+      //     ? "rgba(84, 214, 44, 0.16)"
+      //     : "rgba(255, 72, 66, 0.16)",
     };
 
     return {
@@ -141,65 +149,39 @@ export const AgendaPage = () => {
     handleOpenSnackbar();
   };
 
-  const [rangeFecha, setRangeFecha] = useState({ fechaIni: "", fechaFin: "" });
-
   ViewAgendaTable.title = (start, { localizer }) => {
-    console.log(start);
-
-    // const end = dates.add(start, 1, "month");
-
     const end = addMonths(start, 1);
-    console.log(end);
-    const fechaIni = start
-      .toLocaleString("sv-SE", { hour12: false })
-      .split(" ")[0];
-    const fechaFin = end
-      .toLocaleString("sv-SE", { hour12: false })
-      .split(" ")[0];
-    console.log(fechaIni);
-    console.log(fechaFin);
-
-    // setRangeFecha({ fechaIni, fechaFin });
-    console.log("aaaa");
-    // startLoadCitesAgenda(fechaIni, fechaFin);
     return localizer.format({ start, end }, "agendaHeaderFormat");
   };
 
   ViewAgendaTable.navigate = (date, action) => {
-    console.log(date);
-    console.log(action);
-    const fechaIni = date.toLocaleString("sv-SE", { hour12: false }).split(" ");
-    console.log(fechaIni);
+    // const sDate = dayjs(date).startOf("month").toDate();
 
     switch (action) {
+      //
       case "PREV":
-        console.log("PREV");
-        const datePREV = addMonths(date, -1); //dates.add(date, -1, "month");
-        console.log(datePREV);
-        console.log("fi -> " + extraerFecha2(datePREV));
-        console.log("ff -> " + extraerFecha2(date));
-        startLoadCitesAgenda(extraerFecha2(datePREV), extraerFecha2(date));
+        const datePREV = addMonths(date, -1);
         return datePREV;
 
+      //
       case "NEXT":
-        const dateNEXT = addMonths(date, 1); //dates.add(sDate, 1, "month");
-        const fi = extraerFecha2(dateNEXT);
-        const ff = extraerFecha2(addMonths(dateNEXT, 1));
-        console.log(fi);
-        console.log(ff);
-        startLoadCitesAgenda(fi, ff);
+        const dateNEXT = addMonths(date, 1);
         return dateNEXT;
 
       //
       default:
-        console.log("TODAY?");
         return date;
     }
   };
 
   const navegationFn = (newDate, view, action) => {
-    console.log(newDate, view, action);
-    console.log(extraerFecha2(newDate));
+    const dateNextMonth = extraerFecha2(addMonths(newDate, 1));
+    startLoadCitesAgenda(extraerFecha2(newDate), dateNextMonth);
+    // console.log(
+    //   invertDateFormat(extraerFecha2(newDate)) +
+    //     " - " +
+    //     invertDateFormat(dateNextMonth)
+    // );
   };
 
   return (

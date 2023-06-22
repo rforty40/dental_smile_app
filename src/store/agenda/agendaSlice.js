@@ -46,10 +46,7 @@ export const agendaSlice = createSlice({
 
     onUpdateCita: (state, { payload }) => {
       state.citasList = state.citasList.map((cita) => {
-        if (
-          cita.fecha_cita === payload.fecha_cita &&
-          cita.hora_inicio === payload.hora_inicio
-        ) {
+        if (cita.fecha === payload.fecha && cita.hora === payload.hora) {
           return payload;
         }
         return cita;
@@ -59,8 +56,8 @@ export const agendaSlice = createSlice({
     onDeleteCita: (state) => {
       state.citasList = state.citasList.filter(
         (cita) =>
-          cita.fecha_cita !== state.activeCita.fecha_cita ||
-          cita.hora_inicio !== state.activeCita.hora_inicio
+          cita.fecha !== state.activeCita.fecha ||
+          cita.hora !== state.activeCita.hora
       );
 
       state.activeCita = null;

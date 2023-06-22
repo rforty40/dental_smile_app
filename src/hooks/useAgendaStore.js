@@ -22,9 +22,12 @@ import {
 } from "../api/agenda.api";
 import {
   comprobarErrorCite,
+  extraerFecha2,
   formatearDataCiteToBD,
   formatedDataCite,
 } from "../agenda/helpers/formatedDataCite";
+import { addMonths } from "date-fns";
+import { forEach } from "lodash";
 
 //
 //
@@ -75,7 +78,6 @@ export const useAgendaStore = () => {
       const { data } = await getCites("all", "_", "_");
 
       dispatch(onLoadCitas(formatedDataCite(data)));
-      dispatch(onLoadCitasAgenda(formatedDataCite(data)));
     } catch (error) {
       console.log("Error cargando lista de citas");
       console.log(error);
@@ -84,13 +86,7 @@ export const useAgendaStore = () => {
 
   const startLoadCitesAgenda = async (fechaIni, fechaFin) => {
     try {
-      console.log(fechaIni.replaceAll("/", "-"));
-      console.log(fechaFin.replaceAll("/", "-"));
-      const { data } = await getCites(
-        "range",
-        fechaIni, //.replaceAll("/", "-"),
-        fechaFin //.replaceAll("/", "-")
-      );
+      const { data } = await getCites("range", fechaIni, fechaFin);
       dispatch(onLoadCitasAgenda(formatedDataCite(data)));
     } catch (error) {
       console.log("Error cargando lista de citas");
@@ -107,10 +103,7 @@ export const useAgendaStore = () => {
       //registrando al backend
       const { data } = await createCita(formatearDataCiteToBD(dataCite));
 
-      // console.log(data);
-
       //guardando y actualizando el store
-
       dispatch(onSaveCita(formatedDataCite([data])[0]));
       dispatch(onSetActiveCita(formatedDataCite([data])[0]));
 
@@ -128,7 +121,10 @@ export const useAgendaStore = () => {
         })
       );
     } finally {
-      await startLoadCites();
+      startLoadCitesAgenda(
+        extraerFecha2(new Date()),
+        extraerFecha2(addMonths(new Date(), 1))
+      );
     }
   };
 
@@ -162,6 +158,10 @@ export const useAgendaStore = () => {
       );
     } finally {
       await startLoadCites();
+      await startLoadCitesAgenda(
+        extraerFecha2(new Date()),
+        extraerFecha2(addMonths(new Date(), 1))
+      );
     }
   };
 
@@ -172,20 +172,36 @@ export const useAgendaStore = () => {
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
-    } finally {
-      await startLoadCites();
     }
   };
 
-  const startDeletingCite = async () => {
+  const startDeletingCite = async (id_citas = []) => {
     try {
-      await deleteCita(activeCita.fecha.replaceAll("/", "-"), activeCita.hora);
+      if (id_citas.length === 0) {
+        await deleteCita(
+          activeCita.fecha.replaceAll("/", "-"),
+          activeCita.hora
+        );
 
-      dispatch(onDeleteCita());
+        dispatch(onDeleteCita());
+
+        //
+      } else {
+        const arrayCitasDel = citasListAgenda.filter((cita) =>
+          id_citas.includes(cita.id)
+        );
+
+        for (const cita of arrayCitasDel) {
+          await deleteCita(cita.fecha.replaceAll("/", "-"), cita.hora);
+        }
+      }
     } catch (error) {
       console.log(error.response.data.message);
     } finally {
-      startLoadCites();
+      await startLoadCitesAgenda(
+        extraerFecha2(new Date()),
+        extraerFecha2(addMonths(new Date(), 1))
+      );
     }
   };
 
