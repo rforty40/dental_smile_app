@@ -16,7 +16,7 @@ import {
   MoreVert,
 } from "@mui/icons-material";
 import { CustomBasicTable } from "../FormInModal/CustomBasicTable";
-import { useDataStore, usePacienteStore } from "../../../hooks";
+import { useDataStore } from "../../../hooks";
 
 //
 //
@@ -24,6 +24,7 @@ import { useDataStore, usePacienteStore } from "../../../hooks";
 //
 
 export const RowTableCollapsible = ({
+  txt_header,
   row,
   indexRTC,
   selectedUser,
@@ -43,7 +44,7 @@ export const RowTableCollapsible = ({
   //
 
   const { changeDataActiva } = useDataStore();
-  const { changeDataPaciente } = usePacienteStore();
+
   const [open, setOpen] = useState(true);
 
   //
@@ -66,11 +67,7 @@ export const RowTableCollapsible = ({
         role="checkbox"
         selected={selectedUser}
         onClick={() => {
-          changeDataActiva(row);
-
-          if (keys.includes("nombre") || keys.includes("paciente")) {
-            changeDataPaciente(row);
-          }
+          changeDataActiva([txt_header, row]);
         }}
       >
         {withCheckbox && (

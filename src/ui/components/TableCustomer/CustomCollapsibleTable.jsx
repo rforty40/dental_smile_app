@@ -16,7 +16,7 @@ import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
 import { CustomPopover } from "./CustomPopover";
 import { RowTableCollapsible } from "./RowTableCollapsible";
-import { useDataStore, usePacienteStore } from "../../../hooks";
+
 //
 //
 //
@@ -130,10 +130,6 @@ export const CustomCollapsibleTable = ({
   //hooks
 
   //
-
-  const { changeDataActiva } = useDataStore();
-
-  const { changeDataPaciente } = usePacienteStore();
 
   //hook abrir el popOver eliminar y editar
   const [open, setOpen] = useState(null);
@@ -357,6 +353,7 @@ export const CustomCollapsibleTable = ({
                   return (
                     <>
                       <RowTableCollapsible
+                        txt_header={txt_header}
                         key={row["id"]}
                         indexRTC={index}
                         row={row}

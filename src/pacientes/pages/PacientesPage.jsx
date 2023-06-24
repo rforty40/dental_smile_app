@@ -9,7 +9,7 @@ import {
   Topbar,
 } from "../../ui";
 import { FormModalPac } from "../components";
-import { usePacienteStore, useUiStore } from "../../hooks";
+import { useDataStore, usePacienteStore, useUiStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -28,6 +28,9 @@ const TABLE_HEAD = [
 //
 
 export const PacientesPage = () => {
+  //store
+  const { dataActiva } = useDataStore();
+
   //control form
   const [stateModalPac, setStateModalPac] = useState(false);
 
@@ -38,13 +41,19 @@ export const PacientesPage = () => {
     startLoadPacientes,
     startDeletingPaciente,
     changeTitleFormReg,
+    changeDataPaciente,
   } = usePacienteStore();
 
   useEffect(() => {
     changePage();
-
     startLoadPacientes();
   }, []);
+
+  useEffect(() => {
+    if (dataActiva[0] === "Lista de pacientes") {
+      changeDataPaciente(dataActiva[1]);
+    }
+  }, [dataActiva]);
 
   //funcion abrir modal registrar
   const openModalPaciente = () => {

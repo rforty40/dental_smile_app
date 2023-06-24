@@ -222,9 +222,11 @@ export const FormChooseProced = ({
                     ? setStateProcedList(newValue)
                     : setStateProcedList({ id: "", label: "" });
                 }}
-                getOptionLabel={(option) => option.id + " - " + option.label}
+                getOptionLabel={(option) =>
+                  option.id.length > 0 ? option.id + " - " + option.label : ""
+                }
                 propsTextField={{
-                  label: "Nomenclatura  de procedimientos odontológicos:",
+                  label: "Nomenclatura de procedimiento odontológico:",
                   placeholder: "Seleccione un procedimiento",
                 }}
                 heightList="340px"

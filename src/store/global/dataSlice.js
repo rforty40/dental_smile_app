@@ -4,7 +4,7 @@ export const dataSlice = createSlice({
   name: "data",
 
   initialState: {
-    dataActiva: null,
+    dataActiva: [],
   },
 
   reducers: {

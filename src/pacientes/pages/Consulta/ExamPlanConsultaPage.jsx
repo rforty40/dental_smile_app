@@ -62,8 +62,12 @@ export const ExamPlanConsultaPage = () => {
   const [msgAlertDel, setMsgAlertDel] = useState("");
 
   useEffect(() => {
-    changeDataExamen(dataActiva);
-    changeDataPlan(dataActiva);
+    if (dataActiva[0] === "examenEsto") {
+      changeDataExamen(dataActiva[1]);
+    }
+    if (dataActiva[0] === "planDiag") {
+      changeDataPlan(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   //abrir el modal para crear un examen
@@ -160,6 +164,7 @@ export const ExamPlanConsultaPage = () => {
           />
         </Box>
         <CustomTable
+          txt_header="examenEsto"
           TABLE_HEAD={TABLE_HEAD_EXAM}
           DATALIST={examenesList}
           withToolbar={false}
@@ -229,6 +234,7 @@ export const ExamPlanConsultaPage = () => {
             />
           </Box>
           <CustomTable
+            txt_header="planDiag"
             TABLE_HEAD={TABLE_HEAD_PLAN_D}
             DATALIST={planesList[0]}
             withToolbar={false}
@@ -280,6 +286,7 @@ export const ExamPlanConsultaPage = () => {
             />
           </Box>
           <CustomTable
+            txt_header="planDiag"
             TABLE_HEAD={TABLE_HEAD_PLAN_T}
             DATALIST={planesList[1]}
             withToolbar={false}
@@ -334,6 +341,7 @@ export const ExamPlanConsultaPage = () => {
             />
           </Box>
           <CustomTable
+            txt_header="planDiag"
             TABLE_HEAD={[]}
             DATALIST={planesList[2]}
             withToolbar={false}

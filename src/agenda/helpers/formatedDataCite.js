@@ -78,8 +78,9 @@ export const retornarHourWithNewDate = (state, newValue) => {
 
 // new Date('2023-06-05T04:59:59.000Z') -->   '2023/05/29'
 export const extraerFecha = (fecha) => {
+  console.log(fecha);
   const fechaConvertida =
-    fecha.getFullYear() +
+    String(fecha.getFullYear()) +
     "/" +
     String(fecha.getMonth() + 1).padStart(2, "0") +
     "/" +

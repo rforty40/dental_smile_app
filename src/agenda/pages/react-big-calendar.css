@@ -379,6 +379,7 @@ button.rbc-input::-moz-focus-inner {
   flex-direction: row;
   border: 1px inset black;
   background-color: #9c27b0;
+  /* background-color: #602a90; */
   color: white;
 }
 .rbc-month-row {
@@ -587,6 +588,7 @@ button.rbc-input::-moz-focus-inner {
   -ms-flex: none;
   flex: none;
   background-color: #9c27b0;
+  /* background-color: #602a90; */
   color: white;
   font-weight: bold;
 }
@@ -785,6 +787,7 @@ button.rbc-input::-moz-focus-inner {
   -ms-flex-direction: column;
   flex-direction: column;
   background-color: #9c27b0;
+  /* background-color: #602a90; */
   color: white;
   font-weight: bold;
 
@@ -863,6 +866,7 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-header > .rbc-button-link {
   background-color: #9c27b0;
+  /* background-color: #602a90; */
 }
 
 .rbc-button-link:hover {

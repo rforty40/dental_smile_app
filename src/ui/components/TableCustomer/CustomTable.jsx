@@ -152,8 +152,6 @@ export const CustomTable = ({
 
   const { changeDataActiva } = useDataStore();
 
-  const { changeDataPaciente } = usePacienteStore();
-
   //hook abrir el popOver eliminar y editar
   const [open, setOpen] = useState(null);
 
@@ -389,14 +387,7 @@ export const CustomTable = ({
                       role="checkbox"
                       selected={selectedUser}
                       onClick={() => {
-                        changeDataActiva(row);
-
-                        if (
-                          keys.includes("nombre") ||
-                          keys.includes("paciente")
-                        ) {
-                          changeDataPaciente(row);
-                        }
+                        changeDataActiva([txt_header, row]);
                       }}
                     >
                       {/* celda checkbox */}

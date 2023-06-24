@@ -24,6 +24,8 @@ export const ListaTiposTratam = () => {
 
   const { changePage } = useUiStore();
 
+  const { dataActiva } = useDataStore();
+
   const {
     tipoTratamList,
     tipoTratamActivo,
@@ -32,8 +34,6 @@ export const ListaTiposTratam = () => {
     changeDataTipTratam,
     startDeletingTipTratam,
   } = useTipTratamStore();
-
-  const { dataActiva } = useDataStore();
 
   useEffect(() => {
     changePage();
@@ -118,7 +118,9 @@ export const ListaTiposTratam = () => {
   //efecto secundario pasar la info del registro de la tabla
   //al tipo de pago activo
   useEffect(() => {
-    changeDataTipTratam(dataActiva);
+    if (dataActiva[0] === "Tipos de tratamiento") {
+      changeDataTipTratam(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   return (

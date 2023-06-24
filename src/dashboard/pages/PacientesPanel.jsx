@@ -3,7 +3,12 @@ import { Box, Typography } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import { CustomAlert, CustomTable, DeleteConfirm } from "../../ui";
 import { FormModalPac } from "../../pacientes/components/FormModalPac";
-import { useDashboardStore, usePacienteStore, useUiStore } from "../../hooks";
+import {
+  useDashboardStore,
+  useDataStore,
+  usePacienteStore,
+  useUiStore,
+} from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -18,6 +23,9 @@ const TABLE_HEAD = [
 
 export const PacientesPanel = () => {
   //control form
+  const { dataActiva } = useDataStore();
+
+  const { changeDataPaciente } = usePacienteStore();
 
   const { changePage } = useUiStore();
 
@@ -51,6 +59,12 @@ export const PacientesPanel = () => {
   useEffect(() => {
     changePage();
   }, []);
+
+  useEffect(() => {
+    if (dataActiva[0] === "Lista de pacientes") {
+      changeDataPaciente(dataActiva[1]);
+    }
+  }, [dataActiva]);
 
   //hook modal form paciente
   const [stateModalPac, setStateModalPac] = useState(false);

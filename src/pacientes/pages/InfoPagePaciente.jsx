@@ -66,7 +66,9 @@ export const InfoPagePaciente = () => {
 
   //contro form antecedentes
   useEffect(() => {
-    changeDataAntecedente(dataActiva);
+    if (dataActiva[0] === "Antecedente") {
+      changeDataAntecedente(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   const [stateModalAnt, setStateModalAnt] = useState(false);
@@ -344,6 +346,7 @@ export const InfoPagePaciente = () => {
 
             {antecedentes[0].length > 0 ? (
               <CustomTable
+                txt_header="Antecedente"
                 bgColorTable="white"
                 TABLE_HEAD={TABLE_HEAD}
                 DATALIST={antecedentes[0]}
@@ -401,6 +404,7 @@ export const InfoPagePaciente = () => {
 
             {antecedentes[1].length > 0 ? (
               <CustomTable
+                txt_header="Antecedente"
                 bgColorTable="white"
                 TABLE_HEAD={TABLE_HEAD_2}
                 DATALIST={antecedentes[1]}

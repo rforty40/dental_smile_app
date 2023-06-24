@@ -169,7 +169,9 @@ export const ListaIngresos = () => {
   };
 
   useEffect(() => {
-    changeDataIngreso(dataActiva);
+    if (dataActiva[0] === "Lista de ingresos por el usuario") {
+      changeDataIngreso(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   /**********************************TIPO DE INGRESO********************************* */

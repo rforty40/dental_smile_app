@@ -110,7 +110,9 @@ export const ListaTiposPagos = () => {
   //al tipo de pago activo
 
   useEffect(() => {
-    changeDataTipPago(dataActiva);
+    if (dataActiva[0] === "Tipos de pago") {
+      changeDataTipPago(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   return (

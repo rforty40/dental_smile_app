@@ -91,7 +91,9 @@ export const ListaProcedOdon = () => {
   //efecto secundario pasar la info del registro de la tabla
   //al tipo de consulta activo
   useEffect(() => {
-    changeDataProced(dataActiva);
+    if (dataActiva[0] === "Procedimientos odontológicos") {
+      changeDataProced(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   const BtnToolbarTable = () => {

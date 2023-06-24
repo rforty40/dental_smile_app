@@ -117,7 +117,9 @@ export const ListaGastos = () => {
   };
 
   useEffect(() => {
-    changeDataGasto(dataActiva);
+    if (dataActiva[0] === "Lista de gastos") {
+      changeDataGasto(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   /*******************************************RANGO DE FECHA ******************************************************** */

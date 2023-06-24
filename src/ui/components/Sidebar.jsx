@@ -159,7 +159,7 @@ export const Sidebar = () => {
                   fontFamily="Brush Script MT"
                   fontWeight="semibold"
                 >
-                  Dra. Xiomara Chávez
+                  Od. Xiomara Chávez
                 </Typography>
               </Box>
             </Box>

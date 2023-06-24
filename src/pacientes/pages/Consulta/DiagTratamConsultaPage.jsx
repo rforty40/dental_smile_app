@@ -67,7 +67,9 @@ export const DiagTratamConsultaPage = () => {
 
   //efecto secundario carga la data de la tabla al diagnostico activo
   useEffect(() => {
-    changeDataDiag(dataActiva);
+    if (dataActiva[0] === "diagnostico") {
+      changeDataDiag(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   //abrir el modal para crear un diagnostico
@@ -151,6 +153,7 @@ export const DiagTratamConsultaPage = () => {
           />
         </Box>
         <CustomTable
+          txt_header="diagnostico"
           TABLE_HEAD={TABLE_HEAD_DIAG}
           DATALIST={diagnosticosList}
           withToolbar={false}

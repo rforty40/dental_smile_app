@@ -92,7 +92,6 @@ export const LoginPage = () => {
             width="130px"
             height="130px"
             src={`/assets/icons/logo/newLogoMolar.svg`}
-            style={{ borderRadius: "20%" }}
           />
           <div>
             <Typography
@@ -122,7 +121,7 @@ export const LoginPage = () => {
             textAlign="center"
             fontStyle="italic"
           >
-            Dra. Xiomara Chávez
+            Od. Xiomara Chávez
           </Typography>
 
           <IconTextField

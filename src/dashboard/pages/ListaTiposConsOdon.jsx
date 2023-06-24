@@ -86,7 +86,9 @@ export const ListaTiposConsOdon = () => {
   //efecto secundario pasar la info del registro de la tabla
   //al tipo de consulta activo
   useEffect(() => {
-    changeDataTipCons(dataActiva);
+    if (dataActiva[0] === "Tipos de consulta odontológica") {
+      changeDataTipCons(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   const BtnToolbarTable = () => {

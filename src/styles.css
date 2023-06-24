@@ -38,7 +38,7 @@ body,
   top: 0;
   left: 80px;
   width: calc(100% - 80px);
-  transition: all 0.5s ease;
+  transition: all 0.25s ease;
   z-index: 2;
 }
 

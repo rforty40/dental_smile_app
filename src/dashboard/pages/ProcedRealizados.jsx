@@ -102,7 +102,7 @@ export const ProcedRealizados = () => {
         justifyContent="end"
         className="box-shadow animate__animated animate__fadeIn"
         sx={{
-          backgroundColor: "rgba(255,255,255,0.7)",
+          backgroundColor: "rgba(255,255,255,0.8)",
         }}
       >
         <CustomTable
@@ -117,7 +117,7 @@ export const ProcedRealizados = () => {
           searchWhat={"Buscar ..."}
           txt_header={"Lista de procedimientos realizados"}
           dataOmitida={3}
-          bgColorPagination="rgba(255,255,255,0.7)"
+          bgColorPagination="rgba(255,255,255,0.8)"
           routePaciente={(row) => `/pacientes/${row.id_paciente}/historial`}
           BtnInFila={BtnInFila}
         />

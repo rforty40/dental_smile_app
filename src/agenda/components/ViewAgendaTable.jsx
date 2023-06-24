@@ -58,7 +58,9 @@ export const ViewAgendaTable = () => {
   };
 
   useEffect(() => {
-    changeDataCite(dataActiva);
+    if (dataActiva[0] === "Lista de citas agendadas") {
+      changeDataCite(dataActiva[1]);
+    }
   }, [dataActiva]);
 
   //
@@ -92,7 +94,7 @@ export const ViewAgendaTable = () => {
         firstOrden="asc"
         searchWhat={"Buscar cita ..."}
         txt_header={"Lista de citas agendadas"}
-        bgColorTable="white"
+        bgColorTable="rgba(255,255,255,0.9)"
         dataOmitida={6}
         openModalEdit={openFormEditCite}
         funcionBtnTblDelete={openFormDeleteCite}
