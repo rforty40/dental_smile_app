@@ -4,3 +4,4 @@ export * from "./InfoPagePaciente";
 export * from "./HistorialPagePaciente";
 export * from "./ProxCitasPagePaciente";
 export * from "./Consulta/ConsultaPage";
+export * from "./Consulta/OdontogramaPage";

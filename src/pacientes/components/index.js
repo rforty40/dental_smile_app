@@ -17,3 +17,4 @@ export * from "./FormModalProcedTratam";
 export * from "./TxtProcedFormTratam";
 export * from "./TxtPrescrFormTratam";
 export * from "./FormModalPago";
+export * from "./PermanentTooth";

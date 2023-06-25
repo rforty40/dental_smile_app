@@ -173,8 +173,6 @@ export const ViewAgendaTable = () => {
         txt_header={"Lista de citas agendadas"}
         bgColorTable="rgba(255,255,255,0.9)"
         dataOmitida={6}
-        // openModalEdit={openFormEditCite}
-        // funcionBtnTblDelete={openFormDeleteCite}
         funcionDeleteVarious={deleteRegisterCites}
         routePaciente={(row) => `/pacientes/${row.id_paciente}/historial`}
         BtnInFila={BtnInFila}

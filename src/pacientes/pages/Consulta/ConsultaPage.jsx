@@ -21,6 +21,7 @@ import {
   useUiStore,
 } from "../../../hooks";
 import { invertDateFormat } from "../../../agenda/helpers/formatedDataCite";
+import { OdontogramaPage } from "./OdontogramaPage";
 //
 //
 //
@@ -219,6 +220,7 @@ export const ConsultaPage = () => {
             <CustomTab label="Exámenes y Planes" />
             <CustomTab label="Diagnóstico y Tratamiento" />
             <CustomTab label="Pagos" />
+            <CustomTab label="Odontograma" />
           </Tabs>
         </Box>
       </div>
@@ -227,6 +229,7 @@ export const ConsultaPage = () => {
         {hookTabsCons === 1 && <ExamPlanConsultaPage />}
         {hookTabsCons === 2 && <DiagTratamConsultaPage />}
         {hookTabsCons === 3 && <PagosConsultaPage />}
+        {hookTabsCons === 4 && <OdontogramaPage />}
       </div>
 
       <DeleteConfirm
