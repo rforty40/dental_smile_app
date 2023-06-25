@@ -81,15 +81,18 @@ export const AgendaPage = () => {
     };
   };
 
-  const dayRangeHeaderFormat = ({ start, end }, culture, local) =>
-    local.format(start, "MMMM dd", culture) +
-    " – " +
-    // updated to use this localizer 'eq()' method
-    local.format(
-      end,
-      local.eq(start, end, "month") ? "dd yyyy" : "MMMM dd yyyy",
-      culture
+  const dayRangeHeaderFormat = ({ start, end }, culture, local) => {
+    return (
+      local.format(start, "MMMM dd", culture) +
+      " – " +
+      // updated to use this localizer 'eq()' method
+      local.format(
+        end,
+        local.eq(start, end, "month") ? "dd yyyy" : "MMMM dd yyyy",
+        culture
+      )
     );
+  };
 
   //eventos del calendario
   const onViewChanged = (event) => {

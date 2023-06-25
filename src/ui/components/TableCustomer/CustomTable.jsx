@@ -22,7 +22,7 @@ import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
 import { Link as RouterLink } from "react-router-dom";
 import { CustomPopover } from "./CustomPopover";
-import { useDataStore, usePacienteStore } from "../../../hooks";
+import { useDataStore } from "../../../hooks";
 
 //
 //
@@ -182,6 +182,7 @@ export const CustomTable = ({
 
   //handler abrir el popover
   const handleOpenMenu = (event) => {
+    console.log(event.currentTarget);
     setOpen(event.currentTarget);
   };
 
@@ -482,8 +483,6 @@ export const CustomTable = ({
                                 fontSize: "14px",
                                 fontWeight: "bold",
                               }}
-                              // key={`${row[keys[0]]}${index}`}
-
                               key={`${row["id"]}${index}`}
                               align="left"
                             >

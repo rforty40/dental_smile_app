@@ -16,6 +16,8 @@ import { useEffect } from "react";
 
 export const ViewCita = ({ closeCitaView, setOpen }) => {
   //
+  const navigate = useNavigate();
+
   const { handleChangeTabs } = useUiStore();
 
   const { changeStateFormCons, changeTitleFormCons, changeDataConsulta } =
@@ -29,8 +31,6 @@ export const ViewCita = ({ closeCitaView, setOpen }) => {
     changeBlockPaciente,
     changeStateViewCita,
   } = useAgendaStore();
-
-  const navigate = useNavigate();
 
   const openFormEditCite = () => {
     changeTitleFormAgenda("Editar cita odontológica");
@@ -70,7 +70,6 @@ export const ViewCita = ({ closeCitaView, setOpen }) => {
     handleChangeTabs(2);
     changeTitleFormCons("Registrar consulta odontológica");
     changeStateFormCons(true);
-    console.log(activeCita.motivo);
 
     closeCitaView();
   };
@@ -102,31 +101,21 @@ export const ViewCita = ({ closeCitaView, setOpen }) => {
           gridTemplateColumns: "repeat(6, 1fr)",
           gridTemplateRows: "repeat(5, max-content)",
 
-          gridTemplateAreas: `". . . . . cerrar" "titulo titulo paciente paciente paciente paciente"
+          gridTemplateAreas: `"titulo titulo titulo titulo titulo titulo" ". . paciente paciente paciente paciente"
                 " fecha fecha horaIni  horaIni horaFin horaFin "
                 " motivo motivo motivo motivo motivo motivo"
                 " btnReg btnReg btnReg btnReg btnReg btnReg"`,
-          rowGap: "30px",
+          rowGap: "20px",
           columnGap: "10px",
         }}
       >
         <Grid
-          sx={{ height: "0px " }}
           item
-          gridArea="cerrar"
+          gridArea="titulo"
           display="flex"
-          justifyContent="end"
+          flexDirection="row"
+          justifyContent="space-between"
         >
-          <IconButton
-            onClick={() => {
-              closeCitaView();
-            }}
-          >
-            <CloseOutlined style={{ fontSize: "20px", color: "white" }} />
-          </IconButton>
-        </Grid>
-
-        <Grid item gridArea="titulo" display="flex" justifyContent="start">
           <Typography
             fontSize="20px"
             fontStyle="italic"
@@ -135,6 +124,13 @@ export const ViewCita = ({ closeCitaView, setOpen }) => {
           >
             Cita Agendada
           </Typography>
+          <IconButton
+            onClick={() => {
+              closeCitaView();
+            }}
+          >
+            <CloseOutlined style={{ fontSize: "20px", color: "white" }} />
+          </IconButton>
         </Grid>
 
         <Grid item gridArea="paciente">
