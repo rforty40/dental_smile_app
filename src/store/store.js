@@ -7,6 +7,7 @@ import {
   dataSlice,
   gastosSlice,
   ingresosSlice,
+  odontogramaSlice,
   pacientesSlice,
   procedSlice,
   tipoConsSlice,
@@ -30,6 +31,7 @@ export const store = configureStore({
     gastos: gastosSlice.reducer,
     dataGlobal: dataSlice.reducer,
     auth: authSlice.reducer,
+    odontograma: odontogramaSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>

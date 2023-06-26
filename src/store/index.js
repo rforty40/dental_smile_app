@@ -11,4 +11,5 @@ export * from "./global/dataSlice";
 export * from "./pacientes/consultasSlice";
 export * from "./pacientes/pacientesSlice";
 export * from "./ui/uiSlice";
+export * from "./pacientes/odontogramaSlice";
 export * from "./store";

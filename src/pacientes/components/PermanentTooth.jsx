@@ -1,28 +1,177 @@
-import {
-  Box,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import { CustomSelect } from "../../ui";
+import { Box, IconButton, MenuItem, Select, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { TbMedicalCross, TbMedicalCrossFilled } from "react-icons/tb";
+import { useOdontogramaStore } from "../../hooks";
+
+const arrUrlIcons = [
+  "",
+  "",
+  "",
+  "sellante_red",
+  "sellante_blue",
+  "extraccion_necesaria",
+  "perdida_carie",
+  "perdida_otra_causa",
+  "endodoncia_red",
+  "endodoncia_blue",
+  "protesis_fija_red",
+  "protesis_fija_blue",
+  "protesis_removible_red",
+  "protesis_removible_blue",
+  "protesis_total_red",
+  "protesis_total_blue",
+  "corona_red",
+  "corona_blue",
+  "",
+];
+
+//
+//
+//
+//
+//
 
 export const PermanentTooth = ({ numberTooth, flexDir }) => {
+  //store
+  const { toolOdontActiva, updateOdontoActual } = useOdontogramaStore();
+  // const [faceOclusal, setFaceOclusal] = useState(0);
+
+  //hooks
+  const [stateRecesion, setStateRecesion] = useState(" ");
+  const [stateMovilidad, setStateMovilidad] = useState(" ");
+  const [iconOclusal, setIconOclusal] = useState(null);
+  const [colorOclusal, setColorOclusal] = useState("myBgColor.main");
+  const [colorVestibular, setColorVestibular] = useState("myBgColor.main");
+  const [colorMesial, setColorMesial] = useState("myBgColor.main");
+  const [colorLingual, setColorLingual] = useState("myBgColor.main");
+  const [colorDistal, setColorDistal] = useState("myBgColor.main");
+
+  // useEffect(() => {
+
+  //   return () => {
+  //     updateOdontoActual({})
+  //RESETEAR
+  //   }
+  // }, [])
+
+  useEffect(() => {
+    console.log(toolOdontActiva);
+    console.log(iconOclusal);
+    if (
+      iconOclusal !== null ||
+      colorVestibular !== "myBgColor.main" ||
+      colorMesial !== "myBgColor.main" ||
+      colorLingual !== "myBgColor.main" ||
+      colorDistal !== "myBgColor.main"
+    ) {
+      updateOdontoActual({
+        numberTooth,
+        movilidad: stateMovilidad === " " ? null : stateMovilidad,
+        recesion: stateRecesion === " " ? null : stateRecesion,
+        oclusal: iconOclusal === 18 ? null : iconOclusal,
+        vestibular:
+          colorVestibular === "red" ? 1 : colorVestibular === "blue" ? 2 : null,
+        mesial: colorMesial === "red" ? 1 : colorMesial === "blue" ? 2 : null,
+        lingual:
+          colorLingual === "red" ? 1 : colorLingual === "blue" ? 2 : null,
+        distal: colorDistal === "red" ? 1 : colorDistal === "blue" ? 2 : null,
+      });
+    }
+  }, [
+    iconOclusal,
+    colorVestibular,
+    colorMesial,
+    colorLingual,
+    colorDistal,
+    stateMovilidad,
+    stateRecesion,
+  ]);
+
+  const changeColorOclusal = () => {
+    if (toolOdontActiva === 1) {
+      setColorOclusal("red");
+    } else if (toolOdontActiva === 2) {
+      setColorOclusal("blue");
+    } else {
+      setColorOclusal("myBgColor.main");
+    }
+    setIconOclusal(toolOdontActiva);
+
+    //pieza perdida se eliminan las otras caras
+    if (toolOdontActiva === 6 || toolOdontActiva === 7) {
+      setColorVestibular("myBgColor.main");
+      setColorMesial("myBgColor.main");
+      setColorLingual("myBgColor.main");
+      setColorDistal("myBgColor.main");
+    }
+  };
+
+  const changeColorVestibular = () => {
+    if (iconOclusal !== 6 && iconOclusal !== 7) {
+      if (toolOdontActiva === 1) {
+        setColorVestibular("red");
+      } else if (toolOdontActiva === 2) {
+        setColorVestibular("blue");
+      } else {
+        setColorVestibular("myBgColor.main");
+      }
+    }
+  };
+
+  const changeColorMesial = () => {
+    if (iconOclusal !== 6 && iconOclusal !== 7) {
+      if (toolOdontActiva === 1) {
+        setColorMesial("red");
+      } else if (toolOdontActiva === 2) {
+        setColorMesial("blue");
+      } else {
+        setColorMesial("myBgColor.main");
+      }
+    }
+  };
+
+  const changeColorLingual = () => {
+    if (iconOclusal !== 6 && iconOclusal !== 7) {
+      if (toolOdontActiva === 1) {
+        setColorLingual("red");
+      } else if (toolOdontActiva === 2) {
+        setColorLingual("blue");
+      } else {
+        setColorLingual("myBgColor.main");
+      }
+    }
+  };
+
+  const changeColorDistal = () => {
+    if (iconOclusal !== 6 && iconOclusal !== 7) {
+      if (toolOdontActiva === 1) {
+        setColorDistal("red");
+      } else if (toolOdontActiva === 2) {
+        setColorDistal("blue");
+      } else {
+        setColorDistal("myBgColor.main");
+      }
+    }
+  };
+
   return (
-    <Box display="flex" flexDirection={flexDir} rowGap="5px" alignItems="row">
-      {/* <Box display="flex" flexDirection="row">
-        if(){} */}
+    <Box display="flex" flexDirection={flexDir} rowGap="10px" alignItems="row">
       <Select
+        value={stateRecesion}
+        onChange={(event) => {
+          setStateRecesion(event.target.value);
+        }}
         size="small"
         sx={{
-          backgroundColor: "white",
           width: "50px",
-          height: "35px",
+          height: "25px",
           fontWeight: "bold",
+          padding: "3px !important",
+          border: "1px solid black",
         }}
+        inputProps={{ IconComponent: () => null }}
       >
-        {["  ", 1, 2, 3, 4].map((recesion) => {
+        {[" ", 1, 2, 3, 4].map((recesion) => {
           return (
             <MenuItem
               key={recesion}
@@ -34,18 +183,23 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
           );
         })}
       </Select>
-      {/* </Box> */}
+
       <Select
+        value={stateMovilidad}
+        onChange={(event) => {
+          setStateMovilidad(event.target.value);
+        }}
         size="small"
         sx={{
-          backgroundColor: "white",
-          width: "60px",
           fontWeight: "bold",
           width: "50px",
-          height: "35px",
+          height: "25px",
+          padding: "3px !important",
+          border: "1px solid black",
         }}
+        inputProps={{ IconComponent: () => null }}
       >
-        {["  ", 1, 2, 3].map((movilidad) => {
+        {[" ", 1, 2, 3].map((movilidad) => {
           return (
             <MenuItem
               key={movilidad}
@@ -59,7 +213,12 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
       </Select>
 
       <Typography
-        sx={{ fontStyle: "italic", fontWeight: "bold", textAlign: "center" }}
+        sx={{
+          fontStyle: "italic",
+          fontWeight: "bold",
+          textAlign: "center",
+          color: "primary.main",
+        }}
       >
         {numberTooth}
       </Typography>
@@ -76,30 +235,46 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
         }}
       >
         {/* Centro */}
-        {/* <Tooltip title="Oclusal/Incisal" placement="top-start"> */}
+
         <Box
           component="button"
+          display="flex"
           sx={{
             position: "absolute",
             width: "30px",
             height: "30px",
-            backgroundColor: "myBgColor.main",
-            border: "2px solid #602A90 !important",
-
+            backgroundColor: colorOclusal,
             cursor: "pointer",
+            border: "2px solid #602A90  !important",
             ":hover": {
-              backgroundColor: "rgba(255,255,255,0.5)",
+              backgroundColor:
+                colorOclusal === "myBgColor.main" &&
+                (toolOdontActiva === 1 || toolOdontActiva === 2)
+                  ? "rgba(255,255,255,0.3)"
+                  : "",
             },
             zIndex: 1,
+            alignItems: "center",
           }}
           onClick={({}) => {
+            changeColorOclusal();
             console.log("Oclusal/Incisal");
           }}
-        />
-        {/* </Tooltip> */}
+        >
+          {![null, 1, 2, 18].includes(iconOclusal) ? (
+            <img
+              type="img/svg"
+              width="25px"
+              height="25px"
+              src={`/assets/icons/iconosOdontograma/${arrUrlIcons[iconOclusal]}.svg`}
+            />
+          ) : (
+            <></>
+          )}
+        </Box>
 
-        {/* Cara superior */}
-        {/* <Tooltip title="Vestibular" placement="top"> */}
+        {/* Cara frontal */}
+
         <Box
           component="button"
           sx={{
@@ -108,22 +283,24 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
             height: "50px",
             top: 0,
             clipPath: "polygon(75% 25%, 25% 25%, 0 0, 100% 0)",
-            backgroundColor: "myBgColor.main",
+            backgroundColor: colorVestibular,
             border: "2px solid #602A90  !important",
-
             cursor: "pointer",
             ":hover": {
-              backgroundColor: "rgba(255,255,255,0.5)",
+              backgroundColor:
+                colorVestibular === "myBgColor.main" &&
+                (toolOdontActiva === 1 || toolOdontActiva === 2)
+                  ? "rgba(255,255,255,0.3)"
+                  : "",
             },
           }}
           onClick={() => {
+            changeColorVestibular();
             console.log("Vestibular");
           }}
         />
-        {/* </Tooltip> */}
 
-        {/* Mesial */}
-        {/* <Tooltip title="Mesial" placement="right"> */}
+        {/* Cara derecha desde la vista del odont. */}
         <Box
           component="button"
           sx={{
@@ -132,22 +309,25 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
             height: "100%",
             right: 0,
             clipPath: "polygon(75% 71%, 75% 29%, 100% 4%, 100% 96%)",
-            backgroundColor: "myBgColor.main",
+            backgroundColor: colorMesial,
             border: "2px solid #602A90 !important",
-
             cursor: "pointer",
             ":hover": {
-              backgroundColor: "rgba(255,255,255,0.5)",
+              backgroundColor:
+                colorMesial === "myBgColor.main" &&
+                (toolOdontActiva === 1 || toolOdontActiva === 2)
+                  ? "rgba(255,255,255,0.3)"
+                  : "",
             },
           }}
           onClick={() => {
+            changeColorMesial();
             console.log("Mesial");
           }}
         />
-        {/* </Tooltip> */}
 
-        {/* Palatina/Lingual */}
-        {/* <Tooltip title="Palatina/Lingual" placement="bottom"> */}
+        {/* Cara posterior */}
+
         <Box
           component="button"
           sx={{
@@ -156,22 +336,27 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
             width: "100%",
             bottom: 0,
             clipPath: "polygon(25% 75%, 75% 75%, 100% 100%, 0% 100%)",
-            backgroundColor: "myBgColor.main",
+            backgroundColor: colorLingual,
             border: "2px solid #602A90 !important",
 
             cursor: "pointer",
             ":hover": {
-              backgroundColor: "rgba(255,255,255,0.5)",
+              backgroundColor:
+                colorLingual === "myBgColor.main" &&
+                (toolOdontActiva === 1 || toolOdontActiva === 2)
+                  ? "rgba(255,255,255,0.3)"
+                  : "",
             },
           }}
           onClick={() => {
+            changeColorLingual();
             console.log("Palatina/Lingual");
           }}
         />
-        {/* </Tooltip> */}
 
-        {/* Distal */}
-        {/* <Tooltip title="Distal" placement="left"> */}
+        {/* 
+         {/* Cara izquierda desde la vista del odont. */}
+
         <Box
           component="button"
           sx={{
@@ -180,20 +365,24 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
             height: "100%",
             left: 0,
             clipPath: "polygon(25% 29%, 25% 71%, 0 96%, 0 4%)",
-            backgroundColor: "myBgColor.main",
+            backgroundColor: colorDistal,
             border: "2px solid #602A90 !important",
 
             cursor: "pointer",
 
             ":hover": {
-              backgroundColor: "rgba(255,255,255,0.5)",
+              backgroundColor:
+                colorDistal === "myBgColor.main" &&
+                (toolOdontActiva === 1 || toolOdontActiva === 2)
+                  ? "rgba(255,255,255,0.3)"
+                  : "",
             },
           }}
           onClick={() => {
+            changeColorDistal();
             console.log("Distal");
           }}
         />
-        {/* </Tooltip> */}
       </Box>
     </Box>
   );

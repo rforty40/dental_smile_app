@@ -18,3 +18,4 @@ export * from "./usePagosStore";
 export * from "./useIngresosStore";
 export * from "./useGastosStore";
 export * from "./useAuthStore";
+export * from "./useoOdontogramaStore";

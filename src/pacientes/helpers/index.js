@@ -5,3 +5,4 @@ export * from "./formatedDataPlanes";
 export * from "./formatedDataDiagnostico";
 export * from "./formatedDataTratamiento";
 export * from "./formatedDataPago";
+export * from "./funtionOdontogramTools";

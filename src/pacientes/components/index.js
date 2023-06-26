@@ -18,3 +18,5 @@ export * from "./TxtProcedFormTratam";
 export * from "./TxtPrescrFormTratam";
 export * from "./FormModalPago";
 export * from "./PermanentTooth";
+export * from "./TemporalTooth";
+export * from "./SimbologiaOdontograma";
