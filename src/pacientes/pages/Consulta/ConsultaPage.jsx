@@ -14,6 +14,7 @@ import {
   useConsultasStore,
   useDiagnosticosStore,
   useExamenesStore,
+  useOdontogramaStore,
   usePacienteStore,
   usePagosStore,
   usePlanesStore,
@@ -50,6 +51,8 @@ export const ConsultaPage = () => {
 
   const { startLoadPagos } = usePagosStore();
 
+  const { startLoadOdontogramas } = useOdontogramaStore();
+
   const { id_pac, id_cons } = useParams();
 
   useEffect(() => {
@@ -68,6 +71,7 @@ export const ConsultaPage = () => {
       startLoadPlanes();
       startLoadTratamientos();
       startLoadPagos();
+      startLoadOdontogramas();
     }
   }, [consultaActiva]);
 

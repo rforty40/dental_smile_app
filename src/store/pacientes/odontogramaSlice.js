@@ -5,48 +5,66 @@ export const odontogramaSlice = createSlice({
 
   initialState: {
     toolOdontActiva: null,
-    odontogramaActual: [],
+    odontogramaActual: null,
+    errorMsgRegOdontog: { msg: "", error: "" },
+    odontogramaAuxiliar: null,
   },
 
   reducers: {
     onSetActiveTool: (state, { payload }) => {
       state.toolOdontActiva = payload;
     },
-    onChangeOdontogramaAct: (state, { payload }) => {
+
+    onSetOdontogramaConsAct: (state, { payload }) => {
+      state.odontogramaActual = payload;
+    },
+
+    onSetOdontogramaAuxiliar: (state, { payload }) => {
+      state.odontogramaAuxiliar = payload;
+    },
+
+    onDeshacerCambios: (state) => {
+      state.odontogramaActual = state.odontogramaAuxiliar;
+    },
+
+    onChangePiezasDentales: (state, { payload }) => {
       //comprobar si es registro o actualizacion
-      const existente = state.odontogramaActual.some(
+      const existente = state.odontogramaActual.piezas.some(
         (pieceDent) => pieceDent.numberTooth === payload.numberTooth
       );
-
-      console.log(existente);
-      console.log(payload);
+      // console.log(existente);
+      // console.log(payload);
       if (existente) {
         //actualizacion
-        state.odontogramaActual = state.odontogramaActual.map((pieceDent) => {
-          if (pieceDent.numberTooth === payload.numberTooth) {
-            // if (
-            //   payload.oclusal !== null ||
-            //   payload.vestibular !== null ||
-            //   payload.mesial !== null ||
-            //   payload.lingual !== null ||
-            //   payload.distal !== null
-            // ) {
-            return payload;
-            // } else {
-            //   return {};
-            // }
+        state.odontogramaActual.piezas = state.odontogramaActual.piezas.map(
+          (pieceDent) => {
+            if (pieceDent.numberTooth === payload.numberTooth) {
+              return payload;
+            }
+            return pieceDent;
           }
-
-          return pieceDent;
-        });
+        );
       } else {
-        state.odontogramaActual.push(payload);
+        state.odontogramaActual.piezas.push(payload);
       }
+    },
 
-      //   [...state.odontogramaActual, payload];
+    changeRegisterErrorOdont: (state, { payload }) => {
+      state.errorMsgRegOdontog = payload;
+    },
+
+    clearErrorMessageOdont: (state) => {
+      state.errorMsgRegOdontog = { msg: "", error: "" };
     },
   },
 });
 
-export const { onSetActiveTool, onChangeOdontogramaAct } =
-  odontogramaSlice.actions;
+export const {
+  onSetActiveTool,
+  onChangePiezasDentales,
+  onSetOdontogramaConsAct,
+  changeRegisterErrorOdont,
+  clearErrorMessageOdont,
+  onSetOdontogramaAuxiliar,
+  onDeshacerCambios,
+} = odontogramaSlice.actions;

@@ -33,10 +33,12 @@ const arrUrlIcons = [
 
 export const PermanentTooth = ({ numberTooth, flexDir }) => {
   //store
-  const { toolOdontActiva, updateOdontoActual } = useOdontogramaStore();
+  const { toolOdontActiva, updateOdontoActual, odontogramaActual } =
+    useOdontogramaStore();
   // const [faceOclusal, setFaceOclusal] = useState(0);
 
   //hooks
+  const [stateIdPieza, setStateIdPieza] = useState(null);
   const [stateRecesion, setStateRecesion] = useState(" ");
   const [stateMovilidad, setStateMovilidad] = useState(" ");
   const [iconOclusal, setIconOclusal] = useState(null);
@@ -46,6 +48,7 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
   const [colorLingual, setColorLingual] = useState("myBgColor.main");
   const [colorDistal, setColorDistal] = useState("myBgColor.main");
 
+  console.log(Object.keys(odontogramaActual).length);
   // useEffect(() => {
 
   //   return () => {
@@ -55,28 +58,94 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
   // }, [])
 
   useEffect(() => {
+    if (odontogramaActual) {
+      //obtener pieza
+      const piezaDental = odontogramaActual.piezas.find(
+        (pieza) => pieza.numberTooth === numberTooth
+      );
+
+      console.log(piezaDental);
+      if (piezaDental !== undefined) {
+        console.log(piezaDental);
+
+        setStateIdPieza(piezaDental.id);
+
+        if ([1, 2].includes(piezaDental.oclusal)) {
+          setColorOclusal(piezaDental === 1 ? "red" : "blue");
+        } else {
+          setIconOclusal(
+            piezaDental.oclusal === null ? 18 : piezaDental.oclusal
+          );
+        }
+
+        setStateMovilidad(
+          piezaDental.movilidad === null ? " " : piezaDental.movilidad
+        );
+        setStateRecesion(
+          piezaDental.recesion === null ? " " : piezaDental.recesion
+        );
+        console.log(piezaDental.vestibular);
+        setColorVestibular(
+          piezaDental.vestibular === null
+            ? "myBgColor.main"
+            : piezaDental.vestibular === 1
+            ? "red"
+            : "blue"
+        );
+
+        setColorMesial(
+          piezaDental.mesial === null
+            ? "myBgColor.main"
+            : piezaDental.mesial === 1
+            ? "red"
+            : "blue"
+        );
+
+        setColorLingual(
+          piezaDental.lingual === null
+            ? "myBgColor.main"
+            : piezaDental.lingual === 1
+            ? "red"
+            : "blue"
+        );
+
+        setColorDistal(
+          piezaDental.distal === null
+            ? "myBgColor.main"
+            : piezaDental.distal === 1
+            ? "red"
+            : "blue"
+        );
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     console.log(toolOdontActiva);
     console.log(iconOclusal);
-    if (
-      iconOclusal !== null ||
-      colorVestibular !== "myBgColor.main" ||
-      colorMesial !== "myBgColor.main" ||
-      colorLingual !== "myBgColor.main" ||
-      colorDistal !== "myBgColor.main"
-    ) {
-      updateOdontoActual({
-        numberTooth,
-        movilidad: stateMovilidad === " " ? null : stateMovilidad,
-        recesion: stateRecesion === " " ? null : stateRecesion,
-        oclusal: iconOclusal === 18 ? null : iconOclusal,
-        vestibular:
-          colorVestibular === "red" ? 1 : colorVestibular === "blue" ? 2 : null,
-        mesial: colorMesial === "red" ? 1 : colorMesial === "blue" ? 2 : null,
-        lingual:
-          colorLingual === "red" ? 1 : colorLingual === "blue" ? 2 : null,
-        distal: colorDistal === "red" ? 1 : colorDistal === "blue" ? 2 : null,
-      });
-    }
+    // if (
+    //   iconOclusal !== null ||
+    //   colorVestibular !== "myBgColor.main" ||
+    //   colorMesial !== "myBgColor.main" ||
+    //   colorLingual !== "myBgColor.main" ||
+    //   colorDistal !== "myBgColor.main" ||
+    //   stateMovilidad !== " " ||
+    //   stateMovilidad !== " "
+    // )
+    // {
+    updateOdontoActual({
+      id: stateIdPieza,
+      numberTooth,
+      movilidad: stateMovilidad === " " ? null : stateMovilidad,
+      recesion: stateRecesion === " " ? null : stateRecesion,
+      oclusal: iconOclusal === 18 ? null : iconOclusal,
+      vestibular:
+        colorVestibular === "red" ? 1 : colorVestibular === "blue" ? 2 : null,
+      mesial: colorMesial === "red" ? 1 : colorMesial === "blue" ? 2 : null,
+      lingual: colorLingual === "red" ? 1 : colorLingual === "blue" ? 2 : null,
+      distal: colorDistal === "red" ? 1 : colorDistal === "blue" ? 2 : null,
+    });
+    // }
   }, [
     iconOclusal,
     colorVestibular,

@@ -6,3 +6,4 @@ export * from "./formatedDataDiagnostico";
 export * from "./formatedDataTratamiento";
 export * from "./formatedDataPago";
 export * from "./funtionOdontogramTools";
+export * from "./formatedDataOdontograma";

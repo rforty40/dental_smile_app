@@ -475,18 +475,6 @@ export const FormModalTratam = ({ openModal, setOpenModal, title }) => {
                 marginTop="30px"
               >
                 <ButtonCustom
-                  altura={"40px"}
-                  colorf={"white"}
-                  colorh={"btnHoverInForm.main"}
-                  colort={"black"}
-                  txt_b={"Cancelar"}
-                  colorth={"white"}
-                  propsXS={{ border: "1px solid black" }}
-                  iconB={<CancelOutlined />}
-                  onClick={cerrarModal}
-                />
-
-                <ButtonCustom
                   tipoBtn="submit"
                   altura="40px"
                   colorf="primary.main"

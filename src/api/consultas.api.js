@@ -102,3 +102,36 @@ export const deletePago = async (id_pago) =>
 
 export const getSumPago = async (id_cons) =>
   await dentalSmileApi.get(`/consulta/${id_cons}/sum_pagos`);
+
+//
+
+//odontogramas
+export const getOdontogramas = async (id_cons) =>
+  await dentalSmileApi.get(`/consulta/${id_cons}/odontogramas`);
+
+export const createOdontograma = async (id_cons, odontograma) =>
+  await dentalSmileApi.post(
+    `/consulta/${id_cons}/odontograma/create`,
+    odontograma
+  );
+
+export const deleteOdontograma = async (id_odonto) =>
+  await dentalSmileApi.delete(`/odontograma/delete/${id_odonto}`);
+
+//
+
+//piezas dentales
+export const createPiezaDental = async (id_odonto, piezaDent) =>
+  await dentalSmileApi.post(
+    `/odontograma/${id_odonto}/pieza_dental/create`,
+    piezaDent
+  );
+
+export const updatePiezaDental = async (id_pDent, pzaDental) =>
+  await dentalSmileApi.put(
+    `/odontograma/pieza_dental/update/${id_pDent}`,
+    pzaDental
+  );
+
+export const deletePiezaDental = async (id_pDent) =>
+  await dentalSmileApi.delete(`/odontograma/pieza_dental/delete/${id_pDent}`);

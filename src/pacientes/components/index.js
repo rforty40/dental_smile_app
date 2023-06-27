@@ -20,3 +20,4 @@ export * from "./FormModalPago";
 export * from "./PermanentTooth";
 export * from "./TemporalTooth";
 export * from "./SimbologiaOdontograma";
+export * from "./FormOdontograma";
