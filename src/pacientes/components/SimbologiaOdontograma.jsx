@@ -6,26 +6,21 @@ export const SimbologiaOdontograma = ({
   content,
   Icono,
   fnSimbOdon,
-  classname,
+  idTool,
 }) => {
-  const [clickIcono, setClickIcono] = useState(false);
-
   const fnClick = () => {
     fnSimbOdon();
-    // setClickIcono(true);
-    console.log("fncLICK");
   };
   return (
     <>
       <Box
         component="div"
-        id={classname}
+        id={idTool}
         display="flex"
         flexDirection="row"
         onClick={fnClick}
         alignItems="center"
         sx={{
-          // backgroundColor: clickIcono && "rgba(255,255,255,0.7)",
           cursor: "pointer",
           padding: "5px 15px 5px 5px",
         }}

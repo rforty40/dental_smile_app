@@ -7,7 +7,8 @@ export const odontogramaSlice = createSlice({
     toolOdontActiva: null,
     odontogramaActual: null,
     errorMsgRegOdontog: { msg: "", error: "" },
-    odontogramaAuxiliar: null,
+    piezasListOdon: [],
+    piezaActiva: null,
   },
 
   reducers: {
@@ -19,12 +20,12 @@ export const odontogramaSlice = createSlice({
       state.odontogramaActual = payload;
     },
 
-    onSetOdontogramaAuxiliar: (state, { payload }) => {
-      state.odontogramaAuxiliar = payload;
+    onSetPiezasListOdon: (state, { payload }) => {
+      state.piezasListOdon = payload;
     },
 
-    onDeshacerCambios: (state) => {
-      state.odontogramaActual = state.odontogramaAuxiliar;
+    onSetPiezaActiva: (state, { payload }) => {
+      state.piezaActiva = payload;
     },
 
     onChangePiezasDentales: (state, { payload }) => {
@@ -65,6 +66,6 @@ export const {
   onSetOdontogramaConsAct,
   changeRegisterErrorOdont,
   clearErrorMessageOdont,
-  onSetOdontogramaAuxiliar,
-  onDeshacerCambios,
+  onSetPiezasListOdon,
+  onSetPiezaActiva,
 } = odontogramaSlice.actions;

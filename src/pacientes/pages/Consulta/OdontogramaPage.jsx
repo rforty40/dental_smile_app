@@ -1,21 +1,24 @@
-import { useState } from "react";
-import { NoteAdd } from "@mui/icons-material";
-import { ButtonCustom, CustomTable } from "../../../ui";
-import { FormOdontograma } from "../../components";
-
-import { useOdontogramaStore } from "../../../hooks";
-import { Box, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box } from "@mui/material";
 import { TbDental } from "react-icons/tb";
+import { ButtonCustom, CustomTable, DeleteConfirm } from "../../../ui";
+import { FormModalNota, FormOdontograma } from "../../components";
+import { useDataStore, useOdontogramaStore } from "../../../hooks";
+import { Edit, EditNoteOutlined } from "@mui/icons-material";
 
 const TABLE_HEAD_PIEZAS = [
   {
-    id: "pieza",
+    id: "pieza_dental",
     label: "Pieza dental",
     alignLeft: true,
   },
-  { id: "superficie", label: "Superfice", alignLeft: true },
-
-  // { id: "nota", label: "nota", alignLeft: true },
+  // {
+  //   id: "denticion",
+  //   label: "Dentición",
+  //   alignLeft: true,
+  // },
+  { id: "superficies", label: "Superficies", alignLeft: true },
+  { id: "nota", label: "Nota", alignLeft: true },
 ];
 
 //
@@ -25,70 +28,111 @@ const TABLE_HEAD_PIEZAS = [
 
 export const OdontogramaPage = () => {
   //store
-  const { startLoadOdontogramas } = useOdontogramaStore();
+
+  const { dataActiva } = useDataStore();
+
+  const { piezasListOdon, onChangePiezaActiva } = useOdontogramaStore();
 
   //hook abrir el formulario
   const [stateModalOdonto, setStateModalOdonto] = useState(false);
 
-  const openModalFormOdon = async () => {
-    await startLoadOdontogramas();
+  //hook abrir pieza
+  const [stateModalPieza, setStateModalPieza] = useState(false);
+
+  //efecto secundario carga la data de la tabla a la pieza activa
+  useEffect(() => {
+    if (dataActiva[0] === "Odontograma") {
+      onChangePiezaActiva(dataActiva[1]);
+    }
+  }, [dataActiva]);
+
+  //abriendo el odontograma
+  const openModalFormOdon = () => {
     setStateModalOdonto(true);
   };
 
+  //abrir modal nota
+  const opendModalNota = () => {
+    setStateModalPieza(true);
+  };
+
+  //eliminar pieza dental
+  const deletePiezaDental = () => {};
+
+  const BtnToolbarTable = () => {
+    return (
+      <ButtonCustom
+        altura="45px"
+        txt_b_size="14px"
+        flexDir="column-reverse"
+        colorf="transparent"
+        colorh="transparent"
+        colort="white"
+        colorth="celesteNeon.main"
+        txt_b="Abrir Odontograma"
+        fontW="bold"
+        iconB={<TbDental />}
+        propsXS={{ boxShadow: "none !important" }}
+        onClick={openModalFormOdon}
+      />
+    );
+  };
+
+  const BtnInFila = ({ infoRow }) => {
+    return (
+      <ButtonCustom
+        txt_b_size="13px"
+        altura="35px"
+        colorf="transparent"
+        colorh="transparent"
+        colort="blueSecondary.main"
+        colorth="primary.main"
+        flexDir="column-reverse"
+        txt_b="Editar Nota"
+        fontW="bold"
+        onClick={opendModalNota}
+        iconB={<EditNoteOutlined />}
+        propsXS={{ boxShadow: "none !important" }}
+      />
+    );
+  };
   return (
-    <Box
-      component="div"
-      className="animate__animated animate__fadeInUp animate__faster"
-      sx={{ display: "flex", flexDirection: "column" }}
-    >
-      {" "}
+    <>
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          columnGap: "15px",
-          backgroundColor: "primary.main",
-          color: "white",
-          padding: "10px 20px",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        component="div"
+        className="animate__animated animate__fadeInUp animate__faster"
+        sx={{ display: "flex", flexDirection: "column" }}
       >
-        <Typography variant="h6" fontWeight="bold">
-          Odontograma
-        </Typography>
-        <ButtonCustom
-          altura="45px"
-          txt_b_size="14px"
-          flexDir="column-reverse"
-          colorf="transparent"
-          colorh="transparent"
-          colort="white"
-          colorth="celesteNeon.main"
-          txt_b="Abrir Odontograma"
-          fontW="bold"
-          iconB={<TbDental />}
-          propsXS={{ boxShadow: "none !important" }}
-          onClick={openModalFormOdon}
+        <CustomTable
+          txt_header="Odontograma"
+          TABLE_HEAD={TABLE_HEAD_PIEZAS}
+          DATALIST={piezasListOdon}
+          withToolbar
+          withCheckbox={false}
+          iconosEnFila
+          columnaABuscarPri="pieza_dental"
+          firstOrden="asc"
+          bgColorPagination="white"
+          bgColorTable="rgba(255,255,255,0.8)"
+          btnToolbarTable={BtnToolbarTable}
+          BtnInFila={BtnInFila}
         />
       </Box>
-      <CustomTable
-        txt_header=""
-        TABLE_HEAD={TABLE_HEAD_PIEZAS}
-        DATALIST={[]}
-        withToolbar={false}
-        withCheckbox={false}
-        iconosEnFila={false}
-        columnaABuscarPri="enfermedad_diagnosticada"
-        bgColorPagination="white"
-        bgColorTable="rgba(255,255,255,0.5)"
-        // openModalEdit={openModalDiagEdit}
-        // funcionBtnTblDelete={handleOpenDialogDelDiag}
-      />
       <FormOdontograma
         openModal={stateModalOdonto}
         setOpenModal={setStateModalOdonto}
       />
-    </Box>
+
+      <FormModalNota
+        openModal={stateModalPieza}
+        setOpenModal={setStateModalPieza}
+      />
+      {/* <DeleteConfirm
+          stateOpen={openConfirmDelOdon}
+          setStateOpen={setOpenConfirmDelOdon}
+          message={`¿Está segura que desea la pieza dental`}
+          funcionDelete={deletePiezaDental}
+        /> */}
+    </>
   );
 };

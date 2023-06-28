@@ -3,10 +3,10 @@ import {
   changeRegisterErrorOdont,
   clearErrorMessageOdont,
   onChangePiezasDentales,
-  onDeshacerCambios,
   onSetActiveTool,
-  onSetOdontogramaAuxiliar,
   onSetOdontogramaConsAct,
+  onSetPiezaActiva,
+  onSetPiezasListOdon,
 } from "../store";
 import {
   createOdontograma,
@@ -17,6 +17,7 @@ import {
   updatePiezaDental,
 } from "../api/consultas.api";
 import {
+  convertOdonListPiezas,
   formatearDataOdontograma,
   formatearDataPiezaDentalToBD,
   verifyPiezaDentalEmpty,
@@ -30,8 +31,13 @@ export const useOdontogramaStore = () => {
 
   const dispatch = useDispatch();
 
-  const { toolOdontActiva, odontogramaActual, errorMsgRegOdontog } =
-    useSelector((state) => state.odontograma);
+  const {
+    toolOdontActiva,
+    odontogramaActual,
+    errorMsgRegOdontog,
+    piezasListOdon,
+    piezaActiva,
+  } = useSelector((state) => state.odontograma);
 
   const { consultaActiva } = useSelector((state) => state.consultas);
 
@@ -49,24 +55,28 @@ export const useOdontogramaStore = () => {
     dispatch(onChangePiezasDentales(piezas));
   };
 
-  const desahacerCambios = () => {
-    dispatch(onDeshacerCambios());
-  };
-
   const startLoadOdontogramas = async () => {
     try {
-      const { data } = await getOdontogramas(consultaActiva.id_consulta);
+      const { data } = await getOdontogramas(
+        "consulta",
+        consultaActiva.id_consulta
+      );
+
+      // console.log(data);
+      // console.log(formatearDataOdontograma(data[0]));
 
       dispatch(onSetOdontogramaConsAct(formatearDataOdontograma(data[0])));
 
-      dispatch(onSetOdontogramaAuxiliar(formatearDataOdontograma(data[0])));
+      dispatch(onSetPiezasListOdon(convertOdonListPiezas(data[0].piezas)));
+
+      //
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
 
       dispatch(onSetOdontogramaConsAct({ piezas: [], fecha_odontograma: "" }));
 
-      dispatch(onSetOdontogramaAuxiliar({ piezas: [], fecha_odontograma: "" }));
+      dispatch(onSetPiezasListOdon([]));
     }
   };
 
@@ -110,7 +120,7 @@ export const useOdontogramaStore = () => {
         }
       }
 
-      await startLoadOdontogramas();
+      // await startLoadOdontogramas();
 
       dispatch(changeRegisterErrorOdont({ msg: "Sin errores", error: "" }));
     } catch (error) {
@@ -131,17 +141,39 @@ export const useOdontogramaStore = () => {
   const startDeletingOdontograma = async () => {
     try {
       await deleteOdontograma(odontogramaActual.id_odontograma);
+
+      //
     } catch (error) {
+      console.log(error);
       console.log(error.response.data.message);
     } finally {
       await startLoadOdontogramas();
     }
   };
+
+  const onChangePiezaActiva = (pieza) => {
+    dispatch(onSetPiezaActiva(pieza));
+  };
+
+  const updateNotaPiezaDental = async (nota) => {
+    try {
+      await updatePiezaDental(piezaActiva.id, { nota_dent: nota });
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+    } finally {
+      await startLoadOdontogramas();
+    }
+  };
+
+  //
   return {
     //* Propiedades
     toolOdontActiva,
     odontogramaActual,
     errorMsgRegOdontog,
+    piezasListOdon,
+    piezaActiva,
 
     //* Métodos
     changeToolOdonto,
@@ -150,6 +182,7 @@ export const useOdontogramaStore = () => {
     startSavingOdontograma,
     startLoadOdontogramas,
     startDeletingOdontograma,
-    desahacerCambios,
+    onChangePiezaActiva,
+    updateNotaPiezaDental,
   };
 };

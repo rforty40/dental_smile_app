@@ -1,29 +1,7 @@
-import { Box, IconButton, MenuItem, Select, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { TbMedicalCross, TbMedicalCrossFilled } from "react-icons/tb";
+import { Box, MenuItem, Select, Typography } from "@mui/material";
 import { useOdontogramaStore } from "../../hooks";
-
-const arrUrlIcons = [
-  "",
-  "",
-  "",
-  "sellante_red",
-  "sellante_blue",
-  "extraccion_necesaria",
-  "perdida_carie",
-  "perdida_otra_causa",
-  "endodoncia_red",
-  "endodoncia_blue",
-  "protesis_fija_red",
-  "protesis_fija_blue",
-  "protesis_removible_red",
-  "protesis_removible_blue",
-  "protesis_total_red",
-  "protesis_total_blue",
-  "corona_red",
-  "corona_blue",
-  "",
-];
+import { arrUrlIcons } from "../helpers";
 
 //
 //
@@ -35,7 +13,6 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
   //store
   const { toolOdontActiva, updateOdontoActual, odontogramaActual } =
     useOdontogramaStore();
-  // const [faceOclusal, setFaceOclusal] = useState(0);
 
   //hooks
   const [stateIdPieza, setStateIdPieza] = useState(null);
@@ -48,15 +25,6 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
   const [colorLingual, setColorLingual] = useState("myBgColor.main");
   const [colorDistal, setColorDistal] = useState("myBgColor.main");
 
-  console.log(Object.keys(odontogramaActual).length);
-  // useEffect(() => {
-
-  //   return () => {
-  //     updateOdontoActual({})
-  //RESETEAR
-  //   }
-  // }, [])
-
   useEffect(() => {
     if (odontogramaActual) {
       //obtener pieza
@@ -64,19 +32,16 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
         (pieza) => pieza.numberTooth === numberTooth
       );
 
-      console.log(piezaDental);
       if (piezaDental !== undefined) {
-        console.log(piezaDental);
-
         setStateIdPieza(piezaDental.id);
 
         if ([1, 2].includes(piezaDental.oclusal)) {
-          setColorOclusal(piezaDental === 1 ? "red" : "blue");
-        } else {
-          setIconOclusal(
-            piezaDental.oclusal === null ? 18 : piezaDental.oclusal
-          );
+          setColorOclusal(piezaDental.oclusal === 1 ? "red" : "blue");
         }
+
+        setIconOclusal(
+          [1, 2, null].includes(piezaDental.oclusal) ? 18 : piezaDental.oclusal
+        );
 
         setStateMovilidad(
           piezaDental.movilidad === null ? " " : piezaDental.movilidad
@@ -84,7 +49,7 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
         setStateRecesion(
           piezaDental.recesion === null ? " " : piezaDental.recesion
         );
-        console.log(piezaDental.vestibular);
+
         setColorVestibular(
           piezaDental.vestibular === null
             ? "myBgColor.main"
@@ -121,31 +86,29 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
   }, []);
 
   useEffect(() => {
-    console.log(toolOdontActiva);
-    console.log(iconOclusal);
-    // if (
-    //   iconOclusal !== null ||
-    //   colorVestibular !== "myBgColor.main" ||
-    //   colorMesial !== "myBgColor.main" ||
-    //   colorLingual !== "myBgColor.main" ||
-    //   colorDistal !== "myBgColor.main" ||
-    //   stateMovilidad !== " " ||
-    //   stateMovilidad !== " "
-    // )
-    // {
-    updateOdontoActual({
-      id: stateIdPieza,
-      numberTooth,
-      movilidad: stateMovilidad === " " ? null : stateMovilidad,
-      recesion: stateRecesion === " " ? null : stateRecesion,
-      oclusal: iconOclusal === 18 ? null : iconOclusal,
-      vestibular:
-        colorVestibular === "red" ? 1 : colorVestibular === "blue" ? 2 : null,
-      mesial: colorMesial === "red" ? 1 : colorMesial === "blue" ? 2 : null,
-      lingual: colorLingual === "red" ? 1 : colorLingual === "blue" ? 2 : null,
-      distal: colorDistal === "red" ? 1 : colorDistal === "blue" ? 2 : null,
-    });
-    // }
+    if (
+      iconOclusal !== null ||
+      colorVestibular !== "myBgColor.main" ||
+      colorMesial !== "myBgColor.main" ||
+      colorLingual !== "myBgColor.main" ||
+      colorDistal !== "myBgColor.main" ||
+      stateMovilidad !== " " ||
+      stateMovilidad !== " "
+    ) {
+      updateOdontoActual({
+        id: stateIdPieza,
+        numberTooth,
+        movilidad: stateMovilidad === " " ? null : stateMovilidad,
+        recesion: stateRecesion === " " ? null : stateRecesion,
+        oclusal: iconOclusal === 18 ? null : iconOclusal,
+        vestibular:
+          colorVestibular === "red" ? 1 : colorVestibular === "blue" ? 2 : null,
+        mesial: colorMesial === "red" ? 1 : colorMesial === "blue" ? 2 : null,
+        lingual:
+          colorLingual === "red" ? 1 : colorLingual === "blue" ? 2 : null,
+        distal: colorDistal === "red" ? 1 : colorDistal === "blue" ? 2 : null,
+      });
+    }
   }, [
     iconOclusal,
     colorVestibular,
@@ -423,8 +386,7 @@ export const PermanentTooth = ({ numberTooth, flexDir }) => {
           }}
         />
 
-        {/* 
-         {/* Cara izquierda desde la vista del odont. */}
+        {/*   Cara izquierda desde la vista del odont. */}
 
         <Box
           component="button"

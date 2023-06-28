@@ -161,7 +161,7 @@ export const DiagTratamConsultaPage = () => {
           iconosEnFila={false}
           columnaABuscarPri="enfermedad_diagnosticada"
           bgColorPagination="white"
-          bgColorTable="rgba(255,255,255,0.5)"
+          bgColorTable="rgba(255,255,255,0.8)"
           openModalEdit={openModalDiagEdit}
           funcionBtnTblDelete={handleOpenDialogDelDiag}
         />

@@ -172,7 +172,7 @@ export const ExamPlanConsultaPage = () => {
           iconosEnFila={false}
           columnaABuscarPri="region_afectada"
           bgColorPagination="white"
-          bgColorTable="rgba(255,255,255,0.5)"
+          bgColorTable="rgba(255,255,255,0.8)"
           dataOmitida={3}
           openModalEdit={openModalExamEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
@@ -242,7 +242,7 @@ export const ExamPlanConsultaPage = () => {
             iconosEnFila={false}
             columnaABuscarPri="examen_solicitado"
             bgColorPagination="white"
-            bgColorTable="rgba(255,255,255,0.5)"
+            bgColorTable="rgba(255,255,255,0.8)"
             dataOmitida={2}
             openModalEdit={() => {
               openModalPlanEdit();
@@ -294,7 +294,7 @@ export const ExamPlanConsultaPage = () => {
             iconosEnFila={false}
             columnaABuscarPri="tipo_de_tratamiento"
             bgColorPagination="white"
-            bgColorTable="rgba(255,255,255,0.5)"
+            bgColorTable="rgba(255,255,255,0.8)"
             dataOmitida={3}
             openModalEdit={() => {
               openModalPlanEdit();
@@ -349,7 +349,7 @@ export const ExamPlanConsultaPage = () => {
             iconosEnFila={false}
             columnaABuscarPri=""
             bgColorPagination="white"
-            bgColorTable="rgba(255,255,255,0.5)"
+            bgColorTable="rgba(255,255,255,0.8)"
             dataOmitida={2}
             openModalEdit={() => {
               openModalPlanEdit();

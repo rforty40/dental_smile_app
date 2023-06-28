@@ -106,8 +106,8 @@ export const getSumPago = async (id_cons) =>
 //
 
 //odontogramas
-export const getOdontogramas = async (id_cons) =>
-  await dentalSmileApi.get(`/consulta/${id_cons}/odontogramas`);
+export const getOdontogramas = async (tipo, id_tipo) =>
+  await dentalSmileApi.get(`/odontogramas/${tipo}/${id_tipo}`);
 
 export const createOdontograma = async (id_cons, odontograma) =>
   await dentalSmileApi.post(

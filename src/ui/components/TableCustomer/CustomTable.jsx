@@ -472,6 +472,46 @@ export const CustomTable = ({
                               </Typography>
                             </TableCell>
                           );
+                        } else if (
+                          key === "superficies" ||
+                          key === "pieza_dental"
+                        ) {
+                          return (
+                            <TableCell
+                              sx={{
+                                height: "10px",
+                                border: "3px solid",
+                                borderColor: "colorTable.main",
+                              }}
+                              key={`${row["id"]}${index}`}
+                              align="left"
+                            >
+                              {row[key].split("%").map((texto, index) => {
+                                return (
+                                  <Typography
+                                    key={index}
+                                    sx={{
+                                      color:
+                                        key === "superficies"
+                                          ? texto.includes("redhex")
+                                            ? "red"
+                                            : "blue"
+                                          : "black",
+                                      fontSize: "14px",
+                                      fontWeight: "bold",
+                                      padding: "2px",
+                                      borderRadius: "3px",
+                                    }}
+                                  >
+                                    {texto
+                                      .replace("redhex", "")
+                                      .replace("bluehex", "")}
+                                    {/* {(texto)=>{ let str = texto.replace("redhex", "")}} */}
+                                  </Typography>
+                                );
+                              })}
+                            </TableCell>
+                          );
                         } else {
                           return (
                             <TableCell

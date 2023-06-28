@@ -7,8 +7,6 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  Icon,
-  IconButton,
   Portal,
   Typography,
 } from "@mui/material";
@@ -17,28 +15,11 @@ import {
   CancelOutlined,
   CheckCircleOutline,
   Close,
-  CloseOutlined,
   DeleteOutlined,
-  NoteAdd,
-  Restore,
   Save,
-  SaveOutlined,
-  SegmentOutlined,
 } from "@mui/icons-material";
 
-import {
-  ButtonCustom,
-  CustomAlert,
-  CustomAutocomplete,
-  DeleteConfirm,
-  IconTextField,
-} from "../../ui";
-
-import { useExamenesStore, useOdontogramaStore } from "../../hooks";
-import { PermanentTooth } from "./PermanentTooth";
-import { TemporalTooth } from "./TemporalTooth";
-import { SimbologiaOdontograma } from "./SimbologiaOdontograma";
-import { changeSelectedIcon } from "../helpers";
+import { ButtonCustom, CustomAlert, DeleteConfirm } from "../../ui";
 import {
   IconoBorrar,
   IconoCaries,
@@ -60,6 +41,12 @@ import {
   IconoSellaNeces,
 } from "./IconosOdontograma";
 
+import { PermanentTooth } from "./PermanentTooth";
+import { TemporalTooth } from "./TemporalTooth";
+import { SimbologiaOdontograma } from "./SimbologiaOdontograma";
+import { useOdontogramaStore } from "../../hooks";
+import { changeSelectedIcon } from "../helpers";
+
 //
 //
 //
@@ -69,12 +56,10 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
 
   const {
     changeToolOdonto,
-    setearOdontoActual,
     startSavingOdontograma,
-    odontogramaActual,
-    desahacerCambios,
     errorMsgRegOdontog,
     startDeletingOdontograma,
+    startLoadOdontogramas,
   } = useOdontogramaStore();
 
   //hook del formulario
@@ -85,12 +70,10 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
 
   //cerrarModal
   const cerrarModal = () => {
+    changeToolOdonto(null);
     setOpenModal(false);
+    startLoadOdontogramas();
   };
-
-  // const deshacerCambios=()=>{
-  //   setearOdontoActual
-  // }
 
   //control alert
   const [stateSnackbar, setStateSnackbar] = useState(false);
@@ -139,11 +122,13 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
       handleOpenSnackbar();
       setFormSubmitted(false);
       setStartSaving(false);
+      cerrarModal();
     }
     if (errorMsgRegOdontog.msg === "Hay errores" && formSubmitted) {
       handleOpenSnackbarError();
       setFormSubmitted(false);
       setStartSaving(false);
+      cerrarModal();
     }
   }, [errorMsgRegOdontog]);
 
@@ -187,36 +172,9 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
             >
               Odontograma
             </Typography>
-            {/* <Typography
-              sx={{
-                fontWeight: "bold",
-                fontSize: "18px",
-                fontStyle: "italic",
-                color: "primary.main",
-                // textShadow: "0px 1px 1px rgba(0, 0, 0, 0.4)",
-              }}
-            >
-              Registrado el: {odontogramaActual.fecha_odontograma.split(" ")[0]}
-            </Typography> */}
           </Box>
 
           <Box display="flex" flexDirection="row" columnGap="15px">
-            {/* <ButtonCustom
-              altura="45px"
-              txt_b_size="14px"
-              flexDir="column-reverse"
-              colorf="transparent"
-              colorh="transparent"
-              colort="primary.main"
-              colorth="black"
-              txt_b="Deshacer cambios"
-              fontW="bold"
-              iconB={<Restore />}
-              propsXS={{ boxShadow: "none !important" }}
-              onClick={() => {
-                desahacerCambios();
-              }}
-            /> */}
             <ButtonCustom
               altura="45px"
               txt_b_size="14px"
@@ -496,7 +454,6 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
               <Grid
                 item
                 gridArea="tools"
-                className="contenedorIcons"
                 sx={{
                   backgroundColor: "transparent",
                 }}
@@ -514,6 +471,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
 
                 <Grid
                   component="div"
+                  className="contenedorIcons"
                   display="grid"
                   gridTemplateColumns="repeat(2, 1fr)"
                   columnGap="10px"
@@ -523,7 +481,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                   }}
                 >
                   <SimbologiaOdontograma
-                    classname="carie"
+                    idTool="carie"
                     title={"Carie"}
                     content={""}
                     Icono={IconoCaries}
@@ -532,7 +490,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="obturacion"
+                    idTool="obturacion"
                     title={"Obturación"}
                     content={""}
                     Icono={IconoObturacion}
@@ -542,7 +500,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                   />
 
                   <SimbologiaOdontograma
-                    classname="sellante_necesario"
+                    idTool="sellante_necesario"
                     title={"Sellante"}
                     content={"Necesario"}
                     Icono={IconoSellaNeces}
@@ -551,7 +509,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="sellante_aplicado"
+                    idTool="sellante_aplicado"
                     title={"Sellante"}
                     content={"Aplicado"}
                     Icono={IconoSellaApli}
@@ -560,7 +518,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="extraccion_necesaria"
+                    idTool="extraccion_necesaria"
                     title={"Extracción"}
                     content={"Necesaria"}
                     Icono={IconoExtracion}
@@ -569,7 +527,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="perdida_caries"
+                    idTool="perdida_caries"
                     title={"Pérdida"}
                     content={"por caries"}
                     Icono={IconoPerdidaCarie}
@@ -578,7 +536,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="perdida_otra"
+                    idTool="perdida_otra"
                     title={"Pérdida"}
                     content={"por otra causa"}
                     Icono={IconoPerdidaOtra}
@@ -587,7 +545,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="endodoncia_necesaria"
+                    idTool="endodoncia_necesaria"
                     title={"Endodoncia"}
                     content={"Necesaria"}
                     Icono={IconoEndodonciaNece}
@@ -596,7 +554,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="endodoncia_aplicada"
+                    idTool="endodoncia_aplicada"
                     title={"Endodoncia"}
                     content={"Aplicada"}
                     Icono={IconoEndodonciaApl}
@@ -605,7 +563,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="protesis_fija_nece"
+                    idTool="protesis_fija_nece"
                     title={"Prótesis fija"}
                     content={"Necesaria"}
                     Icono={IconoProteFijaNece}
@@ -614,7 +572,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="protesis_fija_apli"
+                    idTool="protesis_fija_apli"
                     title={"Prótesis fija"}
                     content={"Aplicada"}
                     Icono={IconoProteFijaApli}
@@ -623,7 +581,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="protesis_remo_nece"
+                    idTool="protesis_remo_nece"
                     title={"Prótesis removible"}
                     content={"Necesaria"}
                     Icono={IconoProteRemoNece}
@@ -632,7 +590,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="protesis_remo_apli"
+                    idTool="protesis_remo_apli"
                     title={"Prótesis removible"}
                     content={"Aplicada"}
                     Icono={IconoProteRemoApli}
@@ -641,7 +599,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="protesis_total_nece"
+                    idTool="protesis_total_nece"
                     title={"Prótesis total"}
                     content={"Necesaria"}
                     Icono={IconoProteTotalNece}
@@ -650,7 +608,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="protesis_total_apli"
+                    idTool="protesis_total_apli"
                     title={"Prótesis total"}
                     content={"Aplicada"}
                     Icono={IconoProteTotalApli}
@@ -659,7 +617,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="corona_necesaria"
+                    idTool="corona_necesaria"
                     title={"Corona"}
                     content={"Necesaria"}
                     Icono={IconoCoronaNece}
@@ -668,7 +626,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="corona_aplicada"
+                    idTool="corona_aplicada"
                     title={"Corona"}
                     content={"Aplicada"}
                     Icono={IconoCoronaApli}
@@ -677,7 +635,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
                     }}
                   />
                   <SimbologiaOdontograma
-                    classname="borrar_icono"
+                    idTool="borrar_icono"
                     title={"Borrar"}
                     content={""}
                     Icono={IconoBorrar}
@@ -704,7 +662,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
           stateSnackbar={stateSnackbar}
           handleCloseSnackbar={handleCloseSnackbar}
           title={"Completado"}
-          message="Cambios guardados del odontograma"
+          message="Odontograma Actualizado"
           colorbg="blueSecondary.main"
           colortxt="white"
           iconAlert={<CheckCircleOutline sx={{ color: "white" }} />}
@@ -713,7 +671,7 @@ export const FormOdontograma = ({ openModal, setOpenModal }) => {
         <CustomAlert
           stateSnackbar={stateSnackbarError}
           handleCloseSnackbar={handleCloseSnackbarError}
-          title={"Cambios del odontograma no guardados"}
+          title={"No se realizaron los cambios"}
           message={errorMsgRegOdontog.error}
           colorbg="error.main"
           colortxt="white"
